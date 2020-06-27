@@ -1,0 +1,40 @@
+﻿.bootstrap-datetimepicker-widget table td.old, .bootstrap-datetimepicker-widget table td.new {
+    color: #999 !important;
+}
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+    color: #4b4b4b !important;
+}
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+    background-color: #B3CB31 !important;
+    color: #fff !important;
+}
+.bootstrap-datetimepicker-widget table .dow, .bootstrap-datetimepicker-widget table .picker-switch {
+	font: 700 15px Open Sans, sans-serif;
+}
+.bootstrap-datetimepicker-widget table .picker-switch {
+	font: 700 17px Open Sans, sans-serif;
+}
+.calendar .form-group {
+	margin: 0;
+	margin-bottom: 15px;
+}
+.bootstrap-datetimepicker-widget table td.day {
+    font: 400 16px Open Sans, sans-serif;
+}
+.bootstrap-datetimepicker-widget .glyphicon {
+    position: relative;
+    font-size: 20px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 800;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.bootstrap-datetimepicker-widget .glyphicon-chevron-left:before {
+	content: "\00AB";
+}
+.bootstrap-datetimepicker-widget .glyphicon-chevron-right:before {
+	content: "\00BB";
+}

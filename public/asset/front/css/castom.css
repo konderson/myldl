@@ -1,0 +1,390 @@
+.advert-row .advert-row-body-title{
+	float: left;
+    width: 100%;
+    margin: 0;
+    text-decoration: none;
+    font-weight: 900;
+    color: #3389bb;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+section .advert .left .advert-body .advert-search-row.open-filters .f2 .filterss{
+	flex-wrap: wrap;
+}
+section .advert .left .advert-body .advert-search-row.open-filters .f2 .filterss > div{
+	width: 47%;
+}
+.selectboxit-arrow-container{
+	left: 10px;
+}
+
+.selectboxit-text{
+	text-indent: 15px;
+}
+
+
+section .advert .left .advert-body .advert-search-row .search{
+	height: 47px;
+}
+section .advert .left .advert-body .advert-search-row.open-filters .f2 .close:after,
+section .advert .left .advert-body .advert-search-row.open-filters .f2 .close:before {
+	background-color:transparent;
+}
+section .advert .left .advert-body .advert-search-row.open-filters .f2 .close{
+	background: url(../images/cancel.svg) center center no-repeat;
+	background-size: cover;
+}
+section .advert .left .advert-body .advert-search-row.open-filters .f2 .filterss > div{
+	width: 47%;
+}
+.soc-links{
+	width: 300px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+section .advert-inner .left .news-inner-body .text,
+section .advert-inner .left .adv-inner-body .adv-inner-desc{
+	padding-left: 0;
+	text-align: justify;
+}
+section .advert .left .advert-body .advert-row .date{
+	width: 45px;
+}
+.advert-row .advert-row-body-title{
+	width: calc(100% - 45px);
+	margin-bottom: 5px;
+}
+
+section .advert .left .advert-body .advert-row .image{
+	margin-bottom: 5px;
+}
+.show-xs{
+	display: none!important;
+}
+#login-btn2::after{
+	border: none;
+}
+section .last-section .slider .slider-body .person .job{
+	max-width: 70%;
+}
+
+section .want-to-help .left .article-info .article-subtitle .title, 
+section .want-to-help .right .article-info .article-subtitle .title,
+section .about-us .right .article .article-info .article-subtitle .title{
+	width: 80%;
+}
+section .advert-inner .left .adv-inner-body .adv-inner-desc .profile-info2 p,
+.profile-info>p{
+	font-size: 16px !important;
+}
+
+section .advert .left .advert-body .advert-row .image{
+
+}
+.advert-row-body > p{
+	font-size: 16px;
+}
+.connectiontbl .connect-block{
+	display: flex;
+}
+.connectiontbl .connect-block .connect-info{
+	margin-right: 10px;
+}
+
+section .advert .left .advert-body .advert-row .advert-row-body .adv-info{
+	text-align: justify;
+}
+section .people-outside .right .lower-part .article-info .article-subtitle .date{
+	width: 20%;
+}
+section .people-outside .right .lower-part .article-info .article-subtitle a{
+	width: 80%;
+}
+
+.mobile-profile-info p span{
+	float: left;
+    width: 100%;
+    margin: 0px;
+    font-weight: normal;
+    letter-spacing: 0.1px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 16px;
+}
+.show-xs #write_message{
+	padding: 15px 20px;
+    background-color: #99ca3d;
+    border: 0px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+.upper-part-right .a{
+	float: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.upper-part-right .a a{
+	padding-bottom: 5px;
+    border-bottom: 2px dotted #000;
+    text-decoration: none;
+    font-size: 14px;
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.selectboxit .selectboxit-option-icon-container{
+	margin-left: 0;
+}
+section .about-us .left .article .article-p, 
+section .about-us .left .article p,
+section .about-us .right .article .article-info p,
+section .want-to-help .left .article-info p, 
+section .want-to-help .right .article-info p,
+section .third-section .right .news .news-article p,
+section .advert-inner .left .news-inner-body .text p,
+.panel-body p,
+.article.review .panel .panel-body{
+	text-align: justify;
+}
+
+
+section .advert-inner .adv-comments .odd-comment .adv-comment .profile-name span,
+
+section .advert-inner .adv-comments .even-comment .adv-comment .profile-name span{
+	display: inline-block;
+
+	font-weight: 700;
+
+	text-transform: uppercase;
+
+	font-size: 10px;
+}
+.login-popup3{
+	width: 185px;
+    box-sizing: border-box;
+    top: -26px;
+    right: -98px;
+    background-color: transparent;
+    padding: 20px 0 0 0;
+    margin: 0;
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+    z-index: 1000;
+    font-size: 14px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background-clip: padding-box;
+    border-top: none;
+    display: none;
+}
+.login-popup3.show{
+	display: block;
+}
+.login-popup3 ul{
+	padding: 10px;
+	background: #fff;
+}
+.login-popup3 li{
+	margin: 5px 9;
+	width: 100% !important;
+    float: none !important;
+    text-align: center !important;
+}
+@media (min-width: 1365px) {
+	section .advert .left .advert-body .advert-row .image{
+		width: 30%;
+	}
+}
+@media (max-width: 1365px) {
+	section .advert .left .advert-body .advert-row .deal-row-body {
+	    width: calc(100% - 45px);
+	}
+	.show-xs{
+		display: block !important;
+	}
+	.hide-xs{
+		display: none !important;
+	}
+
+}
+@media (min-width: 500px) and (max-width: 1000px){
+	.date-dela{
+		width: 15% !important;
+	}
+}
+@media (min-width: 1000px){
+	.date-dela{
+		width: 10% !important;
+	}	
+}
+@media (max-width: 727px) {
+	.show-xs{
+		display: block !important;
+	}
+	.hide-xs{
+		display: none !important;
+	}
+	section .advert .left .advert-body .advert-row .deal-row-body {
+	    width: calc(100% - 45px);
+	}
+	.selectboxit-container .selectboxit{
+		width: 250px;
+	}
+	.selectboxit-container .full-width-input{
+		max-width: 250px !important;
+	}
+
+	.mobile .logo-mobile .search button{
+		background: url(../images/magnify-m.png) center center no-repeat;
+		background-size: cover;
+		width: 15px;
+	    height: 15px;
+	   	border: none;
+	}
+	.mobile .logo-mobile .burger{
+		width: 30px;
+	    height: 30px;
+	    background: url(../images/menu.svg) center center;
+	    background-size: cover;
+	}
+	#login-btn2::after{
+		border: none;
+	}
+	.login-popup{
+		top: 80px;
+    	right: 40px;
+	}
+	.awa-226{
+		width: 100%;
+	}
+	section .advert-inner .adv-comments .add-comment .wm_smiles_block div.smile-box{
+		left: -37px !important;
+	}
+	section .advert-inner .adv-comments .add-comment .wm_smiles_block div.smile-box-arrow{
+		right: 60px;
+	}
+	section .advert-inner .adv-comments .add-comment .wm_smiles_block div.smile-box-arrow-border{
+		right: 60px;
+
+	}
+	section .advert-inner .adv-comments .add-comment .wmCaptcha .captchaCodeImg #CommentsCaptcha_CaptchaDiv #CommentsCaptcha_CaptchaIconsDiv{
+		top: 5px !important;
+	}
+	section .advert-inner .adv-comments .add-comment .wmCaptcha input{
+		height: 52px;
+	}
+	section .lenta-sobitii .right .title{
+		width: 50%;
+		margin: 0;
+	}
+
+	section .moya-anketa .right .field-for-edit .upload-photo, 
+	section .moya-anketa .right .field-for-edit .close{
+		width: 40px;
+	    padding: 10px;
+	    margin: 0;
+	    box-sizing: border-box;
+	}
+	section .moya-anketa .right .field-for-edit input[type=text],
+	section .moya-anketa .right .field-for-edit input[type=password]{
+		height: 47px;
+	}
+	section .lenta-sobitii .advert-categories{
+		display: flex;
+	}
+	section .lenta-sobitii .advert-categories p{
+		line-height: 1.4;
+	}
+	section .lenta-sobitii .advert-categories .selected-p .spaninspan{
+		padding: 0;
+
+	}
+	section .last-section .slider .slider-body .person .job{
+		max-width: 70%;
+		padding: 2px;
+	}
+	
+	section .moya-anketa .right .field-for-edit .edit-label-str{
+		width: 100%;
+	}
+	section .moya-anketa .right .field-for-edit input[type=radio]{
+		width: 6%;
+	}
+	section .moya-anketa .right .field-for-edit .radio-label{
+		width: calc(100% - 50px);
+	}
+	section .lenta-sobitii .lenta-options span{
+		width: calc(100% - 50px);
+    	display: inline-block;
+	}
+	section .advert .left .advert-body .advert-row .deal-row-body2{
+		display: flex;
+	    flex-flow: column;
+	    align-items: center;
+	    justify-content: center;
+	}
+	section .advert .left .advert-body .advert-row .deal-row-body2 .members{
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    padding: 10px;
+	    width: 80%;
+	}
+	section .advert .left .advert-body .advert-row .deal-row-body2 .members span{
+		width: auto;
+	}
+	section .advert .left .advert-body .advert-row .deal-row-body2 .members .member-quantity{
+		font-size: 14px;
+		margin-left: 10px;
+	}
+	section .advert .left .advert-body .advert-row .deal-row-body2 .status-open, 
+	section .advert .left .advert-body .advert-row .deal-row-body2 .status-close{
+		width: 80%;
+
+	}
+	section .advert .left .advert-body .advert-row .image img{
+		width: 80%;
+		max-height: 300px;
+	}
+	section .lenta-sobitii .lenta-table table tr th img, 
+	section .lenta-sobitii .lenta-table table tr td img{
+		min-width: 20px;
+		min-height: 20px;
+		display: block
+
+	}
+	.user-status{
+		display: block;
+		text-align: center;
+	}
+}
+@media (max-width: 491px) {
+	.for-edit-b{
+		height: 105px;
+		display: flex;
+    	flex-flow: column;
+    	justify-content: space-between;
+	}
+
+
+
+}
+@media (max-width: 375px) {
+	.owl-item.active,
+	.owl-item{
+		/*width: 90px!important;*/
+		/*margin-right: 5px!important;*/
+	}
+
+}
