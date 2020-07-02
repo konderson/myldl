@@ -11,12 +11,12 @@
               
          <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="https://myldl.ru/">Главная</a></li><li><a href="https://myldl.ru/profile">Профиль</a></li><li class="active">Редактировать объявление</li>    </ol>
+        <li><a href="/">Главная</a></li><li><a href="/profile">Профиль</a></li><li class="active">Редактировать объявление</li>    </ol>
 </div>
 <!-- AjaxUpload -->
-<script type="text/javascript" src="https://myldl.ru/application/views/front/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript" src="{{asset('asset/front/js//jquery/ajaxupload.3.5.js')}}"></script>
 <!-- jQuery Masked Input Plugin -->
-<script src="https://myldl.ru/application/views/front/js/jquery.maskedinput.js"></script>
+<script src="{{asset('asset/front/js/js/jquery.maskedinput.js')}}"></script>
 <script>
     $(function(){
         $("input[name=tel]").mask("+9 (999) 999-99-99");
@@ -36,7 +36,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         
-        if(<?echo $serv->price?>>0){
+        if(<?php echo $serv->price?>>0){
             $("#cenarub").show();
         }
         
@@ -56,7 +56,7 @@
             name = $("#cenarub_input").val();
 
         });
-           if(<?echo $serv->price?>>0){
+           if(<?php echo $serv->price?>>0){
             $("#cenarub").show();
         }
       
@@ -308,7 +308,7 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
        <form class="right" action="/usluga/update/{{$serv->id}}" method="POST">
            {{ csrf_field() }}
              @method('PUT')
-            <p class="title">Добавить объявление</p>
+            <p class="title">Редактировать объявление</p>
             <input type="hidden" name="id"  value="{{$serv->id}}">
 
             <div class="field-for-edit">
@@ -321,15 +321,15 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
                 <div class="custom-select" style="width: 100%; margin: 0;">
                     <select class="selectb" id="razdel_id" name="razdel_id">
                         <option value="0" >Раздел</option>
-	                    <option value="1" <?if($serv->razdel_id==1) echo 'selected="selected"' ?>>Транспорт</option>
-	                    <option value="2"  <?if($serv->razdel_id==2) echo 'selected="selected"' ?>>Недвижимость</option>
-	                    <option value="3" <?if($serv->razdel_id==3) echo 'selected="selected"' ?>>Работа</option>
-	                    <option value="4" <?if($serv->razdel_id==4) echo 'selected="selected"' ?>>Вещи</option>
-	                    <option value="5" <?if($serv->razdel_id==5) echo 'selected="selected"' ?>>Для быта</option>
-	                    <option value="6" <?if($serv->razdel_id==6) echo 'selected="selected"' ?>>Бытовая электроника</option>
-	                    <option value="7" <?if($serv->razdel_id==8) echo 'selected="selected"' ?>>Хобби и отдых</option>
-	                    <option value="8" <?if($serv->razdel_id==9) echo 'selected="selected"' ?>>Животные</option>
-	                    <option value="9" <?if($serv->razdel_id==2) echo 'selected="selected"' ?>>Бизнес</option>  
+	                    <option value="1" <?php if($serv->razdel_id==1) echo 'selected="selected"' ?>>Транспорт</option>
+	                    <option value="2"  <?php if($serv->razdel_id==2) echo 'selected="selected"' ?>>Недвижимость</option>
+	                    <option value="3" <?php if($serv->razdel_id==3) echo 'selected="selected"' ?>>Работа</option>
+	                    <option value="4" <?php if($serv->razdel_id==4) echo 'selected="selected"' ?>>Вещи</option>
+	                    <option value="5" <?php if($serv->razdel_id==5) echo 'selected="selected"' ?>>Для быта</option>
+	                    <option value="6" <?php if($serv->razdel_id==6) echo 'selected="selected"' ?>>Бытовая электроника</option>
+	                    <option value="7" <?php if($serv->razdel_id==8) echo 'selected="selected"' ?>>Хобби и отдых</option>
+	                    <option value="8" <?php if($serv->razdel_id==9) echo 'selected="selected"' ?>>Животные</option>
+	                    <option value="9" <?php if($serv->razdel_id==2) echo 'selected="selected"' ?>>Бизнес</option>  
 	                    </select>
                 </div>
             </div>
@@ -343,10 +343,10 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
             <div class="field-for-edit" style="width: 47.5%; margin-right: 5%;">
                 <span class="edit-label">Цена</span>
                 <select class="selectb" id="cena" name="cena">
-                    <option value="0" <? if($serv->price<0)echo('selected="selected"')?>>Бесплатно</option>
-                    <option value="1" <? if($serv->price>0)echo('selected="selected"')?>>Своя цена</option>
+                    <option value="0" <?php if($serv->price<0)echo('selected="selected"')?>>Бесплатно</option>
+                    <option value="1" <?php if($serv->price>0)echo('selected="selected"')?>>Своя цена</option>
                 </select>
-                <input type="text"    placeholder="Цена..." id="cenarub" name="cenarub" <? if($serv->price>0)echo('style="display:block"')?> value="{{$serv->price}}"/>
+                <input type="text"    placeholder="Цена..." id="cenarub" name="cenarub" <?php if($serv->price>0)echo('style="display:block"')?> value="{{$serv->price}}"/>
             </div>
 
             <div class="field-for-edit" style="width: 47.5%;">
@@ -359,13 +359,13 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
                 <div class="custom-select" style="width: 100%; margin: 0px">
                     <select class="selectb" id="srok" name="srok">
                         <option value="0"></option>
-                        <option value="0" <?if($serv->srok==0)echo'selected="selected"' ?> >
+                        <option value="0" <?php if($serv->srok==0)echo'selected="selected"' ?> >
                             1 неделя
                         </option>
-                        <option value="1"  <?if($serv->srok==1)echo'selected="selected"' ?> >
+                        <option value="1"  <?php if($serv->srok==1)echo'selected="selected"' ?> >
                             2 недели
                         </option>
-                        <option value="2"  <?if($serv->srok==2)echo'selected="selected"' ?> >
+                        <option value="2"  <?php if($serv->srok==2)echo'selected="selected"' ?> >
                             1 месяц
                         </option>
                     </select>
@@ -376,10 +376,10 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
                 <span class="edit-label">Статус</span>
                 <div class="custom-select" style="width: 100%; margin: 0px">
                     <select class="selectb" name="status">
-                        <option value="1" <?if($serv->status==1)echo'selected="selected"' ?> >
+                        <option value="1" <?php if($serv->status==1)echo'selected="selected"' ?> >
                             Открыто
                         </option>
-                        <option value="0"  <?if($serv->status==0)echo'selected="selected"' ?>   >
+                        <option value="0"  <?php if($serv->status==0)echo'selected="selected"' ?>   >
                             Закрыто
                         </option>
                     </select>
@@ -422,12 +422,12 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
 
             
             <div class="lenta-options">
-                <input name="flag_comment"   value='1' type="checkbox" id="option1" class="checkbox" <?if($serv->flag_coment==1) echo 'checked="checked"'?>>
+                <input name="flag_comment"   value='1' type="checkbox" id="option1" class="checkbox" <?php if($serv->flag_coment==1) echo 'checked="checked"'?>>
                 <span>Разрешить добавлять комментарии</span>
             </div>
 
             <div class="lenta-options" style="margin-top: 10px;">
-                <input name="flag_email" type="checkbox" id="option2" value="1"     <?if($serv->flag_email==1) echo 'checked="checked"'?>class="checkbox">
+                <input name="flag_email" type="checkbox" id="option2" value="1"     <?php if($serv->flag_email==1) echo 'checked="checked"'?>class="checkbox">
                 <span>Получать уведомления о новых сообщениях на почту</span>
             </div>
             
@@ -438,7 +438,7 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
 
             <div class="field-for-edit" style="margin-top: 25px;">
                 <input value="Сохранить" class="save" type="submit"/>
-                <a href="https://myldl.ru/profile/uslugi" class="cancel">Отмена</a>
+                <a href="/profile/uslugi" class="cancel">Отмена</a>
             </div>
         </form>
     </div>

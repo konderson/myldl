@@ -13,15 +13,18 @@
         
 <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="https://myldl.ru/">Главная</a></li><li><a href="https://myldl.ru/profile">Профиль</a></li><li class="active">Добавить дело</li>    </ol>
-</div><script src="https://myldl.ru//static/js/profile/add_delo.js"></script>
-
-<link href="https://myldl.ru/application/views/front/datepicker/jquery-ui.css" rel="stylesheet">
-<script src="https://myldl.ru/application/views/front/datepicker/jquery-ui.js"></script>
+        <li><a href="/">Главная</a></li><li><a href="/profile">Профиль</a></li><li class="active">Добавить дело</li>    </ol>
 
 
+</div><script src="{{asset('asset/front/js/profile/add_delo.js')}}"></script>
+
+<link href="{{asset('asset/front/js/datepicker/jquery-ui.css')}}" rel="stylesheet">
+<script src="{{asset('asset/front/js/front/datepicker/jquery-ui.js')}}"></script>
 <!-- AjaxUpload -->
-<script type="text/javascript" src="https://myldl.ru/application/views/front/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript" src="{{asset('asset/front/js//jquery/ajaxupload.3.5.js')}}"></script>
+
+
+
 
 
 <style>
@@ -170,7 +173,7 @@
                                         } else {
                                             // response - назва зменшеного файлу
                                             orig_name = response.replace("_thumb", "");
-                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/delo')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="https://myldl.ru/application/views/front/images/close-2.png" alt="" /></a></li>');
+                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/delo')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="{{asset('asset/front/images/close.png')}}" alt="" /></a></li>');
                                             my_mas1.push(orig_name);
                                             document.getElementById('str_images').value = my_mas1;
                                             img++;
@@ -183,32 +186,6 @@
 </script>
 
 
-<!-- ui-dialog -->
-<div id="dialog" title="Прикрепить видео" style="display: none">
-    <br />
-    Вы можете прикрепить видео с сервиса Youtube, для этого просто введите часть ссылки на него, как показано на рисунке:<br /><br />
-    <img src="https://myldl.ru/application/views/front/images/fox.jpg" style="padding-left:20px" /><br /><br />
-    Прикрепить можно до 4-ех видео:<br /><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-</div>
-<!-- ui-dialog -->
-
-
-<!-- ui-dialog -->
-<div id="dialog" title="Прикрепить видео" style="display: none">
-    <br />
-    Вы можете прикрепить видео с сервиса Youtube, для этого просто введите часть ссылки на него, как показано на рисунке:<br /><br />
-    <img src="https://myldl.ru/application/views/front/images/fox.jpg" style="padding-left:20px" /><br /><br />
-    Прикрепить можно до 4-ех видео:<br /><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-    http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
-</div>
-<!-- ui-dialog -->
 
 
 <section>
@@ -318,7 +295,7 @@
             <div class="field-for-edit">
                 <span class="edit-label">Добавить фото</span>
                 <input class="upload-photo-input" type="text" style="height: 40px;"/>
-                <button class="upload-photo addFoto" id="upload" type="button"><img src="{{asset('asset/images/photo-camera.png')}}"/></button>
+                <button class="upload-photo addFoto" id="upload" type="button"><img src="{{asset('asset/front/images/photo-camera.png')}}"/></button>
                 <div class="input-group" id="mediaFile">
                     <ul class="thumb-photos mclearfix" id="files">
 			                                </ul>
@@ -328,7 +305,7 @@
             <div class="field-for-edit">
                 <span class="edit-label">Добавить видео</span>
                 <input class="upload-photo-input" type="text" style="height: 40px;"/>
-                <button class="upload-photo addVideo upload_video" type="button" style="padding-bottom: 6px;"><img src="/static/images/video-camera.png"/></button>
+                <button class="upload-photo addVideo upload_video" type="button" style="padding-bottom: 6px;"><img src="{{asset('asset/front/images/video-camera.png')}}"/></button>
             </div>
             <span id="count_video"></span><br><br>
             <div class="video_list">

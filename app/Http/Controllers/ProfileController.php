@@ -18,7 +18,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-            $events=Event::where('user_id',Auth::user()->id)->paginate(2);
+            $events=Event::where('user_id',Auth::user()->id)->paginate(10);
             //dd($events->lastPage());
         // dd($events->total());
     return view('myprofile.index',compact('events'));

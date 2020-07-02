@@ -12,6 +12,7 @@ use Intervention\Image\Facades\Image;
 use App\DeloFeatured;
 use Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class DelaController extends Controller
 {
@@ -71,41 +72,45 @@ class DelaController extends Controller
     
         public function ajaxDela(Request $request) {
         // 404-errors
-        
+      
+$results = DeloFeatured::with('delo')->whereHas('delo', function ($query) use ($request)  {
+   
 
-        
-        $query =Dela::query();
-        $query->where('user_id','=',Auth::user()->id);
 
+ 
 if (isset($request->choice_2)) {
-    $query=$query->orWhere('status','=' ,0);
+	
+    $query->where('status','=' ,1);
     
 }
 if (isset($request->choice_3)) {
-    $query=$query->orWhere('status','=',1);
+	
+  $query->where('status','=',0);
     
 }
 if (isset($request->choice_4)) {
-   $query=$query->orWhere('tip','=',2);
+   $query->where('tip','=',2);
     
 }
 if (isset($request->choice_5)) {
-   $query= $query->orWhere('tip','=',1);
+    $query->where('tip','=',1);
    
 }
-$results=$query->get();
+
+})->get();
 
 
-
+dd($results)
 
        foreach ($results as $row) {
+
             echo '
 		<tr>
-			<td>' . date('d.m.Y', strtotime($row->dates)) . '</td>
-			<td><a href="mydela/'.$row->id.'"  " title="' . ($row->status == 1 ? 'Открыто' : 'Закрыто') . '" >' . ((mb_strlen($row->nazva) > 20) ? mb_substr($row->nazva, 0, 20) : $row->nazva) . '</a></td>
-			<td>' . $row->city . '</td>
+			<td>' . date('d.m.Y', strtotime($row->delo->dates)) . '</td>
+			<td><a href="/delo/'.$row->delo->id.'"  " title="' . ($row->delo->status == 1 ? 'Открыто' : 'Закрыто') . '" >' . ((mb_strlen($row->delo->nazva) > 20) ? mb_substr($row->delo->nazva, 0, 20) : $row->delo->nazva) . '</a></td>
+			<td>' . $row->delo->city . '</td>
 			<td>' . 1 . '</td>';
-            if ($row->status == 0) {
+            if ($row->delo->status == 0) {
                 echo '
 			<td>
 			   Закрыт
@@ -118,7 +123,7 @@ $results=$query->get();
             }
             echo '
             <td>
-            <a class="del del_delo" href="' . site_url("main/del_delo/" . $row->id) . '" onclick="return confirm(\'Удалить дело «'. $row->nazva. '»?\')" title="Удалить"> <i class="remove"></i></a>
+            <a class="del del_delo" href="' ."/delo/" . $row->delo->id. '" onclick="return confirm(\'Удалить дело «'. $row->delo->nazva. '»?\')" title="Удалить"> <i class="remove"></i></a>
             </td>
 		</tr>';
         }
@@ -174,14 +179,15 @@ $results=$query->get();
         return redirect()->route('delo.featureds');
     }
     public function delete($id){
+		$delo=Dela::findOrFail($id);
         if($delo->user_id==Auth::user()->id)
         {
-        $delo=Dela::findOrFail($id);
+        $delo->delete();
         }    
        return redirect()->route('profile.mydelo');
     }
     
-    public function upload(Request $request){
+    public function update(Request $request){
         $dela=Dela::findOrFail($request->id);
         $dela->nazva=$request->nazva;
      $dela->tip=$request->tip;
@@ -241,6 +247,11 @@ $results=$query->get();
       
   }
     
-  
-    
+	
+	public function edit($id)
+	{
+		$delo=Dela::findOrFail($id);
+	    return view('myprofile.delo.edit',compact('delo'));
+    }
+	
 }

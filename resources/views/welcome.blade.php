@@ -330,7 +330,9 @@
                             <a href="/searche/{{$hs->id}}" class="subtitle">{{$hs->title}}</a>
                             <p>{!!  strip_tags (substr($hs->description, 0, 150))!!}...</p>
                             <span class="subspan">Телефон: <span>{{$hs->id}}</span></span>
+							@if(isset($hs->City->name))
                             <span class="subspan">Город: <span>{{$hs->City->name}}</span></span>
+						@endif
                             <span class="subspan">Статус: <span>Ведутся поиски</span></span>
                         </div>
                          @endforeach                       

@@ -356,11 +356,11 @@
             <input type="hidden" name="str_images" id="str_images" />
             <input type="hidden" name="str_video" id="str_video" />
 
-           <!-- <div class="field-for-edit" style="margin-top: 25px;">
+           <div class="field-for-edit" style="margin-top: 25px;">
                 <input value="Сохранить" class="save" type="submit"/>
-                <a href="https://myldl.ru/profile/uslugi" class="cancel">Отмена</a>
+                <a href="/profile/uslugi" class="cancel">Отмена</a>
             </div>
-            -->
+            
         </form>
     </div>
 </section> 

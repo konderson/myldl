@@ -77,7 +77,7 @@ $(document).ready(function() {
                         <td><span class="table-span-opened">{{$delo->status==0?'Закрыто':'Открыто'}}</span></td>
                         <td><a href="/profile/edit/delo/{{$delo->id}}"><img src="{{asset('asset/front/images/edit.png')}}"></a></td>
                         <td>
-                            <a href="/delit_delo/{{$delo->id}}" onclick="return confirm('Вы действительно хотите удалить дело «{{$delo->nazva}}»?')"><img src="{{asset('asset/front/images/close.png')}}"/></a>
+                            <a href="/profile/delete/delo/{{$delo->id}}" onclick="return confirm('Вы действительно хотите удалить дело «{{$delo->nazva}}»?')"><img src="{{asset('asset/front/images/close.png')}}"/></a>
                         </td>
                     </tr>
        

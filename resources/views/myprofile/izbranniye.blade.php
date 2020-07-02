@@ -15,7 +15,7 @@
 $(document).ready(function() {
  	$('#choice-0, #choice-1, #choice-2, #choice-3, #choice-4').click(function(){
 		$(".table-affaires > tbody").empty();
-		$(".table-affaires > tbody").append('<tr><td colspan="5" style="text-align:center;"><img src="/application/views/front/images/ajax-loader.gif" /></td></tr>');
+		$(".table-affaires > tbody").append('<tr><td colspan="5" style="text-align:center;"><img src="{{asset('asset/front/images/ajax-loader.gif')}}" /></td></tr>');
 		$.ajax({
 			type: "POST",
 			url: "/profile/ajax_dela",

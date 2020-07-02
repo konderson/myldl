@@ -13,7 +13,7 @@
         
         <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="https://myldl.ru/">Главная</a></li><li><a href="https://myldl.ru/profile">Профиль</a></li><li class="active">Моя Анкета</li>    </ol>
+        <li><a href="/">Главная</a></li><li><a href="/profile">Профиль</a></li><li class="active">Моя Анкета</li>    </ol>
 </div>	
 
 <section>
@@ -26,7 +26,7 @@
 		<span><span title='Рейтинг'  >0</span>
 				<a href="{{route('profile.edit')}}"  class="hide-xs">Редактировать</a>
 		</p>
-		<a href="https://myldl.ru/profile/profile_edit"  class="show-xs"style="font-weight: 400;margin-top: 6px; float: left; color: grey; font-size: 14px; text-decoration: none;">Редактировать</a>
+		<a href="{{route('profile.edit')}}"  class="show-xs"style="font-weight: 400;margin-top: 6px; float: left; color: grey; font-size: 14px; text-decoration: none;">Редактировать</a>
         <div class="upper-anketa">
             
             <div class="anketa-right">

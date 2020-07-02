@@ -25,7 +25,8 @@
 <script type="text/javascript" src="{{asset('asset/front/js/ajaxupload.3.5.js')}}"></script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="jquery.fancybox.min.css">
+          <script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js?v=2.1.5')}}"></script>
+	      <link rel="stylesheet" type="text/css" href="{{asset('asset/front/asset/front/fancy_box/jquery.fancybox.min.css')}}">
 
 
 <script>
@@ -94,7 +95,7 @@
                 type: "POST",
                 url: "/users/add/frend",
                 data: {
-                    frend_id: "<?echo ($user->id);?>",
+                    frend_id: "<?php echo ($user->id);?>",
                     
                 },
                  headers: {

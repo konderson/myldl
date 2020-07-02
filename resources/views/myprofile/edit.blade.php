@@ -13,7 +13,7 @@
     <ol class="breadcrumb">
         <li><a href="/">Главная</a></li><li><a href="/profile/index">Профиль</a></li><li class="active">Редактировать Профиль</li>    </ol>
 </div>
-<script type="text/javascript" src="{{asset('asset/front/js//jquery/ajaxupload.3.5.js')}}"></script>
+<script type="text/javascript" src="{{asset('asset/front/js/jquery/ajaxupload.3.5.js')}}"></script>
  
 <link href="{{asset('asset/front/daterangepicker/daterangepicker.css')}}" rel="stylesheet" type="text/css" />
                 <script src="{{asset('asset/front/js/jquery/jquery.mask.min.js')}}"></script>

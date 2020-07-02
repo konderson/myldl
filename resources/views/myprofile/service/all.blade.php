@@ -171,7 +171,7 @@ var param=params['serch_by_name'];
    {
         
         if(typeof param == "undefined"){
-        window.location.href = "servisces?"+msg;
+        window.location.href = "services?"+msg;
     }
     else{
         window.location.href = "search/service?"+msg+"&serch_by_name="+param+"&type=1";
@@ -603,7 +603,7 @@ var param=params['serch_by_name'];
 	                            <div class="article-info">
                     <div class="article-subtitle">
                         <div class="date"><span>{{ Carbon\Carbon::parse($lserv->created_at)->format('d.m') }}</span></div>
-                        <a href="/searche/{{$lserv->id}}">{{$lserv->title}}</a>
+                        <a href="/usluga/{{$lserv->id}}">{{$lserv->title}}</a>
                     </div>
                 </div>
 	                   @endforeach      

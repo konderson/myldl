@@ -38,7 +38,7 @@ Route::get('/profile/add_delo','DelaController@addDelo')->name('profile.adddelo'
 Route::post('/profile/store_delo','DelaController@addStore')->name('profile.delo.store')->middleware(['verified','auth']);;
 Route::get('/profile/edit/delo/{id}','DelaController@edit')->name('profile.delo.edit')->middleware(['verified','auth']);;
 Route::get('/profile/delete/delo/{id}','DelaController@delete')->name('profile.delo.delete')->middleware(['verified','auth']);;
-Route::put('/profile/delo/upload','DelaController@upload')->name('profile.upload.edit')->middleware(['verified','auth']);;
+Route::put('/profile/delo/upload','DelaController@update')->name('profile.update.edit')->middleware(['verified','auth']);;
 Route::post('/profile/ajax_dela','DelaController@ajaxDela')->name('profile.delo.ajax')->middleware(['verified','auth']);;
 Route::post('/profile/ajax_upload','DelaController@ajax_upload_avatar')->name('profile.ajax_upload_avatar')->middleware(['verified','auth']);;
 Route::get('/profile/ajax_lenta','ProfileController@ajaxFilter')->middleware(['verified','auth']);;
@@ -67,7 +67,7 @@ Route::post('/test/coment/getcount','CommentDelaController@getCount')->name('del
 
 Route::get('/profile/add_vzaimopomosh','HelpController@add')->name('help.add')->middleware(['verified','auth']);;
 Route::post('/help/save','HelpController@store')->middleware(['verified','auth']);;
-Route::post('/help/ajax_upload','HelpController@ajax_upload_photo')->name('help.ajax_upload_avatar')->middleware(['verified','auth']);;
+Route::post('/help/ajax_upload','HelpController@ajax_upload_avatar')->name('help.ajax_upload_avatar')->middleware(['verified','auth']);;
 Route::post('/help/ajax_delete','HelpController@ajax_delete_photo')->name('help.ajax_delete_avatar')->middleware(['verified','auth']);;
 Route::post('/help/ajax_reploadupload','HelpController@ajax_reploadupload')->name('profile.ajax_reploadupload')->middleware(['verified','auth']);;
 Route::get('/profile/vzaimopomoshi','HelpController@myhelp')->name('help.my')->middleware(['verified','auth']);;
@@ -99,7 +99,7 @@ Route::post('/service/coment','ComentServiceController@addcomment')->name('serv.
 Route::post('/service/coment/get','ComentServiceController@getComent')->name('serv.coment.get');
 Route::post('/service/coment/getcount','ComentServiceController@getCount')->name('hserv.coment.getcount');
 Route::get('/search/service/','ServiceController@filter')->name('profile.service.filter');
-Route::get('/services/','ServiceController@getAllservice');
+Route::get('/services','ServiceController@getAllservice')->name('profile.service.all');
 
 
 Route::get('/profile/future_business','FutureController@myfuture')->name('future.my')->middleware(['verified','auth']);;
@@ -168,7 +168,12 @@ Route::get('/user/{id}','MainController@getUserIndex');
 Route::get('/users/online','MainController@getOnline');
 Route::get('/search/user/','MainController@filter');
 Route::post('/users/add/frend','FrendController@add')->middleware(['verified','auth']);
-Route::get('/profile/relation/','FrendController@getFrend')->middleware(['verified','auth']);;
+Route::get('/profile/relation/','FrendController@getFrend')->middleware(['verified','auth']);
+Route::get('/del/frend/{id}','FrendController@delete');
+Route::get('/frend/is_online','FrendController@isOnline');
+Route::get('/frend/all','FrendController@ajaxAllFrend');
+
+
 Route::post('/profile/relation/search','FrendController@searchFrend')->middleware(['verified','auth']);;
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['admin']], function () {

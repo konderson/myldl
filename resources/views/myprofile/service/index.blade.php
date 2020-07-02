@@ -54,9 +54,9 @@
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Город:</span> {{$serv->city}}</p>
                     <p class="profile-info-p" style="margin-bottom: 8px;">Раздел: 
                                                     {{$serv->razdel_id}}                     </p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон: <?if($serv->phone==null) echo('не указан')?>
+                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон: <?php  if($serv->phone==null) echo('не указан')?>
                                                     {{$serv->phone}}                                           </p>
-                    <p class="profile-info-p">Цена: <?if($serv->price==0) echo('Бесплатно')?> {{$serv->price}}
+                    <p class="profile-info-p">Цена: <?php if($serv->price==0) echo('Бесплатно')?> {{$serv->price}}
                                                                                                 </p>
                                     </div>
                 <div class="adv-inner-desc">{{$serv->description}}</div>
@@ -108,7 +108,7 @@
    <br />
    <div id="display_comment"></div>
       <div class="photo">
-            <div class="ava" style="background-image: url(https://myldl.ru/static/images/noimg.png)"></div>        </div>
+            <div class="ava" style="background-image: url(/storage/avatar/{{Auth::user()->person->avatar}})"></div>        </div>
              <form  id="comment_form">
         <div class="adv-comment wmCommentMes">
                      @guest

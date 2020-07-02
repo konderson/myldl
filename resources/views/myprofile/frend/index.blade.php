@@ -9,10 +9,14 @@
 
 <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="/">Главная</a></li><li><a href="/profile/index">Профиль</a></li><li class="active">Избранные Дела</li>    </ol>
+        <li><a href="/">Главная</a></li><li><a href="/profile/index">Профиль</a></li><li class="active">Мои связи</li>    </ol>
 </div>
 <script type="text/javascript">
    $(document).ready(function() {
+	   
+	   function myFunction(id) {
+  alert(id);
+}
    $('#search').keyup(function(){
     var str=$('#search').val();
 	$.ajax({
@@ -26,10 +30,45 @@
     },
 			dataType: "html",
 			success: function(msg){
-				alert(msg);
+				$(".people-frame").empty();
+				$(".people-frame").append(msg);
+				
 			}
 		});
     });
+	
+	$("#online_chek").change(function() {
+    if(this.checked) {
+      
+		$.ajax({
+			type: "get",
+			url: "/frend/is_online",
+			dataType: "html",
+			success: function(msg){
+				$(".people-frame").empty();
+				$(".people-frame").append(msg);
+				
+			}
+		});
+		
+		
+		
+    }
+	else{
+		
+		$.ajax({
+			type: "get",
+			url: "/frend/all",
+			dataType: "html",
+			success: function(msg){
+				$(".people-frame").empty();
+				$(".people-frame").append(msg);
+				
+			}
+		});
+	}
+});
+	
     });
 </script>
 
@@ -43,7 +82,7 @@
             <div class="advert-categories" style="flex-flow: column; margin-bottom: 10px;">
                 <span style="margin-bottom: 10px;">
                     
-                <input name="status" type="checkbox" value="online">
+                <input name="status" id="online_chek" type="checkbox" value="online">
                 <p style='border: 0px;'class="selected-p">В сети (<span>0</span>)</p>
                 </span>
                 <input id="search" type="search" class="form-control" placeholder="Поиск">
@@ -64,13 +103,12 @@
 	            <div class="person">
 	           <div class="person-photo">
                             <div class="avatar" style="background-image: url(/storage/avatar/{{$frend->userFrend->person->avatar}});"></div>
-                             @if(!$frend->user->isOnline())
+							@if(!$frend->userFrend->isOnline())
                             <span class="offline status" style="background-color: #ca3d3d;" title="Офлайн"></span>
                             @else
                             <span class="status" title="Онлайн"></span>
                             @endif
-                        <span class="status" style="background-color: #ca3d3d;"></span>
-                        <span class="close mem-close del-relation" r_id="{{$frend->id}}"></span>
+                        <a href="/del/frend/{{$frend->userFrend->id}}" class="close mem-close del-relation""></a>
                            </div>
                         <div>
                         <a href="/user/{{$frend->userFrend->id}}">{{$frend->userFrend->name}}</a>

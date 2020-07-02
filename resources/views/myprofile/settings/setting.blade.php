@@ -192,7 +192,7 @@
         
        @include('myprofile.left')
       
-      <form class="right" action="/profile/settings" method="post" id="password_change_form">
+      <form class="right" action="/profile/settings/password" method="post" id="password_change_form">
             <input type="hidden" name="ci_csrf_token" value="">
             <p class="title" style="width: 100%;">Изменение данных </p>
 

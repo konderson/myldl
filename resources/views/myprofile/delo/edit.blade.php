@@ -13,15 +13,15 @@
         
 <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="https://myldl.ru/">Главная</a></li><li><a href="https://myldl.ru/profile">Профиль</a></li><li class="active">Добавить дело</li>    </ol>
-</div><script src="https://myldl.ru//static/js/profile/add_delo.js"></script>
+        <li><a href="/">Главная</a></li><li><a href="/profile/index">Профиль</a></li><li class="active">Добавить дело</li>    </ol>
+</div><script src="{{asset('asset/front/js/profile/add_delo.js')}}"></script>
 
-<link href="https://myldl.ru/application/views/front/datepicker/jquery-ui.css" rel="stylesheet">
-<script src="https://myldl.ru/application/views/front/datepicker/jquery-ui.js"></script>
+<link href="{{asset('asset/front/js/datepicker/jquery-ui.css')}}" rel="stylesheet">
+<script src="{{asset('asset/front/js/front/datepicker/jquery-ui.js')}}"></script>
 
 
 <!-- AjaxUpload -->
-<script type="text/javascript" src="https://myldl.ru/application/views/front/js/ajaxupload.3.5.js"></script>
+<script type="text/javascript" src="{{asset('asset/front/js//jquery/ajaxupload.3.5.js')}}"></script>
 
 
 <style>
@@ -194,7 +194,7 @@ optionsText += '<option value="{{($delo->City->Region->id)}}" SELECTED>{{($delo-
                                         } else {
                                             // response - назва зменшеного файлу
                                             orig_name = response.replace("_thumb", "");
-                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/delo')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="https://myldl.ru/application/views/front/images/close-2.png" alt="" /></a></li>');
+                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/delo')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="{{asset('asset/front/images/close.png')}}" alt="" /></a></li>');
                                             my_mas1.push(orig_name);
                                             document.getElementById('str_images').value = my_mas1;
                                             img++;
@@ -211,7 +211,7 @@ optionsText += '<option value="{{($delo->City->Region->id)}}" SELECTED>{{($delo-
 <div id="dialog" title="Прикрепить видео" style="display: none">
     <br />
     Вы можете прикрепить видео с сервиса Youtube, для этого просто введите часть ссылки на него, как показано на рисунке:<br /><br />
-    <img src="https://myldl.ru/application/views/front/images/fox.jpg" style="padding-left:20px" /><br /><br />
+    <img src="/views/front/images/fox.jpg" style="padding-left:20px" /><br /><br />
     Прикрепить можно до 4-ех видео:<br /><br />
     http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
     http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
@@ -225,7 +225,7 @@ optionsText += '<option value="{{($delo->City->Region->id)}}" SELECTED>{{($delo-
 <div id="dialog" title="Прикрепить видео" style="display: none">
     <br />
     Вы можете прикрепить видео с сервиса Youtube, для этого просто введите часть ссылки на него, как показано на рисунке:<br /><br />
-    <img src="https://myldl.ru/application/views/front/images/fox.jpg" style="padding-left:20px" /><br /><br />
+    <img src="application/views/front/images/fox.jpg" style="padding-left:20px" /><br /><br />
     Прикрепить можно до 4-ех видео:<br /><br />
     http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
     http://www.youtube.com/watch?v=<input type="text" name="kod" value="" maxlength="20" /> <a style="cursor:pointer;" class="load_img">Прикрепить</a><br />
@@ -247,35 +247,35 @@ optionsText += '<option value="{{($delo->City->Region->id)}}" SELECTED>{{($delo-
 
             <div class="field-for-edit">
                 <span class="edit-label-str">Тип дела:</span>
-                <input name="tip" type="radio" id="aType1" class="radio" value="1" <?if($delo->tip==1)echo 'checked="true"'?> >
+                <input name="tip" type="radio" id="aType1" class="radio" value="1" <?php if($delo->tip==1)echo 'checked="true"'?> >
                 <span class="radio-label">Индивидуальное</span>
-                <input name="tip" type="radio" id="aType2" class="radio" value="2"<?if($delo->tip==2)echo 'checked="true"'?>  >
+                <input name="tip" type="radio" id="aType2" class="radio" value="2"<?php if($delo->tip==2)echo 'checked="true"'?>  >
                 <span class="radio-label">Коллективное</span>
             </div>
 
             <div class="field-for-edit" id="vhod_v_delo" style="display: none;">
                 <span class="edit-label-str">Вход в дело:</span>
-                <input class="radio" type="radio" id="choice-3" name="vhod_v_delo" value="1" <?if($delo->vhod_v_delo==1)echo 'checked="true"'?> />
+                <input class="radio" type="radio" id="choice-3" name="vhod_v_delo" value="1" <?php if($delo->vhod_v_delo==1)echo 'checked="true"'?> />
                 <span class="radio-label">Открыть всем</span>
-                <input class="radio" type="radio" id="choice-4" name="vhod_v_delo" value="2"  <?if($delo->vhod_v_delo==2)echo 'checked="true"'?> />
+                <input class="radio" type="radio" id="choice-4" name="vhod_v_delo" value="2"  <?php if($delo->vhod_v_delo==2)echo 'checked="true"'?> />
                 <span class="radio-label">По запросу</span>
             </div>
 
             <div class="field-for-edit">
                 <span class="edit-label-str">Коментарии:</span>
-                <input name="comment_k_delu" type="radio" id="aCom1" class="radio"  value="all"<?if($delo->comment_k_delu==="all")echo 'checked="true"'?>>
+                <input name="comment_k_delu" type="radio" id="aCom1" class="radio"  value="all"<?php if($delo->comment_k_delu==="all") echo 'checked="true"'?>>
                 <span class="radio-label">Все</span>
-                <input name="comment_k_delu" type="radio" id="aCom2" class="radio" value="reg"  <?if($delo->comment_k_delu==="reg")echo 'checked="true"'?> >
+                <input name="comment_k_delu" type="radio" id="aCom2" class="radio" value="reg"  <?php  if($delo->comment_k_delu==="reg")echo 'checked="true"'?> >
                 <span class="radio-label">Только зарегистрированые</span>
-                <input name="comment_k_delu" type="radio" id="aCom3" class="radio" value="none"  <?if($delo->comment_k_delu==="none")echo 'checked="true"'?> >
+                <input name="comment_k_delu" type="radio" id="aCom3" class="radio" value="none"  <?php if($delo->comment_k_delu==="none")echo 'checked="true"'?> >
                 <span class="radio-label">Никто</span>
             </div>
 
             <div class="field-for-edit">
                 <span class="edit-label-str">Статус:</span>
-                <input class="radio" type="radio" id="choice-3_" name="status" value="1" <?if($delo->status==1)echo 'checked="true"'?> />
+                <input class="radio" type="radio" id="choice-3_" name="status" value="1" <?php if($delo->status==1)echo 'checked="true"'?> />
                 <span class="radio-label">Открыто</span>
-                <input class="radio" type="radio" id="choice-4_" name="status" value="0"  <?if($delo->status==0)echo 'checked="true"'?> />
+                <input class="radio" type="radio" id="choice-4_" name="status" value="0"  <?php  if($delo->status==0)echo 'checked="true"'?> />
                 <span class="radio-label">Закрыто</span>
             </div>
 
@@ -349,12 +349,13 @@ optionsText += '<option value="{{($delo->City->Region->id)}}" SELECTED>{{($delo-
 			                                </ul>
                 </div>
             </div>
-               
+            <!--   
             <div class="field-for-edit">
                 <span class="edit-label">Добавить видео</span>
                 <input class="upload-photo-input" type="text" style="height: 40px;"/>
                 <button class="upload-photo addVideo upload_video" type="button" style="padding-bottom: 6px;"><img src="{{asset('asset/front/images/video-camera.png')}}"/></button>
             </div>
+			-->
             <span id="count_video"></span><br><br>
             <div class="video_list">
 		                    </div>
@@ -364,7 +365,7 @@ optionsText += '<option value="{{($delo->City->Region->id)}}" SELECTED>{{($delo-
             <div class="field-for-edit" style="margin-top: 25px;">
                 <input type="hidden"  name="id" value="{{$delo->id}}">
                 <input value="Сохранить" class="save" type="submit"/>
-                <a href="https://myldl.ru/profile/dela" class="cancel">Отмена</a>
+                <a href="/profile/dela" class="cancel">Отмена</a>
             </div>
         </form>
     </div>
