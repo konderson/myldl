@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Event;
 use App\Future;
 
 class FutureController extends Controller
@@ -17,10 +18,16 @@ class FutureController extends Controller
          $future=new Future();
          $future->user_id=Auth::user()->id;
          $future->title=$request->title;
+		$future->description=$request->description;
          $future->resource=$request->resource;
          $future->f_date=$request->date_begin;
          $future->save();
-         
+		 $event=new Event();//add event data
+     $event->type_id=6;//id asset_type
+     $event->title='<p><a href="/user/'.Auth::user()->id.'">'.Auth::user()->name.'</a> добавил будущее дело  -  <a href="/profile/future_business/index/'.$future->id.'"> '.$future->title.'</a></p>';
+     $event->user_id=Auth::user()->id;
+     $event->save();
+         return redirect()->route('future.my');
         
     }
     
@@ -48,6 +55,7 @@ class FutureController extends Controller
         if($future->user_id==Auth::user()->id){
          $future->title=$request->title;
          $future->resource=$request->resource;
+		 $future->description=$request->description;
          $future->f_date=$request->date_begin;
          $future->save();
             return redirect('/profile/future_business');

@@ -64,7 +64,7 @@ class DelaController extends Controller
     
     public function mydelo(){
         $mydelas=Dela::where('user_id',Auth::user()->id)->get();
-       
+        
         
         return view('myprofile.mydelo',compact('mydelas'));
     }
@@ -100,7 +100,7 @@ if (isset($request->choice_5)) {
 })->get();
 
 
-dd($results)
+
 
        foreach ($results as $row) {
 

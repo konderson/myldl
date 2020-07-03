@@ -71,7 +71,24 @@ public function error(){
     
     return view ('error');
 }
+   
+   
+public function errorBlock(){
+    
+    return view ('error_block');
+}
 
+
+public function errorUBlock(){
+    
+    return view ('error_ublock');
+}
+
+
+public function errorDelete(){
+    
+    return view ('error_delete');
+}
 public function checkAuth(){
     $resolt='';
     if(Auth::check()){

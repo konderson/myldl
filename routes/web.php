@@ -28,8 +28,10 @@ Route::post('/profile/avatar/ajax_upload','ProfileController@ajax_upload_avatar'
 
 Route::get('/profile/settings','ProfileController@settings')->middleware(['verified','auth']);;
 Route::post('/profile/settings/check_psw','ProfileController@check_psw')->middleware(['verified','auth']);;
-
-
+Route::post('/profile/settings/password','ProfileController@chengePsw')->middleware(['verified','auth']);;
+Route::get('/profile/block','ProfileController@UBlockAccount')->middleware(['verified','auth']);
+Route::get('/profile/unblockblock_owner','ProfileController@UnBlockAccount')->middleware(['auth']);
+Route::get('/profile/delete','ProfileController@DeleteAccount')->middleware(['verified','auth']);
 
 
 Route::get('/affairs','DelaController@all')->name('dala.all');
@@ -50,7 +52,7 @@ Route::get('/profile/ajax_lenta_all','ProfileController@ajaxFilterAll')->middlew
 Route::get('/profile/add_idea','IdieController@add')->name('profile.add.idea')->middleware(['verified','auth']);;
 Route::post('/profile/idea/store','IdieController@store')->name('profile.store.idea')->middleware(['verified','auth']);;
 Route::get('/profile/edit_idea/{id}','IdieController@edit')->name('profile.edit.idea')->middleware(['verified','auth']);;
-Route::put('/profile/idea/update','IdieController@upload')->name('profile.idea.upload')->middleware(['verified','auth']);;
+Route::put('/profile/idea/update','IdieController@update')->name('profile.idea.upload')->middleware(['verified','auth']);;
 Route::get('/profile/ideas','IdieController@myIdea')->name('profile.myidea')->middleware(['verified','auth']);;
 Route::get('/profile/delete/{id}','IdieController@delete')->name('profile.delete')->middleware(['verified','auth']);;
 
@@ -144,7 +146,8 @@ Route::post('/like/store','LikeController@store')->name('like.store.like');
 Route::post('/like/store/dislike','LikeController@storeDisLike')->name('like.store.dislike');
 Route::post('/like/count/dis','LikeController@dislikeCount')->name('like.count.dis');
 Route::post('/like/count/like','LikeController@likeCount')->name('like.count.like');
-
+Route::post('/view/store','ViewController@store')->name('view.store.view');
+Route::post('/view/count/view','ViewController@viewCount')->name('view.count.view');
 
 Route::get('/ajax_get_country','MainController@ajax_get_country')->name('ajax.get_country');
 Route::post('/ajax/check_auth','MainController@checkAuth')->name('ajax.get_country');
@@ -152,6 +155,9 @@ Route::get('/ajax_get_city/{id}','MainController@ajax_get_city')->name('ajax.get
 Route::get('/ajax_get_region/{id}','MainController@ajax_get_region')->name('ajax.get_region');
 Route::post('/parse/href','MainController@parseHref')->name('ajax.parse.href');
 Route::get('/error/auth','MainController@error')->name('error.auth');
+Route::get('/error/block','MainController@errorBlock');
+Route::get('/error/ublock','MainController@errorUBlock');
+Route::get('/error/delete','MainController@errorDelete');
 Route::get('/about','MainController@about');
 
 Route::post('/answer/add', 'AnswerController@add')->name('adminpanel.answer.add');
@@ -172,6 +178,9 @@ Route::get('/profile/relation/','FrendController@getFrend')->middleware(['verifi
 Route::get('/del/frend/{id}','FrendController@delete');
 Route::get('/frend/is_online','FrendController@isOnline');
 Route::get('/frend/all','FrendController@ajaxAllFrend');
+
+
+Route::post('/appeal/add','AppealController@store')->middleware(['verified','auth']);
 
 
 Route::post('/profile/relation/search','FrendController@searchFrend')->middleware(['verified','auth']);;
@@ -289,6 +298,16 @@ Route::get('/admin/razdel/delete/{id}', 'RazdelController@delete')->name('adminp
 Route::get('/menu', 'MenuController@index')->name('adminpanel.menu');
 Route::post('/menu/store', 'MenuController@store')->name('adminpanel.menu.store');
 Route::post('/menu/edit', 'MenuController@update')->name('adminpanel.menu.update');
+
+
+
+Route::get('/appeil/index/user', 'AppeilController@getUserAppeil')->name('adminpanel.appeil.user');
+Route::get('/appeil/index/delo', 'AppeilController@getDeloAppeil')->name('adminpanel.appeil.delo');
+Route::post('/appeil/show/{id}', 'AppeilController@show');
+Route::post('/appeil/chenge_status/{id}', 'AppeilController@chengeStatus');
+
+
+
 
 
 Route::get('/social_questions/add/{id}', 'SQuestionsController@add')->name('adminpanel.sq.add');

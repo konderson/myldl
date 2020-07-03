@@ -79,7 +79,7 @@ tinymce.init({
 	    
 @include('myprofile.left')
 
-     <form class="right" action="/profile/idea/upload" method="post" >
+     <form class="right" action="/profile/idea/update" method="post" >
              @method('PUT')
              @csrf
            

@@ -1,7 +1,7 @@
 <template>
     <div class="right-sms">
-        <div class="contact-photo"><img  :src="contact ? contact.profile_img : ''">
-            <span class="name"><a class="user-anketa" href="https://myldl.ru/users/user_dela/">{{ contact ? contact.name : 'Select a Contact' }}</a></span>
+        <div class="contact-photo"><img :src='contact ? "/storage/avatar/"+contact.person.avatar : "/storage/avatar/default.png"'>
+            <span class="name"><a class="user-anketa" href="https://myldl.ru/users/user_dela/">{{ contact ? contact.name : 'Виберите контакт .' }}</a></span>
         </div>
         <MessageFeed :contact="contact" :messages="messages"/>
         <MessageComposer  :flag_typing="flag_typing"  :contact="contact" @send="sendMessage" />
@@ -12,6 +12,9 @@
     import MessageFeed from './MessageFeed';
     import MessageComposer from './MessageComposer';
     export default {
+        mounted(){
+            console.log(this.contact)
+        },
         props: {
             contact: {
                 type: Object,

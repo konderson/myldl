@@ -18,7 +18,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-            $events=Event::where('user_id',Auth::user()->id)->paginate(10);
+            $events=Event::where('user_id',Auth::user()->id)->orderBy('id','desc')->paginate(10);
             //dd($events->lastPage());
         // dd($events->total());
     return view('myprofile.index',compact('events'));
@@ -138,6 +138,51 @@ class ProfileController extends Controller
          {
            echo 'none';
           }
+  }
+  
+  
+  public function chengePsw(Request $request)
+  {
+	  $user= Auth::user();
+	  $user->password=Hash::make($request->pass);
+	  $user->save();
+	  
+	  return redirect()->route('profile.index');
+  }
+  
+    public function UBlockAccount(Request $request)
+  {
+	  $user= Auth::user()->person;
+	  $user->active=3;
+	  $user->save();
+	   $event=new Event();//add event data
+     $event->type_id=5;//id asset_type
+     $event->title='<p>'.Auth::user()->name.' заблокировал страницу </p>';
+     $event->user_id=Auth::user()->id;
+     $event->save();
+	  return redirect()->route('profile.index');
+  }
+  public function UnBlockAccount(Request $request)
+  {
+	  
+	  $user= Auth::user()->person;
+	  $user->active=1;
+	  $user->save();
+	   $event=new Event();//add event data
+     $event->type_id=5;//id asset_type
+     $event->title='<p>'.Auth::user()->name.' разблокировал  страницу </p>';
+     $event->user_id=Auth::user()->id;
+     $event->save();
+	  return redirect()->route('profile.index');
+  }
+  
+    public function DeleteAccount(Request $request)
+  {
+	  $user= Auth::user()->person;
+	  $user->active=3;
+	  $user->save();
+	  
+	  return redirect()->route('profile.index');
   }
     
 }

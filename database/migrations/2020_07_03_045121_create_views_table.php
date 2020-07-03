@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLikeTypesTable extends Migration
+class CreateViewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateLikeTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('like_types', function (Blueprint $table) {
-             $table->bigIncrements('id');
-             $table->bigInteger('type_id')->unsigned();
+        Schema::create('views', function (Blueprint $table) {
+            $table->bigIncrements('id');
+			$table->bigInteger('type_id')->unsigned();
              $table->bigInteger('user_id')->nullable();
              $table->string('ip');
              $table->bigInteger('post_id')->unsigned();
-             $table->timestamps();
+            $table->timestamps();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateLikeTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('like_types');
+        Schema::dropIfExists('views');
     }
 }

@@ -43,6 +43,7 @@
         <div class="right">
             <h1 class="title">Мои мысли</h1>
             <input class="green_btb" type="button" onclick="javascript:location.href='/profile/add_idea'" value="Добавить мысль">
+			<div style="margin-top:15px;">
             @foreach($ideas as $idea)
             <div class="tables-block future table-affaires">
                 <table id="example" class="table table-services table-2columns">
@@ -58,6 +59,7 @@
                 </table>
             </div>
             @endforeach
+			</div>
         </div>
     </div>
 </section>       

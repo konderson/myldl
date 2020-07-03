@@ -44,14 +44,14 @@
             e.preventDefault();
 //				if (confirm("Вы хотите заблокировать свой профиль?")) {
             if (confirm('Вы уверены, что хотите заблокировать свою страницу? Все преимущества личного кабинета станут недоступны, и ваш профиль будет скрыт из поиска и недоступен для других участников портала.')) {
-                $('#block-profile-form').submit();
+               document.location.href = "/profile/block";
             }
         });
         $('#delete-profile').click(function (e) {
             e.preventDefault();
 //				if (confirm("Вы хотите заблокировать свой профиль?")) {
             if (confirm('Вы уверены, что хотите удалить свою страницу? Все преимущества личного кабинета станут недоступны, и ваш профиль будет удалён из поиска и недоступен для других участников портала.')) {
-                $('#delete-profile-form').submit();
+                document.location.href = "/profile/delete";
             }
         });
 
@@ -86,13 +86,21 @@
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
         data: {data:data},
-      success: function(data){
+      success: function(msg){
       
-    alert('ff')
+         if(msg==='ok')
+		 {
+			  $("#valid_pass_orig").css({"background-image": "url('/asset/front/images/validyes.png')"});
+			  error_pass_orig = 0
     
-       } 
-         })
-     })
+       } else{
+		   
+		    $("#valid_pass_orig").css({"background-image": "url('/asset/front/images/validno.png')"});
+			 error_pass_orig = 1
+         }
+	  }
+		})
+	 })
  
         $("#pass_1").bind('change keyup', function () {
             var pass_1 = $("#pass_1").val();
@@ -193,6 +201,7 @@
        @include('myprofile.left')
       
       <form class="right" action="/profile/settings/password" method="post" id="password_change_form">
+	  @csrf
             <input type="hidden" name="ci_csrf_token" value="">
             <p class="title" style="width: 100%;">Изменение данных </p>
 
@@ -281,44 +290,15 @@
 				<input type = "button"class="popupButton" id="buttonClose" value="Закрыть"/>
 		</div>
 				
-			<script>
-			var siteUrl=window.location.protocol+'//'+window.location.host;
-			$(document).ready(function(){
-				$('#ban_list').click(function(){
-				$('.ban_list').show();
-				if(!$('div').is('.contact_list') ){
-					$('.popupTitle').after('<div class= "popupTitle2" style = "text-align: -webkit-center;">Пусто</div>');
-				}					
-			});
-			$('#buttonClose').click(function(){
-				$('.ban_list').hide();
-				$('.popupTitle2').remove();
-			});
-			$('.ban_list').on('click', '.unban', function(){
-				let user_id = $(this).parent('.contact_list').attr('id');
-				let this_id = 20263;
-				$.ajax({
-					url:    siteUrl+"/main/add_ban",
-					type:     'POST', //метод отправки
-					dataType: "html", //формат данных
-					data: { ban: 0, user_id: user_id},  
-					success: function() {
-										$('#'+user_id).empty();
-										$('#'+user_id).remove();
-										
-										}
-			});
-			});
-			});
-			</script>
+			
             <div class="row">
                 <h4>Блокировка аккаунта</h4>
                 <p>
-                    Вы можете <a id="block-profile" href="#">Заблокировать свою страницу</a>
+                    Вы можете <a id="block-profile" href="/profile/block">Заблокировать свою страницу</a>
                 </p>
 
                 <p>
-                    Вы можете <a id="delete-profile" href="#">Удалить свою страницу</a>
+                    Вы можете <a id="delete-profile" href="/profile/delete">Удалить свою страницу</a>
                 </p>
 
                 <form method="post" action="/profile/block_profile" id="block-profile-form">

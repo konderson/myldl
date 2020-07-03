@@ -27,10 +27,26 @@ class CheckVertf
             }
             
         }
+		if(Auth::user()->person->active==1)
+		{
+			 return $next($request);
         }
-       
-         return $next($request);
+		if(Auth::user()->person->active==2)//заблакирован админом
+		{
+			  return redirect('/error/block');   
+        }
+		if(Auth::user()->person->active==3)//заблакирован user
+		{
+			  return redirect('/error/ublock');   
+        }
+       if(Auth::user()->person->active==4)//заблакирован user
+		{
+			  return redirect('/error/delete');   
+        }
+        
        
     
     }
+	 return $next($request);
+}
 }

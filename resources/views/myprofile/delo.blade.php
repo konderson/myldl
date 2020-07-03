@@ -28,31 +28,17 @@ transition: .3s;
               
               <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="https://myldl.ru/">Главная</a></li><li><a href="/affairs">Дела</a></li><li class="active">{{$delo->nazva}}</li>    </ol>
+        <li><a href="/">Главная</a></li><li><a href="/affairs">Дела</a></li><li class="active">{{$delo->nazva}}</li>    </ol>
 </div><!-- діалог -->
-<link href="https://myldl.ru/application/views/front/datepicker/jquery-ui.css" rel="stylesheet">
-<script src="https://myldl.ru/application/views/front/datepicker/jquery-ui.js"></script>
+<link href="{{asset('asset/front/datepicker/jquery-ui.css')}}" rel="stylesheet">
+<script src="{{asset('asset/front/datepicker/jquery-ui.js')}}"></script>
 <!-- діалог end -->
 
 <!-- Add fancyBox main JS and CSS files -->
-<script type="text/javascript" src="https://myldl.ru/application/views/front/fancy_box/jquery.fancybox.js?v=2.1.5"></script>
-<link rel="stylesheet" type="text/css" href="https://myldl.ru/application/views/front/fancy_box/jquery.fancybox.css?v=2.1.5" media="screen" />
+<script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js?v=2.1.5')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('asset/front/fancy_box/jquery.fancybox.css?v=2.1.5')}}" media="screen" />
 
-<div id="showcontact">
-    <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
-    <form action="https://myldl.ru/auth/login?backurl=usluga/" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
-        <input name="email" type="email" class="form-control email" id="exampleInputEmail2" placeholder="| Логин / E-mail" required>
-        <input name="passw" type="password" class="form-control password" id="exampleInputPassword2" placeholder="| Пароль" required>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"> Запомнить меня
-            </label>
-        </div>
-        <input type="hidden" id="hashLoginID" name="ci_csrf_token" value="">
-        <button type="submit" class="btn btn-success btn-block">Войти</button>
-        <a class="text-center btn-reg a-btn" href="/auth/register">Новый пользователь?</a>
-    </form>
-</div>
+
 <script>
 
 
@@ -67,10 +53,11 @@ transition: .3s;
 <script>
     $(document).ready(function() {
         
-        
+        viewStore();
         countLike(); 
         countDisLike();
         load_comment();
+		countView();
         
 
 
@@ -134,6 +121,40 @@ transition: .3s;
    {
     
         $('#like_c').html(data.count);
+    }
+  });
+    }
+  
+  /* 
+  ***
+ Конец Функция количество + like
+  ***
+    */
+	
+	
+	
+	/* 
+  ***
+  Функция +  количесво view
+  ***
+    */
+  
+  
+    function countView(){
+   var delo_id=$('#delo_id').val();  
+   
+          $.ajax({
+   url:"/view/count/view",
+   method:"POST",
+   
+   data:{'post_id':delo_id,'type_id':'1'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+    
+        $('#view_c').html(data.count);
     }
   });
     }
@@ -258,6 +279,46 @@ transition: .3s;
     */
     
     
+	/* 
+  ***
+  Функция + view
+  ***
+    */
+  
+      function viewStore(){
+      var delo_id=$('#delo_id').val();
+    $.ajax({
+   url:"/view/store",
+   method:"POST",
+   
+   data:{'post_id':delo_id,'type_id':'1'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+       
+       if(data.error){
+        alert(data.error)
+       }
+       else{
+              
+           $('#view_c').html(data.count);
+       }
+    
+   }
+  })
+  };
+	
+	/* 
+  ***
+  Конец Функция + dis  like
+  ***
+    */
+	
+	
+	
+	
 
  function load_comment()
  {
@@ -348,6 +409,7 @@ transition: .3s;
     <div class="row">
         <label>Текст жалобы</label>
         <textarea id="text_appeal"></textarea>
+		
     </div>
     <div class="btn-group">
         <button type="button" class="btn add btn-green">Отправить</button>
@@ -356,21 +418,29 @@ transition: .3s;
 </div>
 <script>
     $('#dialog2 button').click(function () {
-        $.post(
-            "/main/ajax_send_appeal_delo",
-            {
-                id_dela : delo_id,
-                text: $("#text_appeal").val(),
-                tkn_name : $.cookie(tkn_val)
-            }
-        );
-        $('#dialog2').html("<center><br /><br /><h3>Ваша жалоба отправлена администратору !</h3><br /><br /></center>");
+        var delo_id=$('#delo_id').val();
+		var text=$("#text_appeal").val();
+    $.ajax({
+   url:"/appeal/add",
+   method:"POST",
+   
+   data:{'delo_id':delo_id,'text':text,'type':1},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+            dataType: "html",
+			success: function(msg){
+				alert(msg);
+                  $('#dialog2').html("<center><br /><br /><h3>Ваша жалоба отправлена администратору !</h3><br /><br /></center>");
         setTimeout(function() {
             $.fancybox.close();
             location.reload(0);
         },
-        800);
-    });
+        800);  
+                }
+       
+    })
+	});
 </script>
 <div id="dialog3" title="Стать учасником" style="display: none">
     Вы хотите стать участником данного дела?<br /><br />
@@ -461,7 +531,7 @@ transition: .3s;
 
             <div class="adv-inner-body news-inner-body">
 	                            <div class="adv-inner-left inner-100">
-                    <div class="awa-226 bg" style="background-image: url(https://myldl.ru/static/images/noimg.png);"></div>
+                    <div class="awa-226 bg" style="background-image: url(/asset/front/images/noimg.png);"></div>
                     <div class="deal-become-member show-xs">
                                                     <a href="#dialog5" data-height="160" class="fancybox mbtn to_relation green" style="font-size:14px;">Стать участником</a>
                             <a href="#dialog4" class="fancybox mbtn" data-width="363" data-height="150" style="font-size:14px;">В избранное</a>
@@ -469,7 +539,7 @@ transition: .3s;
                     </div>
 
                     <div class="profile-info" style="float: left;">
-                        <p><b>Инициатор</b>: <a href="https://myldl.ru/user/20266">{{$delo->userOne->name}}</a></p>
+                        <p><b>Инициатор</b>: <a href="/user/{{$delo->userOne->id}}">{{$delo->userOne->name}}</a></p>
                         <p><b>Дата открытия</b>: <span>{{ Carbon\Carbon::parse($delo->created_at)->format('d.m.Y') }}</span></p>
                         <p class="profile-info-p"><b>Тип</b>:{{$delo->status==1?'Индивидуальное':'Коллективное'}}</p>
                         <p><b>Текущий статус</b>:{{$delo->status==0?'Закрыто':'Открыто'}} <span></span></p>
@@ -498,12 +568,13 @@ transition: .3s;
                             }
                         }
                     </style>
-
+                @if(Auth::check())
                     <div class="deal-become-member hide-xs">
 		                                            <a href="#dialog5" data-height="160" class="fancybox mbtn to_relation green" style="font-size:14px;">Стать участником</a>
                             <a href="#dialog4" class="fancybox mbtn" data-width="363" data-height="150" style="font-size:14px;">В избранное</a>
 		                                        <a href="#dialog2" class="fancybox mbtn">Пожаловаться</a>
                     </div>
+					@endif
                 </div>
 
                 <div class="adv-inner-desc">
@@ -536,8 +607,8 @@ transition: .3s;
 <img src="{{asset('asset/front/images/dislike.png')}}" class="stat-item thumbs-down"  id="dislike" />
 <span class="dislike_c" id='dislike_c'></span>                    <img src="{{asset('asset/front/images/comments.png')}}"/>
                     <span>{{$delo->getCount($delo->id)}}</span>
-                    <img src="https://myldl.ru/static/images/views.png"/>
-                    <span>0</span>
+                    <img src="{{asset('asset/front/images/views.png')}}"/>
+                    <span id="view_c" >0</span>
                 </div>
             </div>
             <div class="info-block">
@@ -571,7 +642,7 @@ transition: .3s;
                 @endforeach
 	                               
 	                            <div class="article-info">
-                    <a href="https://myldl.ru/dela" class="page-button">Показать еще</a>
+                    <a href="/affairs" class="page-button">Показать еще</a>
                 </div>
             </div>
         </div>
@@ -589,7 +660,7 @@ transition: .3s;
 	                                            @if(isset($user->person->avatar))
                                                             <img src="{{asset('/storage/avatar/'.$user->person->avatar)}}"/>
                                                             @endif
-                                                        <a href="https://myldl.ru/user/8" class="person-name">{{$user->name}}</a>
+                                                        <a href="/user/{{$user->id}}" class="person-name">{{$user->name}}</a>
                         </div>
                         @endforeach
                         
@@ -604,7 +675,7 @@ transition: .3s;
 	    
 <!-- ---------------- Comments ---------------- -->
 
-<script src="https://myldl.ru/application/views/front/js/LDL_Comments.js"></script>
+
 
 
 
@@ -621,7 +692,7 @@ transition: .3s;
    <br />
    <div id="display_comment"></div>
       <div class="photo">
-            <div class="ava" style="background-image: url(https://myldl.ru/static/images/noimg.png)"></div>        </div>
+            <div class="ava" style="background-image: url(/asset/front/images/noimg.png)"></div>        </div>
              <form  id="comment_form">
         <div class="adv-comment wmCommentMes">
                      @guest

@@ -1,7 +1,8 @@
 <template>
     <div id="chat_contener">
+        <ContactList :contacts="contacts" @flags="soundFlag" @selected="startConversationWith"/>
         <Conversation :contact="selectedContact" :messages="messages"   :flag_typing="typing" @new="saveNewMessage"/>
-        <ContactList :contacts="contacts" @selected="startConversationWith"/>
+
     </div>
 </template>
 
@@ -21,6 +22,7 @@
                 messages: [],
                 contacts: [],
                 typing:'',
+                sound_flag:true,
             };
         },
         mounted() {
@@ -30,23 +32,34 @@
             Echo.private(`messages.${this.user.id}`)
                 .listen('NewMessage', (e) => {
                     //alert('ii')
+
                     this.hanleIncoming(e.message);
                     this.playEvent();
 
                 });
 
+
+            Echo.private(`delmessage.${this.user.id}`)
+                .listen('DeleteMessage', (e) => {
+                    document.querySelector("#ms_"+e.message.id).innerHTML="Сообщение удалено."
+
+                });
+
             Echo.private('typingevent')
                 .listenForWhisper('typing', (e) => {
+                    document.getElementById('user_'+e.user.id).style.display = "block";
                     if (this.selectedContact != null)
                     {
                     if (authuser.id == e.userId  && this.selectedContact.id==e.user.id) {
                         this.typing = e.user.name;
 
 
-                        /*setTimeout(() => {
-                            this.typing = '';}, 2000);*/
                     }
                    }
+                    setTimeout(() => {
+                        this.typing = '';
+                        document.getElementById('user_'+e.user.id).style.display = "none";
+                    }, 5000);
                 });
            Echo.private(`read.${this.user.id}`)
                 .listen('ReadCheck', (e) => {
@@ -68,16 +81,22 @@
 
             playEvent(){
                 const audio = new Audio('/sound/1.mp3');
-
-                if (audio) {
-                    audio.play();
-                }
+               if(this.sound_flag==true) {
+                   if (audio) {
+                       audio.play();
+                   }
+               }
             },
+            soundFlag(flag){
+              this.sound_flag=flag
+            },
+
             startConversationWith(contact) {
               //  this.updateUnreadCount(contact, true);
                 this.updateUnreadCount(contact,true);
                 axios.get(`/conversation/${contact.id}`)
                     .then((response) => {
+                        console.log(response.data);
                         this.messages = response.data;
                         this.selectedContact = contact;
                     })
