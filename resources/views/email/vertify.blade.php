@@ -2,14 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
  
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-            crossorigin="anonymous"></script>
- 
-   
-</head>
+ </head>
 <body>
 
 <table class="wp-block-table action"><tbody><tr><td>
@@ -25,7 +18,7 @@
         </td>
     </tr>
 <tr>
-<td><a class="btn btn-info" style="color:blue" href="{{ $link }}" target="_blank" rel="noopener">Подтвердить</a></a></td>
+<td><a  style="color:blue;border:none;padding:8px;" href="{{ $link }}" target="_blank" rel="noopener">Подтвердить</a></a></td>
 </tr>
 </tbody>
 </table>

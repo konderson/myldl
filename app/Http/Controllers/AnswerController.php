@@ -182,7 +182,7 @@ class AnswerController extends Controller
     public function all(){
         $quests=SQuestions::where('is_open',1)->get();
         
-          return view('poll.all',compact('result','quests'));
+          return view('poll.all',compact('quests'));
         
     }
     

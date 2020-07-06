@@ -4,7 +4,7 @@
 			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
 		  
 			<!-- Logo (221px wide) -->
-			<a href="#"><img id="logo" src="http://test.myldl.ru/application/views/admin/resources/images/logo.png" alt="Simpla Admin logo" /></a>
+			<a href="#"><img id="logo" src="{{asset('asset/admin/resources/images/logo.png')}}" alt="Simpla Admin logo" /></a>
 		  
 			<!-- Sidebar Profile links -->
 			<div id="profile-links">
@@ -82,12 +82,24 @@
 				<li>
 					<a href="#" class="nav-top-item ">Жалобы</a>
 					<ul>
-						<li><a href="/admin/appeal">На пользователей</a></li>
-						<li><a href="/admin/appeal_dela">На дела</a></li>
+						<li><a href="/admin/appeil/index/user">На пользователей</a></li>
+						<li><a href="/admin/appeil/index/delo">На дела</a></li>
 					</ul>
 				</li>
 				<li>
-					<a href="/admin/comment" class="nav-top-item no-submenu ">Комментарии</a>
+					<a href="#" class="nav-top-item">Комментарии</a>
+					<ul>
+						<li><a href="/admin/comment/news/">Новости</a></li>
+						<li><a href="/admin/comment/project">Проект</a></li>
+						<li><a href="/admin/comment/diary">Дневник</a></li>
+						<li><a href="/admin/comment/poll/">Опрос</a></li>
+						<li><a href="/admin/comment/future/">Будущие дела</a></li>
+						<li><a href="/admin/comment/dela/">Дела</a></li>
+						<li><a href="/admin/comment/help">Взаимопомощь</a></li>
+						<li><a href="/admin/comment/service">Объявления</a></li>
+						<li><a href="/admin/comment/interview">Интервью</a></li>
+						
+					</ul>
 				</li>
 				<li>
 					<a href="/event_ribbon_profile" class="nav-top-item no-submenu ">Лента событий</a>

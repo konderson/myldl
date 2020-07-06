@@ -38,10 +38,10 @@
 								<th><input type="edit" name="user[date_reg]" placeholder="Дата регистрации" value="" style="width:140px;" class="srchtxt"></th>
 								<th colspan="2"><select name="user[active]" style="width:100%" class="srchsel">
 								<option value="">Все</option>
-								<option value="1" >Не подтвержден<img src="http://test.myldl.ru/application/views/admin/resources/images/icons/exclamation.png" title="Не подтвержден" /></option>
-								<option value="2" >Активный<img src="http://test.myldl.ru/application/views/admin/resources/images/icons/tick_circle.png" title="Активный" /></option>
-								<option value="3" >Заблокирован<img src="http://test.myldl.ru/application/views/admin/resources/images/icons/cross_sircle.png" title="Заблокирован" /></option>
-								<option value="4" >Заблокирован по собственному желанию<img src="http://test.myldl.ru/application/views/admin/resources/images/icons/cross_sircle.png" title="Заблокирован по собственному желанию"/></option>
+								<option value="1" >Не подтвержден<img src="{{asset('asset/admin/resources/images/icons/exclamation.png')}}" title="Не подтвержден" /></option>
+								<option value="2" >Активный<img src="{{asset('asset/admin/resources/images/icons/tick_circle.png')}}" title="Активный" /></option>
+								<option value="3" >Заблокирован<img src="{{asset('asset/admin/resources/images/icons/cross_sircle.png')}}" title="Заблокирован" /></option>
+								<option value="4" >Заблокирован по собственному желанию<img src="{{asset('asset/admin/resources/images/icons/cross_sircle.png')}}" title="Заблокирован по собственному желанию"/></option>
 								</select></th>
 								<th></th>
 							</tr>
@@ -93,7 +93,7 @@
 										<!-- Icons -->
 										<a href="#messages_send" rel="modal" onclick="show_email_name('<? echo $user->email?>', '<? echo $user->name?>')" title="Отправить сообщение"><img src="{{asset('asset/admin/resources/images/icons/mail.png')}}" alt="Edit" /></a>&nbsp;&nbsp;&nbsp;
 										<a href="user/edit/{{$user->id}}" title="Редактировать"><img src="{{asset('asset/admin/resources/images/icons/pencil.png')}}" alt="Edit" /></a>&nbsp;&nbsp;&nbsp;
-										<a onclick="myFunction()" href="/admin/user/delete/{{$user->id}}" title="Удалить"><img src="http://test.myldl.ru/application/views/admin/resources/images/icons/cross.png" alt="Delete" /></a>
+										<a onclick="myFunction()" href="/admin/user/delete/{{$user->id}}" title="Удалить"><img src="{{asset('asset/admin/resources/images/icons/cross.png')}}" alt="Delete" /></a>
 									</td>
 								</tr>
 							@endforeach
@@ -187,29 +187,11 @@ else
 
 			<div class="clear"></div>
 			
-			<div id="messages" style="display: none"> <!-- Messages are shown when a link with these attributes are clicked: href="#messages" rel="modal"  -->
-				
-				<h3>Смена пароля</h3>
-			 
-				<p>
-					<strong>Введите новый пароль администратора</strong>
-				</p>
-			 
-				<form action="http://test.myldl.ru/admin/change_pass" method="post">
-					<input type="hidden" name="ci_csrf_token" value="">
-				
-					<fieldset>
-						<input class="text-input " type="text" name="pass"  />
-						<input class="button" type="submit" value="Изменить" />						
-					</fieldset>
-					
-				</form>
-				
-			</div> <!-- End #messages -->
+			
 
 			<div id="footer">
 				<small>
-					<a href="http://test.myldl.ru/">&#169; Copyright 2013 - 2015 MyLDL</a> | <a href="#">Top</a>
+					<a href="/">&#169; Copyright 2013 - {{date('Y')}} MyLDL</a> | <a href="#">Top</a>
 				</small>
 			</div><!-- End #footer -->
 			

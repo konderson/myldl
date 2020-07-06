@@ -24,7 +24,7 @@
 <!-- AjaxUpload -->
 <script type="text/javascript" src="{{asset('asset/front/js/ajaxupload.3.5.js')}}"></script>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
           <script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js?v=2.1.5')}}"></script>
 	      <link rel="stylesheet" type="text/css" href="{{asset('asset/front/asset/front/fancy_box/jquery.fancybox.min.css')}}">
 
@@ -34,31 +34,28 @@
         $('.fancybox').fancybox();
         $(document).on('click', '#dialog2 .add', function () {
             
-              $.ajax({
-                type: "POST",
-                url: "/send/complaint",
-                data: {
-                     id_na: $('#user_id').val(),
-                     type:'пользователь',
-                    text: $("#text_appeal").val(),
-                },
-                 headers: {
+                var user_id=$('#user_id_appeal').val();
+		var text=$("#text_appeal").val();
+    $.ajax({
+   url:"/appeal/add",
+   method:"POST",
+   
+   data:{'user_id':user_id,'text':text,'type':2},
+    headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
-           dataType: "html",
-                success: function (msg) {
-                    
-                    if (msg == "ok") {
-                        $('#dialog2').html("<center><br /><br /><h3>Ваша жалоба отправлена администратору !</h3><br /><br /></center>");
-                         setTimeout(function () {
-                    $.fancybox.close();
-                location.reload(0);
-            },
-            1000);
-                    } 
-                   	// ховаєм кнопки
+            dataType: "html",
+			success: function(msg){
+				alert(msg);
+                  $('#dialog2').html("<center><br /><br /><h3>Ваша жалоба отправлена администратору !</h3><br /><br /></center>");
+        setTimeout(function() {
+            $.fancybox.close();
+            location.reload(0);
+        },
+        800);  
                 }
-            });
+       
+    })
          
         });
 
@@ -268,7 +265,7 @@
     <div class="form-group" style="margin: 0;">
         <label><b>Жалоба</b></label>
         <textarea class="form-control tfi" id="text_appeal"></textarea>
-        <input type="hidden" id="user_id" value="{{$user->id}}">
+        <input type="hidden" id="user_id_appeal" value="{{$user->id}}">
     </div>
     <div class="btn-group">
         <button type="button" class="add btn btn-green">Добавить</button>
@@ -359,7 +356,7 @@
     <div id="add-review" class="modalwin">
         <h2 class="text-center">Оставьте <span>Irina63rus</span> отзыв</h2>
 
-                    <form action="https://myldl.ru/main/add_review" method="POST" id="form_add_otziv">
+                    <form action="/add_review" method="POST" id="form_add_otziv">
                 <input type="hidden" name="ci_csrf_token"
                        value="">
                 <div class="revinfo">

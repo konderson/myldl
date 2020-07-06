@@ -4,30 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
+use App\Appeal;
 
 class AppeilController extends Controller
 {
-    public function index ()
+    public function getUserAppeil()
 	{
-		$appeils=Appeil::where('type',1)->get();
-		return view('admin.appeil.index',compact("appeils"));
+		$appeails=Appeal::where('type',2)->get();
+		return view('admin.appail.index_user',compact("appeails"));
 		
 	}
 	
 	
-	
-	public chengeStatus($id)
+	public function getDeloAppeil()
 	{
-		$appeil=Appeil::orFindFail($id);
-		$appeil->status=1;
+		$appeails=Appeal::where('type',1)->get();
+		return view('admin.appail.index_delo',compact("appeails"));
+		
+	}
+	
+	public function chengeStatus(Request $request)
+	{
+		$appeil=Appeal::findOrFail($request->id);
+		$appeil->status=$request->status;
 		$appeil->save();
-		return redirect()->route('admin.adminpanel.appeil');
+		if($appeil->type==1)
+		{
+			return redirect()->route('admin.adminpanel.appeil.delo');
+		}
+		else
+		{
+			return redirect()->route('admin.adminpanel.appeil.user');
+		}
+			
+		
 	}
 	public function show($id)
 	{
 		
-		$appeil=Appeil::orFindFail($id);
-		return view('admin.appeil.show',compact("appeil"));
+		$appeail=Appeal::findOrFail($id);
+		return view('admin.appail.show',compact("appeail"));
 	}
 	
 	

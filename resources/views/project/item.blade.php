@@ -1,6 +1,6 @@
 @extends('layouts.frontend.app')
 
-<?$title="$project->name"?>
+<?php $title="$project->name"?>
 @section('title',"$title")
 <meta name="description" content="">
         <meta name="keywords" content="">

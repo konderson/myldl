@@ -430,7 +430,7 @@ transition: .3s;
     },
             dataType: "html",
 			success: function(msg){
-				alert(msg);
+				
                   $('#dialog2').html("<center><br /><br /><h3>Ваша жалоба отправлена администратору !</h3><br /><br /></center>");
         setTimeout(function() {
             $.fancybox.close();

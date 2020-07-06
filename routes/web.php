@@ -303,9 +303,18 @@ Route::post('/menu/edit', 'MenuController@update')->name('adminpanel.menu.update
 
 Route::get('/appeil/index/user', 'AppeilController@getUserAppeil')->name('adminpanel.appeil.user');
 Route::get('/appeil/index/delo', 'AppeilController@getDeloAppeil')->name('adminpanel.appeil.delo');
-Route::post('/appeil/show/{id}', 'AppeilController@show');
-Route::post('/appeil/chenge_status/{id}', 'AppeilController@chengeStatus');
+Route::get('/appeil/show/{id}', 'AppeilController@show');
+Route::post('/appeil/chenge_status', 'AppeilController@chengeStatus')->name('adminpanel.appeal.status');
 
+Route::get('/comment/news', 'CommentController@getNewsComment');
+Route::get('/comment/project', 'CommentController@getProjectComment');
+Route::get('/comment/diary', 'CommentController@getDiaryComment');
+Route::get('/comment/poll', 'CommentController@getPollComment');
+Route::get('/comment/future', 'CommentController@getFutureComment');
+Route::get('/comment/dela', 'CommentController@getDeleComment');
+Route::get('/comment/help', 'CommentController@getHelpComment');
+Route::get('/comment/service', 'CommentController@getServiceComment');
+Route::get('/comment/interview', 'CommentController@getInterComment');
 
 
 
