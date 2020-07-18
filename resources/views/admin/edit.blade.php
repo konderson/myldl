@@ -46,9 +46,12 @@
 								<p>
 									<label>Активность</label>
 									<select name="active" class="small-input">
-										 	<option value="1" <?if($user->person->active==2 || $user->person->active==0)echo 'selected="selected"'?>>Не подтвержден</option>
+										 	<option value="1" <?php if($user->person->active==0)echo 'selected="selected"'?>>Не подтвержден</option>
 														<option value="1" <?php if($user->person->active==1)echo 'selected="selected"'?> >Активирован</option>
-														<option value="3" <?php if($user->person->active==2 || $user->person->active==3)echo 'selected="selected"'?>>Заблокирован</option>									</select> 
+														<option value="2" <?php if($user->person->active==2)echo 'selected="selected"'?>>Заблокирован</option>	 
+								                         <option value="3" <?php if($user->person->active==3)echo 'selected="selected"'?> >Заблокирован пользовател</option>    
+														 <option value="4" <?php if($user->person->active==4)echo 'selected="selected"'?> >Удалена</option>
+														 </select>
 								</p>
 								<input type="hidden" name="id" value="{{$user->id}}" />
 								<p><input class="button" type="submit" value="Сохранить" /></p>

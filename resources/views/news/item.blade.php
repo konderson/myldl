@@ -34,7 +34,7 @@
                         <img src="{{asset('asset/front/images/comments.png')}}"/>
                         <span id="count_com" >{{$news->getCount($news->id)}}</span>
                     <img src="{{asset('asset/front/images/views.png')}}"/>
-                    <span>0</span>
+                    <span id="view_c">0</span>
                         <span>ТЕГИ:</span>
                         @foreach($tags as $tag)
 						<a href="/news/tag/{{$tag->id}}">#{{$tag->name}}</a>
@@ -163,10 +163,78 @@
           
 
         countLike(); 
+		viewStore();
         countDisLike();
+		countView();
         load_comment();
         
 
+		
+		
+		
+		/* 
+  ***
+  Функция +  количесво view
+  ***
+    */
+    
+	/* 
+  ***
+  Функция + view
+  ***
+    */
+  
+      function viewStore(){
+      var news_id=$('#news_id').val();
+    $.ajax({
+   url:"/view/store",
+   method:"POST",
+   
+   data:{'post_id':news_id,'type_id':'4'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+       
+       if(data.error){
+        alert(data.error)
+       }
+       else{
+              
+           $('#view_c').html(data.count);
+       }
+    
+   }
+  })
+  };
+	
+  
+    function countView(){
+	
+   var news_id=$('#news_id').val();  
+   
+          $.ajax({
+   url:"/view/count/view",
+   method:"POST",
+   
+   data:{'post_id':news_id,'type_id':'4'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+	   
+	
+    
+        $('#view_c').html(data.count);
+    }
+  });
+    }
+  
+		
+		
+		
 
 
   $('#comment_form').on('submit', function(e){

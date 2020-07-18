@@ -27,6 +27,13 @@ class MainController extends Controller
            $query->where('email',$request->user['email']);
         
             }
+			
+			
+			if(!empty($request->user['id'])){
+				$id=User::select('id')->where('id',$request->user['id'])->get();
+             $query->whereIn('id',$id);
+        
+            }
             
             if(!empty($request->user['name'])){
            $query->where('name',$request->user['name']);
@@ -44,7 +51,17 @@ class MainController extends Controller
             }
             
             if(!empty($request->user['active'])){
+				
+				if($request->user['active']==5)
+				{
+				$id=User::select('id')->where('verified',0)->get();
+				
+				}
+				else
+				{
+				
                 $id=Person::select('user_id')->where('active',$request->user['active'])->get();
+				}
            $query->whereIn('id',$id);
         
             }
@@ -52,7 +69,7 @@ class MainController extends Controller
                 $query->where('created_at',$request->user['date_reg']);
         
             }
-             $users=$query->orderBy('id','desc')->paginate(3);
+             $users=$query->orderBy('id','desc')->paginate(100);
              
              
             
@@ -100,6 +117,9 @@ class MainController extends Controller
              return redirect()->route('admin.adminpanel');
              
     }
+	
+	
+	
     
     
 }

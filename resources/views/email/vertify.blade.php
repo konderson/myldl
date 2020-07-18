@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
  
  </head>
@@ -18,7 +18,7 @@
         </td>
     </tr>
 <tr>
-<td><a  style="color:blue;border:none;padding:8px;" href="{{ $link }}" target="_blank" rel="noopener">Подтвердить</a></a></td>
+<td><a  style="color:blue" href="{{ $link }}" target="_blank" rel="noopener">Подтвердить</a></a></td>
 </tr>
 </tbody>
 </table>

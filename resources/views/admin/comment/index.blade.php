@@ -26,8 +26,8 @@
 
 <div class="comments-filter">
 
-	<form id="comments-filter-send" method="post" accept-charset="utf-8">
-		<input type="hidden" name="ci_csrf_token" value="">
+	<form id="comments-filter-send" method="post" action="/admin/comment/filter" accept-charset="utf-8">
+		@csrf
 		
 		<!-- Header table -->
 		<div class="comments-filter-header">
@@ -42,13 +42,12 @@
 			
 			<!-- Sections Filter -->
 			<div class="comments-filter-input">
-				<div class="comments-filter-name">
-					<strong>Разделы:</strong>
-				</div>
+				
 				
 				<!--<script type="text/javascript">$('.selectpicker').selectpicker();</script>-->
 			</div><!-- End Sections Filter .comments-filter-input -->
-
+		
+           <input type="hidden" name="type_com" value="<?php echo isset($comments[0])? get_class($comments[0]):'none'?>"/>
 			<!-- Date Filter -->
 			<div class="comments-filter-input">
 				<div class="comments-filter-name">
@@ -125,18 +124,32 @@
 				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/diary/item/{{$comment->diary_id}}">Дневник</a></strong></div>
 						
 				@endif
-				@if(get_class($comment)==='App\CommenPoll')
+				@if(get_class($comment)==='App\CommentPoll')
 				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/poll/view/{{$comment->q_id}}">Опрос</a></strong></div>
 						
 				@endif
 				@if(get_class($comment)==='App\Future')
-				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/profile/future_business/index/{id}{{$comment->dela_id}}">Дела</a></strong></div>
+				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/profile/future_business/index/{{$comment->future_id }}">Будущие дела</a></strong></div>
 						
 				@endif
-				@if(get_class($comment)==='App\CommentDele')
-				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/delo/{{$comment->dela_id}}">Дела</a></strong></div>
+				@if(get_class($comment)==='App\CommentHelp')
+				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/searche/{{$comment->help_id}}">Взаимопомощь</a></strong></div>
 						
 				@endif
+				
+				
+				@if(get_class($comment)==='App\ComentService')
+					
+				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/usluga/{{$comment->service_id}}">Обьявление</a></strong></div>
+						
+			
+				@endif
+				@if(get_class($comment)==='App\CommentInter')
+				<div class="com-table-otstup"><strong style="border-bottom: 1px dashed green;"><a target="_blank" href="/interview/item/{{$comment->interview_id}}">Интервью</a></strong></div>
+						
+				
+				@endif
+				
 			</td>
 			<td>
 			@if(isset($comment->user_id))
@@ -148,7 +161,7 @@
 				<div class="com-table-otstup"><span style="font-size: 11px;">{{ Carbon\Carbon::parse($comment->created_at)->format('d.m.Y')}}</span></div>
 			</td>
 			<td id="k385" class="com_del" style="vertical-align: middle;">
-				<a href="http://test.myldl.ru/admin/comment?com_del=385#k385" title="Удалить"><img src="{{asset('asset/admin/resources/images/icons/cross.png')}}" alt="Delete" /></a>
+				<a href="/admin/comment/com_del?id={{$comment->id}}&type={{get_class($comment)}}" title="Удалить"><img src="{{asset('asset/admin/resources/images/icons/cross.png')}}" alt="Delete" /></a>
 			</td>
 		</tr>
 		

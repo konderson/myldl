@@ -55,7 +55,7 @@
                                 <div class="adv-inner-right inner-100">
                     <div class="awa-226 " style="background-image: url(/storage/help/{{$help->images}});"></div>
                     <p class="profile-info-p" style="margin-bottom: 8px; margin-top: 0;"><span>Дата публикации:</span> {{ Carbon\Carbon::parse($help->created_at)->format('d.m.Y') }}</p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> 9</p>
+                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> <span id="view_c">9</span></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Автор:</span> <a href="/user/{{$help->user->id}}">{{$help->user->name}}</a></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Город:</span> {{$help->city}}</p>
                     <p class="profile-info-p" style="margin-bottom: 8px;">E-mail: ...
@@ -177,11 +177,78 @@
 </script>
 <script>
     $(document).ready(function() {
+     
         
-        
-        
+        viewStore();
         load_comment();
+        countView();
         
+        
+		
+		
+		/* 
+  ***
+  Функция +  количесво view
+  ***
+    */
+    
+	/* 
+  ***
+  Функция + view
+  ***
+    */
+  
+      function viewStore(){
+      var help_id=$('#help_id').val();
+    $.ajax({
+   url:"/view/store",
+   method:"POST",
+   
+   data:{'post_id':help_id,'type_id':'3'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+       
+       if(data.error){
+        alert(data.error)
+       }
+       else{
+              
+           $('#view_c').html(data.count);
+       }
+    
+   }
+  })
+  };
+	
+  
+    function countView(){
+	
+   var help_id=$('#help_id').val();  
+   
+          $.ajax({
+   url:"/view/count/view",
+   method:"POST",
+   
+   data:{'post_id':help_id,'type_id':'3'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+	   
+	
+    
+        $('#view_c').html(data.count);
+    }
+  });
+    }
+  
+   
+		
+		
 
 
 

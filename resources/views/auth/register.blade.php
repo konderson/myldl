@@ -13,247 +13,160 @@
 <div class="sm-breadcrumb">
     <ol class="breadcrumb">
         <li><a href="/">Главная</a></li><li class="active">Регистрация</li>    </ol>
-</div><script src="https://myldl.ru/application/views/front/js/jquery.form.js"></script>
+</div><script src="{{asset('asset/front/js/jquery.form.js')}}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        var error_email = 1;
-        var error_pass_1 = 1;
-        var error_pass_2 = 1;
-        var error_name = 1;
-
-        var isCyrillic = function (text) {
-            return /[а-я]/i.test(text);
-        }
-
-        $('.BDC_CaptchaImageDiv, .BDC_CaptchaDiv').removeAttr('style');
-        $('#RegisterUserCaptcha_ReloadIcon').attr('src', 'asset/front/images/refresh.png');
-        $('#RegisterUserCaptcha_SoundIcon').attr('src', 'asset/front/images/voice-recording.png');
-
-        $("#email").bind('change input', function () {
-            var email = $(this).val();
-            $('input[name=check-2]').attr('checked', false);	//
-            $('#text_error_email').css("visibility", "hidden");	//
-            if (email != '') {
-                if (isValidEmailAddress(email)) {
-                    $("#validEmail").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                    error_email = 0;
-                } else {
-                    $("#validEmail").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                    error_email = 1;
-                }
-            } else {
-                $("#validEmail").css({"background-image": "none"});
-            }
-        });
-
-        function isValidEmailAddress(emailAddress) {
-            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-            return pattern.test(emailAddress);
-        }
-
-        $("#name").bind('change input', function () {
-            var name = $("#name").val();
+		
+		var name_error=1;
+		var email_error=1;
+		var pass_1_error=1;
+		var pass_2_error=1
+		var rules=1;
+		
+		
+		$("#check-2").change(function(){
+		    if(this.checked!=true)
+    {
+         rules=1;
+    }
+	else{
+	rules=0;
+	}
+	})
+		
+		$('#name').blur(function(){
+			var name = $("#name").val();
             $("#name").val(name.replace(/[^\w]/ig, ""));
             name = $("#name").val();
             if (name.length < 3 || name.length > 30) {
-                $("#valid_name").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                error_name = 1;
+                $("#valid_name").html('<span style="color:red">Не соотвествие имени</span> ');
+              name_error = 1;
             } else {
-                $("#valid_name").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                error_name = 0;
+                 $("#valid_name").html('<span style="color:green">OK</span> ');
+                name_error = 0;
             }
-        });
-
-        $("#pass_1").bind('change input', function () {
-            var pass_1 = $("#pass_1").val();
-            $("#len").text(pass_1.length);
-
-            var count_spaces = 0;
-
-            for (var i = 0; i < pass_1.length; i++) {
-                if (pass_1.charAt(i) === " ") {
-                    count_spaces++;
-                }
-            }
-
-            if (pass_1.length < 6 || (pass_1.length - count_spaces) <= 3 || isCyrillic(pass_1)) {
-                $("#valid_pass_1").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                error_pass_1 = 1;
-            } else {
-                $("#valid_pass_1").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                error_pass_1 = 0;
-            }
-        });
-
-
-        $("#pass_2").bind('change input', function () {
-            var pass1 = $("#pass_1").val();
-            var pass2 = $("#pass_2").val();
-
-            var count_spaces = 0;
-
-            for (var i = 0; i < pass2.length; i++) {
-                if (pass2.charAt(i) === " ") {
-                    count_spaces++;
-                }
-            }
-
-            if (pass1 !== pass2 ||
-                pass2.length < 6 || (pass2.length - count_spaces) <= 3) {
-                $("#valid_pass_2").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                error_pass_2 = 1;
-            } else {
-                $("#text_error_pass").text('');
-                $("#valid_pass_2").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                error_pass_2 = 0;
-            }
-        });
-
-        $("#kod").bind('change click input', function () {
-            $("#valid_captcha").css({"background-image": "none"});
-        });
-
-        $("input[name=check-2]").click(function () {
-            var errors = {},
-                sendDataMailObj = {},
-                sendDataNameObj = {},
-                hashNameID = $('#hashRegisterID').attr('name'),
-                hashID = $.cookie('hash_cookie_id');
-            sendDataMailObj[hashNameID] = hashID;
-            sendDataMailObj.email = $('input[name=email]').val();
-            sendDataNameObj[hashNameID] = hashID;
-            sendDataNameObj.name = $('input[name=name]').val();
-            $.when(
-                $.ajax({
-                    type: "POST",
-                    url: "https://myldl.ru/auth/ajax_check_email",
-                    data: sendDataMailObj,
-                    dataType: "html"
-                }),
-                $.ajax({
-                    type: "POST",
-                    url: "https://myldl.ru/auth/ajax_check_login",
-                    data: sendDataNameObj,
-                    dataType: "html"
-                })
-            ).done(function (r1, r2) {
-
-                var res_email = r1[0];
-                var res_login = r2[0];
-
-                if (res_email == "y") {
-                    errors.email = 'Такой e-mail уже есть в базе, используйте другой адрес, или воспользуйтесь восстановлением пароля';
-                }
-                if (res_email == "n") {
-                    if ($('input[name=email]').val() != '') {
-                        $('#text_error_email').css("visibility", "hidden");
-                    }
-                }
-
-
-                if (res_login == "y") {
-                    errors.login = 'Такой логин уже есть в базе, попробуйте другой!'
-                }
-                if (res_login == "n") {
-                    if ($('input[name=name]').val() != '') {
-                        $('#text_error_login').css("visibility", "hidden");
-                    }
-                }
-
-                if (Object.keys(errors).length > 0) {
-                    if ('login' in errors) {
-                        $("#valid_name").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                        $('#text_last_error').html(errors.login);
-                    } else {
-                        $("#valid_name").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                    }
-                    if ('email' in errors) {
-                        $("#validEmail").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                        $('#text_last_error').html(errors.email);
-                    } else {
-                        $("#validEmail").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                    }
-                    $('#text_last_error').css('visibility', 'visible');
-                    $('input[name=check-2]').prop('checked', false);
-                } else {
-                    $('#text_last_error').css('visibility', 'hidden');
-                    if ($('#name').val()) {
-                        $("#valid_name").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                    }
-                    if ($('#email').val()) {
-                        $("#validEmail").css({"background-image": "url('https://myldl.ru/application/views/front/images/validyes.png')"});
-                    }
-                }
-            });
-
-
-        });
-
-
-        $("#check_before_send").click(function (e) {
-            e.preventDefault();
-            if ($("input[name=check-2]").prop("checked")) {
-                if (error_name == 1) {
-                    alert('Заполните поле "Имя" !');
-                    $("#valid_name").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                    return;
-                }
-                if (error_email == 1 || $('input[name=email1]').val() == '') {
-                    alert('Укажите валидный email !');
-                    $("#validEmail").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                    return;
-                }
-                if (error_pass_1 == 1) {
-                    alert('Введите валидный пароль !');
-                    $("#valid_pass_1").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                    $("#valid_pass_2").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                    return;
-                }
-                if (error_pass_2 == 1) {
-                    alert('Пароли не совпадают !');
-                    $("#valid_pass_1").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                    $("#valid_pass_2").css({"background-image": "url('https://myldl.ru/application/views/front/images/validno.png')"});
-                    return;
-                }
-
-                console.log(error_name)
-                console.log(error_email)
-                console.log(error_pass_1)
-                console.log(error_pass_2)
-                if (error_name == 0 & (error_email == 0 &&
-                        $('input[name=email1]').val() != '') &&
-                    error_pass_1 == 0 &&
-                    error_pass_2 == 0
-                ) {
-                    $('#hashRegisterID').val($.cookie('hash_cookie_id'));
-                    $('#register_form').ajaxSubmit({
-                        url: $(this).attr('action'),
-                        data: $(this).serialize(),
-                        method: 'POST',
-                        success: function (res) {
-                            var data = jQuery.parseJSON(res);
-                            if (data.result) {
-                                window.location = "https://myldl.ru/auth/registration_ok";
-                            }
-                        },
-                        error: function (xhr) {
-                            if (xhr.status == 400) {
-                                var data = jQuery.parseJSON(xhr.responseText);
-                                var keys = Object.keys(data.messages);
-                                // Отображаем лишь первую ошибку (чтоб не завалить юзера)
-                                var msg = data.messages[keys[0]][0];
-                                alert(msg);
-                            } else {
-                                alert('Неизвестная ошибка!');
-                            }
-                            $('#RegisterUserCaptcha_ReloadLink').trigger('click');
+		});
+		
+		$('#email').blur(function(){
+			
+    var email = $("#email").val();
+		if(isValidEmailAddress(email))
+		{
+			$.ajax({
+        url:'/check/email',
+      type: 'POST', 
+       headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+        data: {'email':email},
+      success: function(data){
+        if(data==='ok'){
+           
+  $("#validEmail").html('<span style="color:green">OK</span> ');
+			email_error=0;
+                    }else{
+    $("#validEmail").html('<span style="color:red">Данный emal уже используется системой</span> ');
+  
+                   email_error=1; 
                         }
-                    });
-                }
+      },
+       
+    });
+			
+		}
+		else{
+		$("#validEmail").html('<span style="color:red">Не соотвествие email</span> ');
+		email_error=1;
+		}
+		});
+		
+		function isValidEmailAddress(emailAddress) {
+    var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    return pattern.test(emailAddress);
+    }
+		
+		$('#pass_1').blur(function(){
+		var pass1=$("#pass_1").val();
+		
+		if (pass1.length < 6 ) {
+                $("#valid_pass_2").html('<span style="color:red">Не соотвествие пароля - пароль должен содержать больше 6 цифр</span> ');
+               pass_1_error = 1;
             } else {
-                alert('Пожалуйста, приймите условия соглашения !');
+                 $("#valid_pass_2").html('');
+                pass_1_error = 0;
             }
-        });
+			
+			var pass2 = $("#pass_2").val();
+			var pass1 = $("#pass_1").val();
+			if(pass1==pass2)
+			{
+				if(pass_1_error==0){
+				$("#valid_pass_2").html('<span style="color:green">OK</span> ');
+				 pass_1_error=0;
+		         pass_2_error=0;
+				}
+			}
+		});
+		
+		$('#pass_2').blur(function(){
+			
+			if(pass_1_error==1)
+			{
+		      $("#valid_pass_2").html('<span style="color:red">Не соотвествие пароля - пароль должен содержать больше 6 цифр</span> ');
+			}
+			var pass2 = $("#pass_2").val();
+			var pass1 = $("#pass_1").val();
+			if(pass1==pass2)
+			{
+				if(pass_1_error==0){
+				$("#valid_pass_2").html('<span style="color:green">OK</span> ');
+				 pass_1_error=0;
+		         pass_2_error=0;
+				}
+			}
+			else
+			{
+				 $("#valid_pass_2").html('<span style="color:red">Пороли не совподают</span> ');
+				
+		         pass_2_error=1;
+			}
+		});
+		
+		   
+		
+		$("#reg_form").submit(function( event ) {
+           if(name_error==1)
+		   {
+			   alert('Ошибка в поле логин');
+			   event.preventDefault();
+		   }
+		   if(email_error==1)
+		   {
+			   alert('Ошибка в поле E-Mail');
+			   event.preventDefault();
+		   }
+		   if(pass_1_error==1)
+		   {
+			    alert('Ошибка пороля');
+			   event.preventDefault();
+		   }
+		   if(pass_2_error==1)
+		   {
+			   alert('Ошибка пороля');
+			   event.preventDefault();
+		   }
+
+		   if(rules==1)
+		   {
+			  alert('Пожалуйста, приймите условия соглашения !');
+			   event.preventDefault();
+		   }
+
+    
+		           
+});
+		
+		
 
     });
 </script>
@@ -267,7 +180,7 @@
 </style>
 
 <section style="padding-right: 0; padding-left: 0;">
-	<form action="{{route('register')}}" method="POST"  class="signup">
+	<form action="{{route('register')}}" method="POST"  id="reg_form"  class="signup">
 	     {{ csrf_field() }}
 		<span class="reg-title">Регистрация пользователя</span>
 		<div class="reg">

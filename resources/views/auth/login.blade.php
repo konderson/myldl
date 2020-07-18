@@ -25,7 +25,7 @@
 </style>
 
 <section style="padding-right: 0; padding-left: 0;">
-	<form action=" action="{{route('login')}}"" method="POST"  class="signup">
+	<form action="{{route('login')}}" method="POST"  class="signup">
 	     {{ csrf_field() }}
 		<span class="reg-title">Вход</span></span>
 		<div class="reg">

@@ -327,9 +327,9 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
 	                    <option value="4" <?php if($serv->razdel_id==4) echo 'selected="selected"' ?>>Вещи</option>
 	                    <option value="5" <?php if($serv->razdel_id==5) echo 'selected="selected"' ?>>Для быта</option>
 	                    <option value="6" <?php if($serv->razdel_id==6) echo 'selected="selected"' ?>>Бытовая электроника</option>
-	                    <option value="7" <?php if($serv->razdel_id==8) echo 'selected="selected"' ?>>Хобби и отдых</option>
-	                    <option value="8" <?php if($serv->razdel_id==9) echo 'selected="selected"' ?>>Животные</option>
-	                    <option value="9" <?php if($serv->razdel_id==2) echo 'selected="selected"' ?>>Бизнес</option>  
+	                    <option value="7" <?php if($serv->razdel_id==7) echo 'selected="selected"' ?>>Хобби и отдых</option>
+	                    <option value="8" <?php if($serv->razdel_id==8) echo 'selected="selected"' ?>>Животные</option>
+	                    <option value="9" <?php if($serv->razdel_id==9) echo 'selected="selected"' ?>>Бизнес</option>  
 	                    </select>
                 </div>
             </div>

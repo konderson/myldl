@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE11" />
 	<meta name="http-equiv=Cache-Control" content="content=no-cache" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="yandex-verification" content="bf64b65f48a8d53f" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
         @if(Auth::check())
         <meta name="user-id" content="{{ Auth::user()->id }}">

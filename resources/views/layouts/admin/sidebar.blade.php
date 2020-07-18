@@ -102,7 +102,7 @@
 					</ul>
 				</li>
 				<li>
-					<a href="/event_ribbon_profile" class="nav-top-item no-submenu ">Лента событий</a>
+					<a href="/admin/event_ribbon_profile" class="nav-top-item no-submenu ">Лента событий</a>
 				</li>
 				<li>
 					<a href="#" class="nav-top-item ">Поиск по сайту</a>

@@ -12,6 +12,8 @@ use App\SeoText;
 use App\News;
 use App\City;
 use App\SQuestions;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMaail;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -378,5 +380,30 @@ echo  $result;
         
         return view ('/search',compact('output','skey'));
     }
-    
+	
+	public function site_rules()
+	{
+		return view('site_rules');
+	}
+    public function checkEmail(Request $request)
+	{
+		$user_count=User::where('email',$request->email)->count();
+		
+		if($user_count>0)
+		{
+			echo 'bad';
+		}
+		else
+		{
+			echo 'ok';
+		}
+	}
+	public function testSend()
+	{
+	$comment = 'Это сообщение отправлено из формы обратной связи';
+    $toEmail = "konderson97@gmail.com";
+	$comment="<a href='/coment'>Подтвердить</a>";
+    Mail::to($toEmail)->send(new TestMaail($comment));
+    //return 'Сообщение отправлено на адрес '. $toEmail;
+	}
 }

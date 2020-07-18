@@ -3,7 +3,7 @@
 								<tr>
 									<td>{{$user->id}}</td>
 									<td>{{$user->name}}</td>
-									<td><a href="/admin/user_edit/{{$user->id}}">{{$user->email}}</a></td>
+									<td><a href="/admin/user/edit/{{$user->id}}">{{$user->email}}</a></td>
 									<td>{{$user->mob_tel}}</td>
 									<td>{{ Carbon\Carbon::parse($user->created_at)->format('d.m.Y') }}</td>
 									@if(!empty($user->person->active))
@@ -35,3 +35,4 @@
 									</td>
 								</tr>
 							@endforeach
+							

@@ -10,4 +10,10 @@ class CommentHelp extends Model
   {
     return $this->belongsTo('App\User');
   }
+  
+   public function helps(){
+     
+    return $this->belongsTo('App\Help','help_id');
+  
+    }
 }

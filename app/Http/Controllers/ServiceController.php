@@ -183,7 +183,7 @@ class ServiceController extends Controller
      
    public function  getService($id){
        
-       $serv=Service::where('id',$id)->first();
+       $serv=Service::findOrFail($id);
         $services=Service::orderBy('id','desc')->limit(5)->get();
             
         

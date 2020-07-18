@@ -17,8 +17,7 @@ Route::get('/login', function () {
 
 Route::get('/','MainController@index')->name('main.index')->middleware(['verified']);
 Route::get('/search','MainController@search')->name('search');
-
-
+Route::get('/site_rules','MainController@site_rules');
 
 Route::get('/profile/index','ProfileController@index')->name('profile.index')->middleware(['verified','auth']);
 Route::get('/profile/profile_view','ProfileController@profileView')->name('profile.view')->middleware(['verified','auth']);;
@@ -159,6 +158,8 @@ Route::get('/error/block','MainController@errorBlock');
 Route::get('/error/ublock','MainController@errorUBlock');
 Route::get('/error/delete','MainController@errorDelete');
 Route::get('/about','MainController@about');
+
+Route::get('/send-email', 'MainController@testSend');
 
 Route::post('/answer/add', 'AnswerController@add')->name('adminpanel.answer.add');
 Route::get('/poll/view/{id}','AnswerController@show')->name('poll.show');
@@ -306,6 +307,13 @@ Route::get('/appeil/index/delo', 'AppeilController@getDeloAppeil')->name('adminp
 Route::get('/appeil/show/{id}', 'AppeilController@show');
 Route::post('/appeil/chenge_status', 'AppeilController@chengeStatus')->name('adminpanel.appeal.status');
 
+Route::get('/event_ribbon_profile', 'EventController@index');
+Route::get('/get/event/type', 'EventController@index');
+Route::get('/event_ribbon_profile_set/{id}', 'EventController@edit');
+Route::put('/event_ribbon_profile/update', 'EventController@update');
+Route::get('/event_ribbon_profile_del/{id}', 'EventController@delete');
+
+
 Route::get('/comment/news', 'CommentController@getNewsComment');
 Route::get('/comment/project', 'CommentController@getProjectComment');
 Route::get('/comment/diary', 'CommentController@getDiaryComment');
@@ -315,6 +323,9 @@ Route::get('/comment/dela', 'CommentController@getDeleComment');
 Route::get('/comment/help', 'CommentController@getHelpComment');
 Route::get('/comment/service', 'CommentController@getServiceComment');
 Route::get('/comment/interview', 'CommentController@getInterComment');
+Route::get('/comment/com_del', 'CommentController@delete');
+Route::post('/comment/filter', 'CommentController@filter');
+
 
 
 
@@ -336,6 +347,7 @@ Route::post('/ajax_social_questions_settings', 'SQuestionsController@setings');
 
 
 
+
 Route::get('/contacts','MessageController@get')->middleware(['verified','auth']);;
 Route::get('/profile/messages','MessageController@index')->middleware(['verified','auth']);;
 Route::get('/conversation/{id}','MessageController@getMessagesFor')->middleware(['verified','auth']);;
@@ -343,7 +355,18 @@ Route::post('/read','MessageController@read')->middleware(['verified','auth']);;
 Route::post('/conversation/send','MessageController@save')->middleware(['verified','auth']);;
 Route::post('/contact/delete','MessageController@deleteContact')->middleware(['verified','auth']);;
 Route::post('/message/delete','MessageController@deleteMessage')->middleware(['verified','auth']);;
-Route::get('activate/{id}/{token}', 'VertifyController@activation')->name('activation')->middleware(['verified','auth']);;
+Route::get('activate/{id}/{token}', 'VertifyController@activation')->name('activation');
+Route::post('/check/email', 'MainController@checkEmail');
+
+Route::get('/import/user','ImportController@importUser');
+Route::get('/import/dela','ImportController@importDela');
+Route::get('/import/dela/coment','ImportController@comentImportDela');
+Route::get('/import/dela/like','ImportController@likeImportDela');
+Route::get('/import/dela/featured','ImportController@importFeaturedVsPartic');
+Route::get('/import/services','ImportController@importSevices');
+Route::get('/import/serv/coment','ImportController@comentImportServ');
+
+
 Auth::routes();
 //Route::get('/', 'MainController@index');
 //Route::get('/home', 'HomeController@index')->name('home');

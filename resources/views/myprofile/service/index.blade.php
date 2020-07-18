@@ -49,11 +49,22 @@
                                 <div class="adv-inner-right inner-100">
                     <div class="awa-226 " style="background-image: url(/storage/help/{{$serv->getPhoto($serv->images)}});"></div>
                     <p class="profile-info-p" style="margin-bottom: 8px; margin-top: 0;"><span>Дата публикации:</span> {{ Carbon\Carbon::parse($serv->created_at)->format('d.m.Y') }}</p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> 9</p>
+                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> <span id="view_c">9</span></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Автор:</span> <a href="/user/{{$serv->user->id}}">{{$serv->user->name}}</a></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Город:</span> {{$serv->city}}</p>
                     <p class="profile-info-p" style="margin-bottom: 8px;">Раздел: 
-                                                    {{$serv->razdel_id}}                     </p>
+                                                   <?php if($serv->razdel_id==1) echo 'Транспорт' ?>      
+                                                     <?php if($serv->razdel_id==2) echo 'Недвижимость' ?>  
+													 <?php if($serv->razdel_id==3) echo 'Работа' ?>  
+													 <?php if($serv->razdel_id==4) echo 'Вещи' ?>  
+													 <?php if($serv->razdel_id==5) echo 'Для быта' ?>  
+                                                     <?php if($serv->razdel_id==6) echo 'Бытовая электроника' ?>  
+													 <?php if($serv->razdel_id==7) echo 'Хобби и отдых' ?>  
+													 <?php if($serv->razdel_id==8) echo 'Животные' ?> 
+                                                     <?php if($serv->razdel_id==8) echo 'Бизнес' ?>  													 
+
+
+												   </p>
                     <p class="profile-info-p" style="margin-bottom: 8px;">Телефон: <?php  if($serv->phone==null) echo('не указан')?>
                                                     {{$serv->phone}}                                           </p>
                     <p class="profile-info-p">Цена: <?php if($serv->price==0) echo('Бесплатно')?> {{$serv->price}}
@@ -118,7 +129,7 @@
 	                    <div class="wmCommentMesBlock">
                 <textarea class="input-comment"    name="comment_content" id="comment_content"    placeholder="  Коментарии ..."></textarea>
                 <input type="hidden" name="comment_id" id="comment_id" value="0" />
-                <input type="hidden" id="serv_id" name="serv_id" value="{{$lserv->id}}"/>
+                <input type="hidden" id="serv_id" name="serv_id" value="{{$serv->id}}"/>
             </div>
             <input type="submit" value="Комментировать" name="send_comment"/>
         </div>
@@ -131,7 +142,7 @@
 
 </section>
 
-<script src="https://myldl.ru/application/views/front/js/LDL_Comments.js"></script>
+
 
 
 <script>
@@ -148,10 +159,10 @@
 <script>
     $(document).ready(function() {
         
-        
-        
+       
+        countView();
         load_comment();
-        
+        viewStore();
 
 
 
@@ -194,10 +205,63 @@
 
 /* 
   ***
-  Функция +  количесво like
+  Функция +  количесво view
+  ***
+    */
+    
+	/* 
+  ***
+  Функция + view
   ***
     */
   
+      function viewStore(){
+      var serv_id=$('#serv_id').val();
+    $.ajax({
+   url:"/view/store",
+   method:"POST",
+   
+   data:{'post_id':serv_id,'type_id':'2'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+       
+       if(data.error){
+        alert(data.error)
+       }
+       else{
+              
+           $('#view_c').html(data.count);
+       }
+    
+   }
+  })
+  };
+	
+  
+    function countView(){
+	
+   var serv_id=$('#serv_id').val();  
+   
+          $.ajax({
+   url:"/view/count/view",
+   method:"POST",
+   
+   data:{'post_id':serv_id,'type_id':'2'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+	   
+	
+    
+        $('#view_c').html(data.count);
+    }
+  });
+    }
   
    
   

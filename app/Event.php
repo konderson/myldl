@@ -11,10 +11,12 @@ class Event extends Model
     return $this->belongsTo('App\User','user_id');
   }
   
-      public function type()
+      public function typeEvent()
   {
      
     return $this->belongsTo('App\EventType','type_id');
   }
+  
+  
   
 }

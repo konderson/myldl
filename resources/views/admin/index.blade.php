@@ -38,10 +38,11 @@
 								<th><input type="edit" name="user[date_reg]" placeholder="Дата регистрации" value="" style="width:140px;" class="srchtxt"></th>
 								<th colspan="2"><select name="user[active]" style="width:100%" class="srchsel">
 								<option value="">Все</option>
-								<option value="1" >Не подтвержден<img src="{{asset('asset/admin/resources/images/icons/exclamation.png')}}" title="Не подтвержден" /></option>
-								<option value="2" >Активный<img src="{{asset('asset/admin/resources/images/icons/tick_circle.png')}}" title="Активный" /></option>
-								<option value="3" >Заблокирован<img src="{{asset('asset/admin/resources/images/icons/cross_sircle.png')}}" title="Заблокирован" /></option>
-								<option value="4" >Заблокирован по собственному желанию<img src="{{asset('asset/admin/resources/images/icons/cross_sircle.png')}}" title="Заблокирован по собственному желанию"/></option>
+								<option value="5" >Не подтвержден<img src="{{asset('asset/admin/resources/images/icons/exclamation.png')}}" title="Не подтвержден" /></option>
+								<option value="1" >Активный<img src="{{asset('asset/admin/resources/images/icons/tick_circle.png')}}" title="Активный" /></option>
+								<option value="2" >Заблокирован<img src="{{asset('asset/admin/resources/images/icons/cross_sircle.png')}}" title="Заблокирован" /></option>
+								<option value="3" >Заблокирован по собственному желанию<img src="{{asset('asset/admin/resources/images/icons/cross_sircle.png')}}" title="Заблокирован по собственному желанию"/></option>
+								<option value="4" >Удален по собственному желанию<img src="{{asset('asset/admin/resources/images/icons/cross_sircle.png')}}" title="Заблокирован по собственному желанию"/></option>
 								</select></th>
 								<th></th>
 							</tr>
@@ -59,16 +60,16 @@
 							</thead>
 
 							<tbody id="data">
-
+                                
                             @foreach($users as $user)
 
 								<tr>
 									<td>{{$user->id}}</td>
 									<td>{{$user->name}}</td>
-									<td><a href="/admin/user_edit/{{$user->id}}">{{$user->email}}</a></td>
-									<td>{{$user->mob_tel}}</td>
+									<td><a href="/admin/user/edit/{{$user->id}}">{{$user->email}}</a></td>
+									<td>{{$user->person->mob_tel}}</td>
 									<td>{{ Carbon\Carbon::parse($user->created_at)->format('d.m.Y') }}</td>
-									@if(!empty($user->person->active))
+									
 									@if($user->person->active==3)
 									<td><img src="{{asset('asset/admin/resources/images/icons/cross_circle.png')}}" title="Заблокирован по собственному желанию" />
 									</td>
@@ -88,10 +89,10 @@
 									</td>
 									@endif
 									
-									@endif
+									
 									<td>
 										<!-- Icons -->
-										<a href="#messages_send" rel="modal" onclick="show_email_name('<? echo $user->email?>', '<? echo $user->name?>')" title="Отправить сообщение"><img src="{{asset('asset/admin/resources/images/icons/mail.png')}}" alt="Edit" /></a>&nbsp;&nbsp;&nbsp;
+										<a href="#messages_send" rel="modal" onclick="show_email_name('<?php echo $user->email?>', '<?php echo $user->name?>')" title="Отправить сообщение"><img src="{{asset('asset/admin/resources/images/icons/mail.png')}}" alt="Edit" /></a>&nbsp;&nbsp;&nbsp;
 										<a href="user/edit/{{$user->id}}" title="Редактировать"><img src="{{asset('asset/admin/resources/images/icons/pencil.png')}}" alt="Edit" /></a>&nbsp;&nbsp;&nbsp;
 										<a onclick="myFunction()" href="/admin/user/delete/{{$user->id}}" title="Удалить"><img src="{{asset('asset/admin/resources/images/icons/cross.png')}}" alt="Delete" /></a>
 									</td>
@@ -100,7 +101,7 @@
 								
 							</tbody>
 
-							<tfoot>
+							<tfoot id="fbody">
 
 								<tr>
 									<td colspan="6" style="text-align: center;">
@@ -154,7 +155,9 @@ else
 				console.log(link);
 		
 				$.ajax({url: 'user/filter'+link, success: function(result){
+					//console.log("Res "+result);
 				    $('#data').empty().html(result);
+					 $('#fbody').empty().html('');
 				//var resultHtmlBody = $(result).find('div.content-box-content').html();
 				
 				//$('div.content-box-content').html(resultHtmlBody);	
@@ -174,8 +177,8 @@ else
 				console.log(link);
 		
 				$.ajax({url: 'user/filter'+link, success: function(result){
-				var resultHtmlBody = $(result).find('div.content-box-content').html();
-				$('div.content-box-content').html(resultHtmlBody);	
+				 $('#data').empty().html(result);	
+				 $('#fbody').empty().html('');
 				}});
 	});	
 
