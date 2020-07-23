@@ -355,7 +355,7 @@ Route::post('/read','MessageController@read')->middleware(['verified','auth']);;
 Route::post('/conversation/send','MessageController@save')->middleware(['verified','auth']);;
 Route::post('/contact/delete','MessageController@deleteContact')->middleware(['verified','auth']);;
 Route::post('/message/delete','MessageController@deleteMessage')->middleware(['verified','auth']);;
-Route::get('activate/{id}/{token}', 'VertifyController@activation')->name('activation');
+Route::get('/activate/{id}/{token}', 'VertifyController@activation')->name('activation');
 Route::post('/check/email', 'MainController@checkEmail');
 
 Route::get('/import/user','ImportController@importUser');
@@ -365,6 +365,32 @@ Route::get('/import/dela/like','ImportController@likeImportDela');
 Route::get('/import/dela/featured','ImportController@importFeaturedVsPartic');
 Route::get('/import/services','ImportController@importSevices');
 Route::get('/import/serv/coment','ImportController@comentImportServ');
+
+Route::get('/import/news','ImportController@importNews');
+Route::get('/import/news/coment','ImportController@comentImportNews');
+Route::get('/import/news/like','ImportController@likeImportNews');
+
+Route::get('/import/help','ImportController@importHelp');
+Route::get('/import/help/view','ImportController@importHelpView');
+Route::get('/import/help/coment','ImportController@importHelpComent');
+
+Route::get('/import/diary','ImportController@importDiary');
+Route::get('/import/diary/coment','ImportController@importDiaryComent');
+Route::get('/import/diary/like','ImportController@importDiaryLike');
+
+
+Route::get('/import/project','ImportController@importProject');
+Route::get('/import/project/coment','ImportController@importProjectComent');
+Route::get('/import/project/like','ImportController@importProjectLike');
+
+Route::get('/import/inter','ImportController@importInterview');
+Route::get('/import/inter/coment','ImportController@importInterviewComent');
+Route::get('/import/inter/like','ImportController@importInterviewLike');
+
+Route::get('/import/seotext','ImportController@importSeoText');
+
+Route::get('/import/squest','ImportController@importSQuest');
+Route::get('/import/answer','ImportController@importAnswer');
 
 
 Auth::routes();

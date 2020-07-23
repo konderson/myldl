@@ -73,7 +73,15 @@ class CommentInterController extends Controller
         foreach($coments as $comment){
            $img='';
            if($comment->user_id!=null){
-              $img=$comment->user->person->avatar;  
+			   if(isset($comment->user->person->avatar))
+			   {
+	               $img=$comment->user->person->avatar; 
+			   }
+			   else{
+				   
+				   $img='default.png';  
+			   }
+              
            }
            else{
                $img='noimg.png';

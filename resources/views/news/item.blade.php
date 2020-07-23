@@ -29,8 +29,8 @@
 						
 <img src="{{asset('asset/front/images/like.png')}}" class="stat-item thumbs-up likebut" section_id="12" post_id="{{$news->id}}"/>
 <span id="like_c{{$news->id}}">{{$news->likeCount($news->id)}}</span>
-<img src="{{asset('asset/front/images/like.png')}}" class="stat-item thumbs-down dislikebut" section_id="12" post_id="{{$news->id}}"/>
-<span id="dislike_c{{$news->id}}">{{$news->dislikeCount($news->id)}}</span>                        
+<img src="{{asset('asset/front/images/dislike.png')}}" class="stat-item thumbs-down dislikebut" section_id="12" post_id="{{$news->id}}"/>
+<span   style="color:red"id="dislike_c{{$news->id}}">{{$news->dislikeCount($news->id)}}</span>                        
                         <img src="{{asset('asset/front/images/comments.png')}}"/>
                         <span id="count_com" >{{$news->getCount($news->id)}}</span>
                     <img src="{{asset('asset/front/images/views.png')}}"/>

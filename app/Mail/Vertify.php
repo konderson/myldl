@@ -33,7 +33,8 @@ class Vertify extends Mailable
             'token' => md5($this->user->email)
         ]);
 
-        return $this->from('myldl2020@yandex.ru')
+        return $this
+		->from('larmyldl@mail.com')
 		->subject('Подтверждение регистрации пользователя на сайте')
         ->view('email.vertify')->with([
                 'link' => $activationLink

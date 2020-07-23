@@ -62,8 +62,8 @@ class AnswerController extends Controller
                 
                 
                 $resultr=$this->getResult($q_i).$output;
-                return $resultr;
-                return redirect()->route('poll.view',$q_i)->with( ['data' =>$resultr ] );
+                //return $resultr;
+                return redirect()->route('poll.show',$q_i)->with( ['data' =>$resultr ] );
                  }
     
     
@@ -145,6 +145,8 @@ class AnswerController extends Controller
     
     
     public function show($q_i){
+		
+		
         
                 $output='';
          $error=0;

@@ -9,10 +9,12 @@ class VertifyController extends Controller
 {
     public function activation($userId, $token)
 {
+	 
     $user = User::findOrFail($userId);
-
+     
     // Check token in user DB. if null then check data (user make first activation).
     if (is_null($user->token)) {
+	
         // Check token from url.
         if (md5($user->email) == $token) {
             // Change status and login user.

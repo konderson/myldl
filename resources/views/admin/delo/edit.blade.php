@@ -26,17 +26,17 @@
 								<p><input class="text-input small-input" type="text" name="nazva" value="{{$delo->nazva}}" /> <span class="input-notification success">Название</span> <!-- Classes for input-notification: success, error, information, attention --></p>
 								<p><label>Описание</label><textarea name="opisanie">{{$delo->opisanie}}</textarea></p>
 								<p><label>Тип</label>
-								   <input name="tip" type="radio" value="1" <?if($delo->tip==1)  echo "checked"  ?> > Индивидуальное&nbsp;&nbsp;&nbsp;
-								   <input name="tip" type="radio" value="2" <?if($delo->tip==2) echo "checked"?> > Коллективное								
+								   <input name="tip" type="radio" value="1" <?php if($delo->tip==1)  echo "checked"  ?> > Индивидуальное&nbsp;&nbsp;&nbsp;
+								   <input name="tip" type="radio" value="2" <?php if($delo->tip==2) echo "checked"?> > Коллективное								
 								</p><label>Вход в дело</label>
-								<p><input name="vhod_v_delo" type="radio" value="1" <?if($delo->vhod_v_delo==1) echo "checked"?> checked> Открыто всем&nbsp;&nbsp;&nbsp;
-								   <input name="vhod_v_delo" type="radio" value="2" <?if($delo->vhod_v_delo==2) echo "checked"?> > По запросу								
+								<p><input name="vhod_v_delo" type="radio" value="1" <?php if($delo->vhod_v_delo==1) echo "checked"?> checked> Открыто всем&nbsp;&nbsp;&nbsp;
+								   <input name="vhod_v_delo" type="radio" value="2" <?php if($delo->vhod_v_delo==2) echo "checked"?> > По запросу								
 								</p>
 								<p>
 									<label>Статус</label>
 									<select name="status" class="small-input">
-										 	<option value="1"  <?if($delo->status==1) echo 'selected="selected"'?>>Открыто</option>
-														<option value="0"  <?if($delo->status==0) echo 'selected="selected"'?>>Закрыто</option>									</select> 
+										 	<option value="1"  <?php if($delo->status==1) echo 'selected="selected"'?>>Открыто</option>
+														<option value="0"  <?php if($delo->status==0) echo 'selected="selected"'?>>Закрыто</option>									</select> 
 								</p>
 								<p><input class="text-input small-input" type="text" name="country" value="{{$delo->country->name}}" /> <span class="input-notification success">Страна</span></p>
 								<p><input class="text-input small-input" type="text" name="city" value="{{$delo->city}}" /> <span class="input-notification success">Город</span></p>

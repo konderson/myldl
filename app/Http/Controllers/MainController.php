@@ -18,6 +18,7 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Frend;
+use App\Person;
 
 class MainController extends Controller
 {
@@ -31,26 +32,38 @@ class MainController extends Controller
             $join->on('users.id', '=', 'people.user_id')
                  ->where('people.help', '=', 'want');
         })->get();*/
-        $users_wont = User::with('person')->whereHas('person', function ($query) {
+	
+       /*$users_wont = User::with('person')->whereHas('person', function ($query) {
    $query->where('help', 'want');
+   
+    return $query->take(10);
 })->limit(10)->get();
+*/
+
+$users_wont=Person::where('help', 'want')->orderBy('id','desc')->limit(10)->get();
+
+
     
     $help_need=Help::where('type',1)->where('status',1)->orderBy('created_at','desc')->limit(7)->get();
     $help_wont=Help::where('type',2)->where('status',1)->orderBy('created_at','desc')->limit(6)->get();
     $help_search=Help::where('type',3)->where('status',1)->orderBy('created_at','desc')->limit(7)->get();
     $delas=Dela::where('status',1)->orderBy('created_at','desc')->limit(7)->get();
     $news=News::orderBy('flag','desc')->orderBy('created_at','desc')->limit(6)->get();
+	
     
     $services=Service::orderBy('created_at','desc')->limit(5)->get();
-    $users_need = User::with('person')->whereHas('person', function ($query) {
+   /* $users_need = User::with('person')->whereHas('person', function ($query) {
    $query->where('help', 'need');
 })->limit(10)->get();
-
-  $users= User::with('person')->whereHas('person', function ($query) {
+*/
+$users_need=Person::where('help', 'need')->orderBy('id','desc')->limit(10)->get();
+  /*$users= User::with('person')->whereHas('person', function ($query) {
    $query->orderBy('created_at','desc');
-})->limit(10)->get();
+})->limit(10)->get();*/
+ $users=Person::orderBy('id','desc')->limit(10)->get();
+
     
-    $st=SeoText::where('url','/')->first();
+    $st=SeoText::where('url','home')->first();
     
     
    $quest=$this->getQuest();

@@ -37,9 +37,9 @@
                 <div class="owl-carousel owl-theme" id="owl-person-need_help">
                               @foreach($users_need as $us_n )            
                                 <div class="person">
-                            <a href="/user/{{$us_n->id}}">
-                                <div class="img" style="background-image: url(/storage/avatar/{{$us_n->person->avatar}})"></div>
-                                <span class="job">{{$us_n->name}}</span>
+                            <a href="/user/{{$us_n->user_id}}">
+                                <div class="img" style="background-image: url(/storage/avatar/{{$us_n->avatar}})"></div>
+                                <span class="job">{{$us_n->user->name}}</span>
                                 <span title="Рейтинг" class="job" style="background-color: #3389bb; max-width: 20%;">0</span>
                             </a>
                             <!-- <span class="person-name"></span> -->
@@ -90,9 +90,9 @@
                 <div class="owl-carousel owl-theme" id="owl-person-want_help">
                       @foreach($users_wont as $us_w  )            
                                 <div class="person">
-                            <a href="/user/{{$us_w->id}}">
-                                <div class="img" style="background-image: url(/storage/avatar/{{$us_w->person->avatar}})"></div>
-                                <span class="job">{{$us_w->name}}</span>
+                            <a href="/user/{{$us_w->user_id}}">
+                                <div class="img" style="background-image: url(/storage/avatar/{{$us_w->avatar}})"></div>
+                                <span class="job">{{$us_w->user->name}}</span>
                                 <span title="Рейтинг" class="job" style="background-color: #3389bb; max-width: 20%;">0</span>
                             </a>
                             <!-- <span class="person-name"></span> -->
@@ -209,7 +209,7 @@
                         </div>
                         <div class="price-info">
                             <p><span>{{$serv->price}}Р</span></p>
-                             <p>Город: <span>{{$serv->City->name}}</span></p>
+                             <p>Город: <span>{{$serv->city}}</span></p>
                         </div>
                     </div>
                     @endforeach
@@ -311,38 +311,17 @@
     </style>
 
  
-        <a href="https://myldl.ru/poll" class="title">Опрос</a>
+        <a href="/poll" class="title">Опрос</a>
         <form class="survey-body" id="q_get_submit" action="/answer/add/" method="post">
             @csrf
         {!!$quest!!}
-    
+          </form>
 
     <!-- ---------------- END Баннер Соц. Опросов ---------------- -->
 
             </div>
         <div class="right">
-            <div class="search-person">
-                <a href="/naxodki" class="title" style="padding-bottom: 0px; border-bottom: 0px;">Ищу человека</a>
-                <div class="search-person-body">
-                    @foreach($help_search as $hs)
-                    <div class="owl-carousel owl-theme" id="owl-search-person">
-                                                <div class="item">
-                            <a href="/searche/{{$hs->id}}" class="subtitle">{{$hs->title}}</a>
-                            <p>{!!  strip_tags (substr($hs->description, 0, 150))!!}...</p>
-                            <span class="subspan">Телефон: <span>{{$hs->id}}</span></span>
-							@if(isset($hs->City->name))
-                            <span class="subspan">Город: <span>{{$hs->City->name}}</span></span>
-						@endif
-                            <span class="subspan">Статус: <span>Ведутся поиски</span></span>
-                        </div>
-                         @endforeach                       
-                      </div>
-                    <div class="bottom">
-                        <button id="owl-search-person-left">></button>
-                        <button id="owl-search-person-right"><</button>
-                    </div>
-                </div>
-            </div>
+          
 
             <div class="news">
                 <a href="/news" class="title">Новости</a>
@@ -359,34 +338,34 @@
                    @endforeach
                 
             </div>
+			  <div class="search-person">
+                <a href="/naxodki" class="title" style="padding-bottom: 0px; border-bottom: 0px;">Ищу человека</a>
+                <div class="search-person-body">
+				<div class="owl-carousel owl-theme" id="owl-search-person">
+                    @foreach($help_search as $hs)
+                    
+                                                <div class="item">
+                            <a href="/searche/{{$hs->id}}" class="subtitle">{{$hs->title}}</a>
+                            <p>{!!  strip_tags (substr($hs->description, 0, 150))!!}...</p>
+                            <span class="subspan">Телефон: <span>{{$hs->id}}</span></span>
+							@if(isset($hs->City->name))
+                            <span class="subspan">Город: <span>{{$hs->City->name}}</span></span>
+						@endif
+                            <span class="subspan">Статус: <span>Ведутся поиски</span></span>
+                        </div> 
+						
+                         @endforeach                       
+                     </div>
+                    <div class="bottom">
+                        <button id="owl-search-person-left">></button>
+                        <button id="owl-search-person-right"><</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="last-section">
-        <a href="https://myldl.ru/users" class="title">Люди</a>
-        <div class="slider">
-            <div class="button">
-                <button id="owl-person-left"><</button>
-            </div>
-            <div class="slider-body">
-                <div class="owl-carousel owl-theme" id="owl-person">
-                                    @foreach($users as $us  )            
-                                <div class="person">
-                            <a href="/user/{{$us->id}}">
-                                <div class="img" style="background-image: url(/storage/avatar/{{$us_w->person->avatar}})"></div>
-                                <span class="job">{{$us->name}}</span>
-                                <span title="Рейтинг" class="job" style="background-color: #3389bb; max-width: 20%;">0</span>
-                            </a>
-                            <!-- <span class="person-name"></span> -->
-                        </div>
-                                 @endforeach   
-                                </div>
-            </div>
-            <div class="button">
-                <button id="owl-person-right">></button>
-            </div>
-        </div>
-    </div>
+
 </section>
 
 <script>

@@ -166,7 +166,7 @@ class ComentServiceController extends Controller
  
  
  public function getCount(Request $request){
-     $coment=ComentService::where('service_id',$request->help_id)->get();
+     $coment=ComentService::where('service_id',$request->serv_id)->get();
      $count=count($coment);
      
      return  $count;

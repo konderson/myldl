@@ -3,7 +3,49 @@
 <meta name="description" content="Тест">
         <meta name="keywords" content="">
 @push('css')
+<style>
+/*--фиксированное позиционирование для IE6--*/
+*html #fade {
+    position: absolute;
+}
+*html .popup_block {
+    position: absolute;
+}
 
+
+    .pagination li{
+    list-style-type: none;
+    float: left;
+    margin-left: 10px;
+}
+.pagination li span {
+    color: #000;
+}
+
+.active{
+    display: inline-block;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: #99ca3d;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.1px;
+    margin-right: 3px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.pagination li span{
+    color:#fff;
+}
+
+.pagination li a {
+    margin-left:-8px;
+    color: #000;
+    text-decoration: none;
+}
+
+</style>
 @endpush
 @section('content')
           <main class="col-xs-12">

@@ -34,7 +34,7 @@
                         <img src="{{asset('asset/front/images/comments.png')}}"/>
                         <span id="count_com" >{{$diary->getCount($diary->id)}}</span>
                     <img src="{{asset('asset/front/images/views.png')}}"/>
-                    <span>0</span>
+                    <span id='view_c'></span>
                         
 						</div>
                    <ul class="soc-links">
@@ -138,7 +138,72 @@
         countLike(); 
         countDisLike();
         load_comment();
+		 viewStore();
+		 countView();
         
+		/* 
+  ***
+  Функция + view
+  ***
+    */
+  
+      function viewStore(){
+        var diary_id=$('#diary_id').val();  
+    $.ajax({
+   url:"/view/store",
+   method:"POST",
+   
+   data:{'post_id':diary_id,'type_id':'5'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+       
+       if(data.error){
+        alert(data.error)
+       }
+       else{
+              
+           $('#view_c').html(data.count);
+       }
+    
+   }
+  })
+  };
+	
+  
+    function countView(){
+	
+   var diary_id=$('#diary_id').val();
+   
+          $.ajax({
+   url:"/view/count/view",
+   method:"POST",
+   
+   data:{'post_id':diary_id,'type_id':'5'},
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+   success:function(data)
+   {
+	   
+	
+    
+        $('#view_c').html(data.count);
+    }
+  });
+    }
+  
+		
+		
+		
+
+		
+		
+		
+		
+		
 
 
 
@@ -191,20 +256,20 @@ $('#count_com').text( parseInt(span_value)+1)
   
   
     function countLike(){
-   var inter_id=$('#inter_id').val();  
+   var diary_id=$('#diary_id').val();  
    
           $.ajax({
    url:"/like/count/like",
    method:"POST",
    
-   data:{'post_id':inter_id,'type_id':'4'},
+   data:{'post_id':diary_id,'type_id':'6'},
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
    success:function(data)
    {
     
-        $('#like_c').html(data.count);
+        $('#like_c'+diary_id).html(data.count);
     }
   });
     }
@@ -225,19 +290,19 @@ $('#count_com').text( parseInt(span_value)+1)
   
   
     function countDisLike(){
-   var inter_id=$('#inter_id').val();     
+   var diary_id=$('#diary_id').val();     
           $.ajax({
    url:"/like/count/dis",
    method:"POST",
    
-   data:{'post_id':inter_id,'type_id':'4'},
+   data:{'post_id':diary_id,'type_id':'6'},
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
    success:function(data)
    {
     
-        $('#dislike_c').html(data.count);
+        $('#dislike_c'+diary_id).html(data.count);
     }
   });
     }
@@ -291,12 +356,12 @@ $('#count_com').text( parseInt(span_value)+1)
 
           $('.likebut').click(function(){
          
-      var delo_id=$(this).attr('post_id');
+      var diary_id=$('#diary_id').val();
     $.ajax({
    url:"/like/store",
    method:"POST",
    
-   data:{'post_id':delo_id,'type_id':'4'},
+   data:{'post_id':diary_id,'type_id':'6'},
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
@@ -309,7 +374,7 @@ $('#count_com').text( parseInt(span_value)+1)
        }
        else{
               
-           $('#like_c'+delo_id).html(data.count);
+           $('#like_c'+diary_id).html(data.count);
        }
     
    }
@@ -320,12 +385,12 @@ $('#count_com').text( parseInt(span_value)+1)
 
  $('.dislikebut').click(function(){
          
-      var delo_id=$(this).attr('post_id');
+        var diary_id=$('#diary_id').val();
     $.ajax({
    url:"/like/store/dislike",
    method:"POST",
    
-   data:{'post_id':delo_id,'type_id':'4'},
+   data:{'post_id':diary_id,'type_id':'6'},
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
@@ -338,7 +403,7 @@ $('#count_com').text( parseInt(span_value)+1)
        }
        else{
               
-           $('#dislike_c'+delo_id).html(data.count);
+           $('#dislike_c'+diary_id).html(data.count);
        }
     
    }

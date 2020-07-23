@@ -405,7 +405,7 @@ transition: .3s;
 </script>
 
 <div id="dialog2" title="Пожаловаться на дело" style="display: none">
-    Вы можете отправить администратору жалобу на дело "Спасение из сугроба":<br /><br />
+    Вы можете отправить администратору жалобу на дело :<br /><br />
     <div class="row">
         <label>Текст жалобы</label>
         <textarea id="text_appeal"></textarea>

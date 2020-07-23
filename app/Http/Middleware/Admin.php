@@ -17,11 +17,12 @@ class Admin
     {
         
         if(Auth::check()){
-            if(!empty(Auth::user()->role)){
+			
+            if(!empty(Auth::user()->roles)){
                  return $next($request);
             }
             else{
-                Auth::logout();
+                //Auth::logout();
                  return redirect('/error/auth');
             }
         }

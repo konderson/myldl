@@ -111,7 +111,7 @@
 <!-- ---------------- Comments ---------------- -->
 
 <div class="adv-comments">
-    <div class="title">Комментарии <span id="display_count"></span></div>
+    <div class="title">Комментарии  <span id="display_count"></span></div>
         <br />
   <br />
   <div class="add-comment">
@@ -282,6 +282,7 @@
     },
    success:function(data)
    {
+	   
     $('#display_comment').html(data);
    }
   })
@@ -295,6 +296,7 @@
     },
    success:function(data)
    {
+	   
     $('#display_count').html(data);
    }
   })
