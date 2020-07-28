@@ -22,12 +22,12 @@ class Admin
                  return $next($request);
             }
             else{
-                //Auth::logout();
+                Auth::logout();
                  return redirect('/error/auth');
             }
         }
         else{
-           // return route('login');
+           return route('login');
               return redirect('/error/auth');
         }
          return $next($request);

@@ -10,10 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/login', function () {
     return view('welcome');
 });
+*/
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login')->name('login')->middleware(['old_auth']);
+Route::get('register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('register', 'Auth\RegisterController@register')->name('register');
 
 Route::get('/','MainController@index')->name('main.index')->middleware(['verified']);
 Route::get('/search','MainController@search')->name('search');
@@ -74,7 +80,7 @@ Route::post('/help/ajax_reploadupload','HelpController@ajax_reploadupload')->nam
 Route::get('/profile/vzaimopomoshi','HelpController@myhelp')->name('help.my')->middleware(['verified','auth']);;
 Route::put('/profile/update/{id}','HelpController@update')->name('profile.help.update')->middleware(['verified','auth']);;
 Route::get('/profile/edit/{id}','HelpController@edit')->name('profile.help.edit')->middleware(['verified','auth']);;
-Route::get('/searche/{id}','HelpController@getHelp')->name('profile.help.get')->middleware(['verified','auth']);;
+Route::get('/searche/{id}','HelpController@getHelp')->name('profile.help.get')->middleware(['verified']);;
 Route::post('/help/coment','CommentHelpController@addcomment')->name('help.coment.store')->middleware(['verified','auth']);;
 Route::post('/help/coment/get','CommentHelpController@getComent')->name('help.coment.get')->middleware(['verified','auth']);;
 Route::post('/help/coment/getcount','CommentHelpController@getCount')->name('help.coment.getcount')->middleware(['verified','auth']);;
@@ -95,7 +101,7 @@ Route::get('/open_usluga/{id}','ServiceController@open_serv')->name('service.add
 Route::get('/del_usluga/{id}','ServiceController@deleteServ')->name('service.del')->middleware(['verified','auth']);;
 Route::put('/usluga/update/{id}','ServiceController@update')->name('profile.service.update')->middleware(['verified','auth']);;
 Route::get('/service/edit/{id}','ServiceController@edit')->name('profile.service.edit')->middleware(['verified','auth']);;
-Route::get('/usluga/{id}','ServiceController@getService')->name('profile.service.get')->middleware(['verified','auth']);;
+Route::get('/usluga/{id}','ServiceController@getService')->name('profile.service.get')->middleware(['verified']);;
 Route::post('/service/coment','ComentServiceController@addcomment')->name('serv.coment.store')->middleware(['verified','auth']);;
 Route::post('/service/coment/get','ComentServiceController@getComent')->name('serv.coment.get');
 Route::post('/service/coment/getcount','ComentServiceController@getCount')->name('hserv.coment.getcount');
@@ -157,6 +163,10 @@ Route::get('/error/auth','MainController@error')->name('error.auth');
 Route::get('/error/block','MainController@errorBlock');
 Route::get('/error/ublock','MainController@errorUBlock');
 Route::get('/error/delete','MainController@errorDelete');
+Route::get('/notify/chenge_password','MainController@notifyChengePass');
+Route::get('/chenge_password/{id}/{token}', 'MainController@ChengePassForm')->name('chenge_password');
+Route::post('/set_password','MainController@newPassword')->name('new_password');
+
 Route::get('/about','MainController@about');
 
 Route::get('/send-email', 'MainController@testSend');
@@ -391,9 +401,15 @@ Route::get('/import/seotext','ImportController@importSeoText');
 
 Route::get('/import/squest','ImportController@importSQuest');
 Route::get('/import/answer','ImportController@importAnswer');
+Route::get('/chenge/avatar/default','MainController@chengeAvatar');
+Route::get('/import/tag','ImportController@importTag');
+Route::get('/import/tag/news','ImportController@importTagNews');
 
 
-Auth::routes();
+
+
+
+//Auth::routes();
 //Route::get('/', 'MainController@index');
 //Route::get('/home', 'HomeController@index')->name('home');
 

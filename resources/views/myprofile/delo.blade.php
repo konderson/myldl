@@ -612,7 +612,23 @@ transition: .3s;
                 </div>
             </div>
             <div class="info-block">
-                <p><span>Фото:</span> 0</p>
+                <p><span>Фото:</span> 3</p>
+		                             <!-- 3 -->
+                    <div class="row container-fluid">
+                        <div class="images clearfix">
+                            <ul class="gallery">
+						        							                                                <li>
+                                            <a href="https://myldl.ru/images/uploads/ddba56784eb3987a2e1ce3730a794862.jpg" rel="gallery1" class="fancybox  awa awa-201 awa-full" style="background-image: url(https://myldl.ru/images/uploads/ddba56784eb3987a2e1ce3730a794862.jpg)"></a>
+                                        </li>
+							                                                <li>
+                                            <a href="https://myldl.ru/images/uploads/b410307d59bb5972bf1e8eedb5a3a927.jpg" rel="gallery1" class="fancybox  awa awa-201 awa-full" style="background-image: url(https://myldl.ru/images/uploads/b410307d59bb5972bf1e8eedb5a3a927.jpg)"></a>
+                                        </li>
+							                                                <li>
+                                            <a href="https://myldl.ru/images/uploads/428e7f9c73347968cd05a655aa5d1d6a.jpg" rel="gallery1" class="fancybox  awa awa-201 awa-full" style="background-image: url(https://myldl.ru/images/uploads/428e7f9c73347968cd05a655aa5d1d6a.jpg)"></a>
+                                        </li>
+							        						                                    </ul>
+                        </div>
+                    </div>
 		                        <p><span>Видео:</span> 0</p>
                 <div class="row container-fluid">
                     <div class="video clearfix">
@@ -621,6 +637,8 @@ transition: .3s;
                     </div>
                 </div>
             </div>
+        
+
         </div>
 
         <div class="right">

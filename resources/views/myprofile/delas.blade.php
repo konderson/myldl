@@ -166,7 +166,7 @@
         <div class="left">
             <div class="people-title">
                 <h1 class="titles">Дела</h1>
-                <span class="status">{{count($delas)}}</span>
+                <span class="status">{{$count_dela}}</span>
             </div>
 
             <div class="advert-body">
@@ -462,12 +462,21 @@
                                             </div>
 
                     <div class="image hide-xs">
-                                                    <img class="center-block" src="{{asset('storage/delo/'.$delo->images)}}" alt="" />
+					@if($delo->images!=null)
+						<?php $img = strstr($delo->images, ',', true)?>
+					    @if($img==null)
+                           <img class="center-block" src="{{asset('storage/upload/uploads/'.$delo->images)}}" alt="" />
+					      @else
+							<img class="center-block" src="{{asset('storage/upload/uploads/'.$img)}}" alt="" />  
+					     @endif
+					   @else
+						    <img class="center-block" src="{{asset('storage/delo/noimg.png')}}" alt="" />
+					   @endif
                                             </div>
 
                     <div class="advert-row-body deal-row-body">
                         <a class="advert-row-body-title hide-xs" href={{'/delo/'.$delo->id}}>{{$delo->nazva}}</a>
-                        <p class="adv-info hide-xs">&quot;{{$delo->opisanie}}...</p>
+                        <p class="adv-info hide-xs">{!!substr($delo->opisanie, 0, 150)!!}</p>
                     </div>
                     
                     <div class="deal-row-body2">

@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Frend;
 use App\Person;
+use Illuminate\Support\Facades\Hash;
+use Validator;
 
 class MainController extends Controller
 {
@@ -419,4 +421,65 @@ echo  $result;
     Mail::to($toEmail)->send(new TestMaail($comment));
     //return 'Сообщение отправлено на адрес '. $toEmail;
 	}
+	
+	public function notifyChengePass()
+	{
+		return view('notify_pass');
+	}
+	public function ChengePassForm($userId,$token)
+	{
+		$user = User::findOrFail($userId);
+		if (md5($user->email) == $token) 
+		{
+		   return view('new_password',compact('user'));
+		}
+		else{
+		         return view('error');
+		    }
+
+	}
+	public function newPassword(Request $request)
+	{
+		
+          $validator = Validator::make($request->all(), [
+           
+            'pass1'=>'required|min:8',
+            
+            
+        ]);
+		if ($validator->passes()) {
+		$user=User::findOrFail($request->user_id);
+		$user->password=Hash::make($request->pass1);
+		$user->old_auth=0;
+		$user->save();
+		Auth::login($user);
+		return redirect('/');
+		}
+	      else
+			{
+       return response()->json(['errors'=>$validator->errors()->all()]);
+     }
+		   	
+		}
+		
+	
+	public function chengeAvatar()
+	{
+		$users=User::all();
+		foreach($users as $user)
+		{
+			$person=Person::where('user_id',$user->id)->first();
+			if(isset($person)){
+			if($person->avatar==null)
+			{
+				$person->avatar='default.png';
+				$person->save();
+			}	
+			}
+			
+		}
+		
+	}
+	
+	
 }

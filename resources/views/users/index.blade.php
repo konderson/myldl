@@ -60,12 +60,12 @@
         });
 
        $('#send_msg').click(function(){
-           
+          
            $.ajax({
                 type: "POST",
                 url: "/conversation/send",
                 data: {
-                     contact_id: $('#user_id').val(),
+                     contact_id: $('#user_id_appeal').val(),
                      text: $("#chat-msg").val(),
                 },
                  headers: {

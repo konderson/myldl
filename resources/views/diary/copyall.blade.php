@@ -53,7 +53,7 @@
               
     <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="/">Главная</a></li><li style="color: #8e8e8e;">Новости</li>    </ol>
+        <li><a href="/">Главная</a></li><li class="active">Дневник проекта</li>    </ol>
 </div><script type="text/javascript">
     $(document).ready(function() {
 
@@ -84,7 +84,7 @@
 <section>
 		        <div class="advert">
             <div class="left">
-                <h1 class="title">Новости</h1>
+                <h1 class="title">Дневник проекта</h1>
                 <div class="advert-body">
 
 					 <div style="clear: both"></div>           
@@ -99,31 +99,18 @@
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-					
-					
-					
-					
-					                         @foreach($fnews as $fn)
-					                        <div class="advert-row news-row flag">
-                            <div class="date"><span>{{ Carbon\Carbon::parse($fn->created_at)->format('d.m.Y') }}</span></div>
-                                <a href="/news/item/{{$fn->id}}"  style="margin-right: 15px;" class="advert-row-body-title"></a>
-                            <div class="advert-row-body news-row-body">
-                                <p class="adv-info">{!! mb_substr($fn->text, 0, 150)!!} ....</p>
-                            </div>
-                        </div>
-					                          @endforeach
 					                        
-					       @foreach($news as $ns)
+					       @foreach($diaries as $diary)
 					                        <div class="advert-row news-row">
-                            <div class="date"><span>{{ Carbon\Carbon::parse($ns->created_at)->format('d.m.Y') }}</span></div>
-                                <a href="/news/item/{{$ns->id}}"  style="margin-right: 15px;" class="advert-row-body-title">{{$ns->name}}</a>
+                            <div class="date"><span>{{ Carbon\Carbon::parse($diary->created_at)->format('d.m.Y') }}</span></div>
+                                <a href="/diary/item/{{$diary->id}}"  style="margin-right: 15px;" class="advert-row-body-title">{{$diary->name}}</a>
                             <div class="advert-row-body news-row-body">
-                                <p class="adv-info">{!!  mb_substr($ns->text, 0, 150)!!} ....</p>
+                                <p class="adv-info">{!!  strip_tags (substr($diary->text, 0, 150))!!}....</p>
                             </div>
                         </div>
 					                          @endforeach
 					<div class="advert-pages">
-					    {{ $news->links('paginate') }}
+					    {{ $diaries->links('paginate') }}
 					</div> 
 					</div>
             </div>
@@ -132,11 +119,11 @@
                 <span class="title">Читаемые новости</span>
                 <div class="advert-body">
                     
-                    @foreach($nv as $news_pop)
+                    @foreach($ldiaries as $ldiary)
 					                        <div class="article-info">
                             <div class="article-subtitle">
-                                <div class="date"><span>{{ Carbon\Carbon::parse($news_pop->created_at)->format('H:i:s') }}</span></div>
-                                <a href="/news/item/{{$news_pop->id}}">{{$news_pop->name}}</a>
+                                <div class="date"><span>{{ Carbon\Carbon::parse($ldiary->created_at)->format('d.m.Y') }}</span></div>
+                                <a href="/diary/item/{{$ldiary->id}}">{{$ldiary->name}}</a>
                             </div>
                         </div>
 					 @endforeach             

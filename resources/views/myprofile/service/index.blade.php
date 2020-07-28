@@ -118,8 +118,11 @@
       <span id="comment_message"></span>
    <br />
    <div id="display_comment"></div>
+   @if(Auth::check())
       <div class="photo">
-            <div class="ava" style="background-image: url(/storage/avatar/{{Auth::user()->person->avatar}})"></div>        </div>
+            <div class="ava" style="background-image: url(/storage/avatar/{{Auth::user()->person->avatar}})"></div>       
+			</div>
+			@endif
              <form  id="comment_form">
         <div class="adv-comment wmCommentMes">
                      @guest

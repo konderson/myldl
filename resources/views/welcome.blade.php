@@ -8,34 +8,21 @@
 @section('content')
 
             <!-- Add fancyBox main JS and CSS files -->
-    <script type="text/javascript" src="https://myldl.ru/application/views/front/fancy_box/jquery.fancybox.js?v=2.1.5"></script>
-    <link rel="stylesheet" type="text/css" href="https://myldl.ru/application/views/front/fancy_box/jquery.fancybox.css?v=2.1.5" media="screen" />
+    <script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js?v=2.1.5')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('asset/front/fancy_box/jquery.fancybox.css?v=2.1.5')}}" media="screen" />
 
-    <div id="showcontact">
-        <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
-        <form action="https://myldl.ru/auth/login?backurl=profile/vzaimopomoshi" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
-            <input name="email" type="email" class="form-control email" id="exampleInputEmail2" placeholder="| Логин / E-mail" required>
-            <input name="passw" type="password" class="form-control password" id="exampleInputPassword2" placeholder="| Пароль" required>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Запомнить меня
-                </label>
-            </div>
-            <input type="hidden" id="hashLoginID" name="ci_csrf_token" value="">
-            <button type="submit" class="btn btn-success btn-block">Войти</button>
-            <a class="text-center btn-reg a-btn" href="/auth/register">Новый пользователь?</a>
-        </form>
-    </div>
+    
 <section>
         <div class="last-section" style="float: none;">
-        <a href="https://myldl.ru/users?sh=need" class="title">Мне нужна помощь</a>
+        <a href="/users?sh=need" class="title">Мне нужна помощь</a>
         <div class="slider">
             <div class="button">
                 <button id="owl-person-left-need_help"><</button>
             </div>
             <div class="slider-body">
                 <div class="owl-carousel owl-theme" id="owl-person-need_help">
-                              @foreach($users_need as $us_n )            
+                              @foreach($users_need as $us_n )  
+                              @if(isset($us_n->user->id))					  
                                 <div class="person">
                             <a href="/user/{{$us_n->user_id}}">
                                 <div class="img" style="background-image: url(/storage/avatar/{{$us_n->avatar}})"></div>
@@ -44,6 +31,7 @@
                             </a>
                             <!-- <span class="person-name"></span> -->
                         </div>
+						         @endif
                                  @endforeach           
                                     </div>
             </div>
@@ -55,7 +43,7 @@
     
    <!--mytarget-->
 <div style="clear: both"></div>
-<script async src="https://ad.mail.ru/static/ads-async.js"></script>
+
 <ins class="mrg-tag" style="display:inline-block;width:320px;height:50px" data-ad-client="ad-423503" data-ad-slot="423503"></ins>  
 <script>(MRGtag = window.MRGtag || []).push({})</script> 
     
@@ -81,7 +69,7 @@
     </script>
 
     <div class="last-section"><!-- TODO ValenokPC™-->
-        <a href="https://myldl.ru/users?sh=want" class="title">Я хочу помогать</a>
+        <a href="/users?sh=want" class="title">Я хочу помогать</a>
         <div class="slider">
             <div class="button">
                 <button id="owl-person-left-want_help"><</button>
@@ -125,7 +113,7 @@
                                             <div class="item">
                             <a class="article-container-title" href="/delo/{{$delo->id}}">
                                {{$delo->nazva}}                         </a>
-                            <p>&quot;{!!  strip_tags (substr($delo->description, 0, 150))!!}......</p>
+                            <p>&quot;{!!  strip_tags (substr($delo->opisanie, 0, 150))!!}......</p>
                             <span class="subspan">Бюджет: <span>{{$delo->bydzet}}</span></span>
                             <span class="subspan">Город: <span>{{$delo->city}}</span></span>
                         </div>
@@ -145,9 +133,9 @@
                                 <div class="article-info">
                     <div class="article-subtitle">
                         <div class="date"><span>{{ Carbon\Carbon::parse($hn->created_at)->format('d.m') }}</span></div>
-                        <a href="/searche/{{$hn}}" class="title">{{$hn->title}}</a>
+                        <a href="/searche/{{$hn->id}}" class="title">{{$hn->title}}</a>
                     </div>
-                    <p>{!!  strip_tags (substr($hn->description, 0, 150))!!}...</p>
+                    <p>{{substr($hn->description, 0, 150)}}...</p>
                 </div>
                                
                             @endforeach 
@@ -169,11 +157,11 @@
                                 <div class="article-info">
                     <div class="article-subtitle">
                         <div class="date"><span>{{ Carbon\Carbon::parse($help_wont[$i]->created_at)->format('d.m') }}</span></div>
-                        <a href="/searche/{{$help_wont[$i]}}" class="title">{{$help_wont[$i]->title}}</a>
+                        <a href="/searche/{{$help_wont[$i]->id}}" class="title">{{$help_wont[$i]->title}}</a>
                     </div>
-                    <p>{!!  strip_tags (substr($help_wont[$i]->description, 0, 150))!!}...</p>
+                    <p>{{substr($help_wont[$i]->description, 0, 150)}}...</p>
                 </div>
-                             @endif    
+                            @endif    
                             @endfor
                            
                     </div>
@@ -184,9 +172,9 @@
                                 <div class="article-info">
                     <div class="article-subtitle">
                         <div class="date"><span>{{ Carbon\Carbon::parse($help_wont[$i]->created_at)->format('d.m') }}</span></div>
-                        <a href="/searche/{{$help_wont[$i]}}" class="title">{{$help_wont[$i]->title}}</a>
+                        <a href="/searche/{{$help_wont[$i]->id}}" class="title">{{$help_wont[$i]->title}}</a>
                     </div>
-                    <p>{!!  strip_tags (substr($help_wont[$i]->description, 0, 150))!!}...</p>
+                    <p>{{substr($help_wont[$i]->description, 0, 150)}}...</p>
                 </div>
                                 
                             @endfor  

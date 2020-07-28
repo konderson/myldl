@@ -21,8 +21,9 @@ class DelaController extends Controller
     
     public function all(){
          $lastdelas=Dela::orderBy('id', 'desc')->limit(5)->get();
+		 $count_dela=Dela::count();
       $delas=Dela::orderBy('id', 'desc')->paginate(5);  
-        return view('myprofile.delas',compact('delas','lastdelas'));
+        return view('myprofile.delas',compact('delas','lastdelas','count_dela'));
     }
     
     

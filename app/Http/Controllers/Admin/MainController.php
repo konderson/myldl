@@ -79,7 +79,10 @@ class MainController extends Controller
        public function delete($id){
     
            $user=User::where('id',$id)->first();
+		   $person=Person::where('user_id',$user->id)->first();
            $user->delete();
+		   $person->delete();
+		   
            return redirect()->route('admin.adminpanel');
        }
        

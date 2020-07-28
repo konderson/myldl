@@ -53,7 +53,7 @@
               
     <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="/">Главная</a></li><li class="active">Дневник проекта</li>    </ol>
+        <li><a href="/">Главная</a></li><li style="color: #8e8e8e;">Дневник проекта</li>    </ol>
 </div><script type="text/javascript">
     $(document).ready(function() {
 
@@ -81,63 +81,108 @@
 </script>
 
 
-<section>
-		        <div class="advert">
-            <div class="left">
-                <h1 class="title">Дневник проекта</h1>
-                <div class="advert-body">
+    <section>
+		 <div class="advert">
+        <div class="left">
+            <h1 class="title">Дневник проекта</h1>
+            <div class="advert-body">
 
-					 <div style="clear: both"></div>           
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-1014859909801067"
-     data-ad-slot="1433540716"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-					                        
-					       @foreach($diaries as $diary)
-					                        <div class="advert-row news-row">
-                            <div class="date"><span>{{ Carbon\Carbon::parse($diary->created_at)->format('d.m.Y') }}</span></div>
-                                <a href="/diary/item/{{$diary->id}}"  style="margin-right: 15px;" class="advert-row-body-title">{{$diary->name}}</a>
-                            <div class="advert-row-body news-row-body">
-                                <p class="adv-info">{!!  strip_tags (substr($diary->text, 0, 150))!!}....</p>
-                            </div>
-                        </div>
-					                          @endforeach
-					<div class="advert-pages">
+                <div class="advert-search-row">
+                    <form class="search search-people" style="width: 100%;">
+                        <input type="text" placeholder="поиск..." id="search_word"/>
+                        <input type="submit" class="search-magnify" value="">
+                    </form>
+                </div>
+	              @foreach($diaries as $diary)
+				        <div class="advert-row news-row">
+                    <div class="date"><span>{{ Carbon\Carbon::parse($diary->created_at)->format('d.m') }}</span></div>
+                    <div class="advert-row-body news-row-body">
+                        <a class="advert-row-body-title" href="/diary/item/{{$diary->id}}">{{$diary->name}}</a>
+                        <p class="adv-info">{!!  strip_tags (mb_substr($diary->text, 0, 150))!!}....</p>
+                    </div>
+                    <div class="deal-views" style="margin-top: 0px; margin-left: 7%; margin-right: 0%;">
+                        <img src="https://myldl.ru/static/images/like.png"/>
+                        <span class="like_c">{{$diary->likeCount($diary->id)}}</span>
+                        <img src="https://myldl.ru/static/images/dislike.png"/>
+                        <span class="dislike_c">{{$diary->dislikeCount($diary->id)}}</span>
+                        <span>Коментарии ({{$diary->getCount($diary->id)}})</span>
+                    </div>
+					</div>
+			 @endforeach
+					           
+				<div class="advert-pages">
 					    {{ $diaries->links('paginate') }}
 					</div> 
-					</div>
-            </div>
-            
-            <div class="right">
-                <span class="title">Читаемые новости</span>
-                <div class="advert-body">
-                    
-                    @foreach($ldiaries as $ldiary)
-					                        <div class="article-info">
-                            <div class="article-subtitle">
-                                <div class="date"><span>{{ Carbon\Carbon::parse($ldiary->created_at)->format('d.m.Y') }}</span></div>
-                                <a href="/diary/item/{{$ldiary->id}}">{{$ldiary->name}}</a>
-                            </div>
-                        </div>
-					 @endforeach             
-                        </div>
-					                </div>
-                   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-1014859909801067",
-          enable_page_level_ads: true
-     });
-</script>
-            </div>
+				
+                </div>
+                
+	         
         </div>
+
+        <div class="right">
+            <span class="title">Все новости</span>
+            <div id="datetimepicker12"></div>
+<script>
+    $(function(){
+
+        function formatDateToString(date){
+            // 01, 02, 03, ... 29, 30, 31
+            var dd = (date.getDate() < 10 ? '0' : '') + date.getDate();
+            // 01, 02, 03, ... 10, 11, 12
+            var MM = ((date.getMonth() + 1) < 10 ? '0' : '') + (date.getMonth() + 1);
+            // 1970, 1971, ... 2015, 2016, ...
+            var yyyy = date.getFullYear();
+
+            // create the format you want
+            return (yyyy + "-" +MM + "-" + dd);
+        }
+
+        $('#datetimepicker12').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            format: "L",
+            locale: "ru"
+        })
+            .on('dp.change', function(e) {
+                var date = new Date(e.date);
+
+                $(".shorts-list").empty();
+                $(".shorts-list").append('<p style="text-align:center;">' +
+                    '<br><br>' +
+                    '<img src="/application/views/front/images/ajax-loader.gif" /></p>');
+
+                $('#search_word').val('');
+                $('.datepicker .day.active').attr('data-date', $('.datepicker .day.active').text());
+
+                $.ajax({
+                    type: "POST",
+                    url: "https://myldl.ru/diary/ajax_search_date_dnevnik",
+                    data: {
+                        search_date : formatDateToString(date),
+                        'ci_csrf_token' : $.cookie('hash_cookie_id')
+                    },
+                    dataType: "html",
+                    success: function(msg){
+                        $(".advert-row.news-row").remove();
+                        $(".advert-search-row").after(msg);
+                        $(".advert-pages").remove();
+                        $("#title_date").text(date[8]+date[9]+'-'+date[5]+''+date[6]+'-'+date[0]+date[1]+date[2]+date[3]);
+                    }
+                });
+            })
+            .on('dp.update', function(e) {
+                $('.datepicker .day.active').attr('data-date', $('.datepicker .day.active').text());
+            });
+        $('.datepicker .day.active').attr('data-date', $('.datepicker .day.active').text());
+        $('.datepicker').on('click', '.day.active', function () {
+            setTimeout(function () {
+                $('.datepicker .day.active').attr('data-date', $('.datepicker .day.active').text());
+            },50);
+        });
+    })
+</script>        </div>
+    </div>       
+			   
     </section>
 
 

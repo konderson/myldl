@@ -27,6 +27,7 @@ use App\CommentInter;
 use App\SeoText;
 use App\SQuestions;
 use App\Answer;
+use App\Tag;
 
 
 class ImportController extends Controller
@@ -986,4 +987,14 @@ public function comentImportNews()
 		}
 		
 	}
+	public function importTagNews()
+	{
+		$tags=DB::connection('mysql2')->select('select * from materials_tags');
+		
+		foreach($tags as $tag)
+		{
+			DB::connection('mysql')->table('news_tag')->insert([
+    [ 'news_id' => $tag->post_id,'tag_id'=>$tag->tag_id,]]);
+	    }
+	 }
 }

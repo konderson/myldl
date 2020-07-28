@@ -77,14 +77,32 @@ class CommentNewsController extends Controller
                $img='noimg.png';
            }
             $output .= '
-            <div class="odd-comment">
+            <div class="odd-comment">';
+			if($comment->user_id==null)
+			{
+				$output .= '
+			
+                    <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/noimg.png )"></div></div>
+                    <div class="adv-comment">
+					<div class="profile-name">
+                            <span class="guestCommenter">'.$comment->name_author.'</span>&nbsp;<sup style="color: #888;">гость</sup>&nbsp;                            
+                            <span>'.$this->showDate($comment->created_at->timestamp).'</span>
+                            
+                        </div>';
+			}
+			else{
+				$output .= '
+			
                     <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/'.$img.' )"></div></div>
                     <div class="adv-comment">
               <div class="profile-name">
-                            <a target="_blank" href="https://myldl.ru/user/20266">'.$comment->name_author.'</a>                            
+                            <a target="_blank" href="/user/'.$comment->user_id.'">'.$comment->user->name.'</a>                            
                             <span>'.$this->showDate($comment->created_at->timestamp).'</span>
-                              </div>
-                                <p>'.$comment->text.'</p>
+                              </div>';
+				
+			}
+			$output .= '
+			 <p>'.$comment->text.'</p>
                         <div class="callback clAnswer">
                             <button type="button" class="btn btn-default reply" id="'.$comment->id.'">Ответить</button>
                             <!-- <span>3 минуты  назад</span> -->
@@ -116,15 +134,34 @@ class CommentNewsController extends Controller
                 $marginleft = $marginleft + 48;
                 
                 foreach($rep_comments  as $rp_com){
-                     $output .= '
+					
+					if($rp_com->user_id==null)
+					{
+						 $output .= '
                      <div class="even-comment">
-                     <div class="photo"><div class="ava" style="background-image: url(https://myldl.ru/images/avatar/5876494009871b6eda73d243524b8863_thumb.jpg)"></div></div>
+                     <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/noimg.png)"></div></div>
                     <div class="adv-comment">
                         <div class="profile-name">
-                            <a target="_blank" href="https://myldl.ru/user/20266">'.$rp_com->name_author.'</a>                            
+                            <span class="guestCommenter">'.$rp_com->name_author.'</span>&nbsp;<sup style="color: #888;">гость</sup>&nbsp;                           
                             <span>'.$this->showDate($rp_com->created_at->timestamp).'</span>
                             
-                        </div>
+                        </div>';
+					}
+					else{
+						$img=$rp_com->user->person->avatar;
+						 $output .= '
+						 
+                     <div class="even-comment">
+                     <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/'.$img.')"></div></div>
+                    <div class="adv-comment">
+                        <div class="profile-name">
+                            <a target="_blank" href="/user/'.$rp_com->user_id.'">'.$rp_com->name_author.'</a>                            
+                            <span>'.$this->showDate($rp_com->created_at->timestamp).'</span>
+                            
+                        </div>';
+					}
+					
+                    $output .= '
                         <p>'.$rp_com->text.'</p>
                         <div class="callback clAnswer">
                             <button class="btn_rep reply"   type="button"  id="'.$rp_com->id.'">Ответить</button>

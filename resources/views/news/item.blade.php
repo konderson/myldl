@@ -5,7 +5,11 @@
 <meta name="description" content="{{$news->description}}">
         <meta name="keywords" content="{{$news->keyw}}">
 @push('css')
-
+<style>
+.stat-item{
+	cursor:pointer;
+}
+</style>
 @endpush
 @section('content')
           <main class="col-xs-12">
@@ -13,7 +17,7 @@
               
    <div class="sm-breadcrumb">
     <ol class="breadcrumb">
-        <li><a href="/">Главная</a></li><li><a href="/news">Новости</a></li><li class="active">{{$news->name}}</li>    </ol>
+        <li><a href="/">Главная</a></li><li><a href="/news">Новости</a></li><li style="color: #8e8e8e;">{{$news->name}}</li>    </ol>
 </div>
  <section>
         <div class="advert advert-inner">
@@ -82,7 +86,7 @@
 	                                <div class="article-info">
                         <div class="article-subtitle">
                             <div class="date"><span>{{ Carbon\Carbon::parse($nvp->created_at)->format('d.m.Y') }}</span></div>
-                            <a href="/interview/item/{{$nvp->id}}">{{$nvp->name}}</a>
+                            <a href="/news/item/{{$nvp->id}}">{{$nvp->name}}</a>
                         </div>
                     </div>
                     @endforeach
@@ -98,10 +102,10 @@
 							   <div class="advert item">
                                     <div class="article-subtitle">
                                         <div class="date"><span>{{ Carbon\Carbon::parse($liken->created_at)->format('d.m.Y') }}</span></div>
-                                        <a href="/news/item/{{$liken->id}}">{{substr($liken->name, 0, 80)}}</a>
+                                        <a href="/news/item/{{$liken->id}}">{{($liken->name)}}</a>
                                     </div>
                                     <div class="price-info">
-                                        <p>{!!  strip_tags (substr($liken->text, 0, 150))!!}</p>
+                                        <p>{!!  strip_tags (mb_substr($liken->text, 0, 150))!!}</p>
                                     </div>
                                 </div>
                                 @endforeach
@@ -120,7 +124,6 @@
 <!-- ---------------- Comments ---------------- -->
 
 
-
 <div class="adv-comments">
     <div class="title">Комментарии <span id="display_count"></span></div>
         <br />
@@ -134,11 +137,11 @@
              <form  id="comment_form">
         <div class="adv-comment wmCommentMes">
                      @guest
-	                    <input type="text" class="login" name="comment_name" id="comment_name" placeholder=" Ваше имя"/>
+	                    <input type="text" class="login" name="comment_name" id="comment_name"  required req placeholder=" Ваше имя"/>
 	                    @endguest
 	                    
 	                    <div class="wmCommentMesBlock">
-                <textarea class="input-comment"    name="comment_content" id="comment_content"    placeholder="  Коментарии ..."></textarea>
+                <textarea class="input-comment"    name="comment_content" id="comment_content" required   placeholder="  Коментарии ..."></textarea>
                 <input type="hidden" name="comment_id" id="comment_id" value="0" />
                 <input type="hidden" id="news_id" name="news_id" value="{{$news->id}}"/>
             </div>
@@ -241,8 +244,7 @@
     e.preventDefault();
     var $that = $(this),
     formData = new FormData($that.get(0)); // создаем новый экземпляр объекта и передаем ему нашу форму (*)
-    
-    
+   
     $.ajax({
         url:'/news/coment',
       type: 'POST', 
