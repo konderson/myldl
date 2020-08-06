@@ -27,7 +27,7 @@ class Admin
             }
         }
         else{
-           return route('login');
+           //return route('login');
               return redirect('/error/auth');
         }
          return $next($request);

@@ -476,7 +476,7 @@
 
                     <div class="advert-row-body deal-row-body">
                         <a class="advert-row-body-title hide-xs" href={{'/delo/'.$delo->id}}>{{$delo->nazva}}</a>
-                        <p class="adv-info hide-xs">{!!substr($delo->opisanie, 0, 150)!!}</p>
+                        <p class="adv-info hide-xs">{!!mb_substr($delo->opisanie, 0, 150)!!}</p>
                     </div>
                     
                     <div class="deal-row-body2">
@@ -538,7 +538,7 @@
                 <div class="article-info">
                         <div class="article-subtitle">
                             <div class="date"><span>{{ Carbon\Carbon::parse($delo->created_at)->format('d.m') }}</span></div>
-                            <a href="{{route('delo.get',$delo->id)}}">{{substr($delo->nazva, 0, 66)}}..</a>
+                            <a href="{{route('delo.get',$delo->id)}}">{{mb_substr($delo->nazva, 0, 66)}}..</a>
                         </div>
                     </div>
                 

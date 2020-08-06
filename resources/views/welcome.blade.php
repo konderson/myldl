@@ -113,7 +113,7 @@
                                             <div class="item">
                             <a class="article-container-title" href="/delo/{{$delo->id}}">
                                {{$delo->nazva}}                         </a>
-                            <p>&quot;{!!  strip_tags (substr($delo->opisanie, 0, 150))!!}......</p>
+                            <p>&quot;{!!  strip_tags (mb_substr($delo->opisanie, 0, 150))!!}......</p>
                             <span class="subspan">Бюджет: <span>{{$delo->bydzet}}</span></span>
                             <span class="subspan">Город: <span>{{$delo->city}}</span></span>
                         </div>
@@ -135,7 +135,7 @@
                         <div class="date"><span>{{ Carbon\Carbon::parse($hn->created_at)->format('d.m') }}</span></div>
                         <a href="/searche/{{$hn->id}}" class="title">{{$hn->title}}</a>
                     </div>
-                    <p>{{substr($hn->description, 0, 150)}}...</p>
+                    <p>{{mb_substr($hn->description, 0, 150)}}...</p>
                 </div>
                                
                             @endforeach 
@@ -159,7 +159,7 @@
                         <div class="date"><span>{{ Carbon\Carbon::parse($help_wont[$i]->created_at)->format('d.m') }}</span></div>
                         <a href="/searche/{{$help_wont[$i]->id}}" class="title">{{$help_wont[$i]->title}}</a>
                     </div>
-                    <p>{{substr($help_wont[$i]->description, 0, 150)}}...</p>
+                    <p>{{mb_substr($help_wont[$i]->description, 0, 150)}}...</p>
                 </div>
                             @endif    
                             @endfor
@@ -174,7 +174,7 @@
                         <div class="date"><span>{{ Carbon\Carbon::parse($help_wont[$i]->created_at)->format('d.m') }}</span></div>
                         <a href="/searche/{{$help_wont[$i]->id}}" class="title">{{$help_wont[$i]->title}}</a>
                     </div>
-                    <p>{{substr($help_wont[$i]->description, 0, 150)}}...</p>
+                    <p>{{mb_substr($help_wont[$i]->description, 0, 150)}}...</p>
                 </div>
                                 
                             @endfor  
@@ -319,8 +319,8 @@
                             <img src="{{asset('storage/help/'.$ns->image)}}"/>
                             <span>{{ Carbon\Carbon::parse($ns->created_at)->format('d.m.Y') }}</span>
                         </a>
-                        <a href="/news/item/{{$ns->id}}" class="news-article-title">{!!  strip_tags (substr($ns->name, 0, 50))!!}....</a>
-                        <p>{!!  strip_tags (substr($ns->description, 0, 150))!!}....</p>
+                        <a href="/news/item/{{$ns->id}}" class="news-article-title">{!!  strip_tags (mb_substr($ns->name, 0, 50))!!}....</a>
+                        <p>{!!  strip_tags (mb_substr($ns->description, 0, 150))!!}....</p>
                     </div>
                                     
                    @endforeach
@@ -334,7 +334,7 @@
                     
                                                 <div class="item">
                             <a href="/searche/{{$hs->id}}" class="subtitle">{{$hs->title}}</a>
-                            <p>{!!  strip_tags (substr($hs->description, 0, 150))!!}...</p>
+                            <p>{!!  strip_tags (mb_substr($hs->description, 0, 150))!!}...</p>
                             <span class="subspan">Телефон: <span>{{$hs->id}}</span></span>
 							@if(isset($hs->City->name))
                             <span class="subspan">Город: <span>{{$hs->City->name}}</span></span>
@@ -351,9 +351,36 @@
                 </div>
             </div>
         </div>
+		
     </div>
 
-
+  <div class="last-section">
+        <a href="/users" class="title">Люди</a>
+        <div class="slider">
+            <div class="button">
+                <button id="owl-person-left"><</button>
+            </div>
+            <div class="slider-body">
+                <div class="owl-carousel owl-theme" id="owl-person">
+                                     @foreach($users_all as $ua )  
+                              @if(isset($ua ->user->id))					  
+                                <div class="person">
+                            <a href="/user/{{$ua ->user_id}}">
+                                <div class="img" style="background-image: url(/storage/avatar/{{$ua ->avatar}})"></div>
+                                <span class="job">{{$ua ->user->name}}</span>
+                                <span title="Рейтинг" class="job" style="background-color: #3389bb; max-width: 20%;">0</span>
+                            </a>
+                            <!-- <span class="person-name"></span> -->
+                        </div>
+						         @endif
+                                 @endforeach    
+                                </div>
+            </div>
+            <div class="button">
+                <button id="owl-person-right">></button>
+            </div>
+        </div>
+    </div>
 </section>
 
 <script>

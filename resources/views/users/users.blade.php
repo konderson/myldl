@@ -135,12 +135,12 @@
               <div class="sm-breadcrumb">
     <ol class="breadcrumb">
         <li><a href="/">Главная</a></li><li>
-       </li><li class="active">Пользоватетели</li>
+       </li><li style="color:#8e8e8e">Пользоватетели</li>
     </ol>
 </div>
 <script>
     $( document ).ready(function() {
-       
+     
         //window.history.pushState({}, document.title, "/" + "hochu_pom");
         
         $("#online").click(function() {
@@ -189,15 +189,25 @@
             country_id=$('select[name=country]').val(); // для підсввітки вибраної
             region=$('select[name=region]').val();
             sity=$('select[name=sity]').val();
-
-            
+                  
+				  
+				  str=document.location.search;
+				  sh='';
+				 if( str.indexOf('need') !== -1)
+				 {
+					 sh='need';
+				 }
+				if( str.indexOf('want') !== -1)
+					 {
+						sh='want';
+					 }
             
             
              $.ajax(
 
         {
 
-            url:"/search/user?country_id="+country_id ,
+            url:"/search/user?country_id="+country_id+"&sh="+sh,
 
             type: "get",
 
@@ -224,6 +234,46 @@
             
             
         });
+		
+		
+		$('select[name=types]').change(function () {
+		 country_id=$('select[name=country]').val(); // для підсввітки вибраної
+            region=$('select[name=region]').val();
+            city=$('select[name=city]').val();
+             region_id=$('select[name=region]').val();
+			 types=$('select[name=types').val();
+			 //window.location.search="?sh="+types;
+			  $.ajax({
+
+            url:"/search/user?country_id="+country_id+"&region_id="+region+"&city_id="+city+"&sh="+types,
+
+            type: "get",
+
+            datatype: "html"
+
+        }).done(function(data){
+
+            $("#datapost").empty().html(data);
+             val=$("#cf").text();
+            
+             $(".status").text(val);
+           
+            var scrollTop = $('#datapost').offset();
+            $(document).scrollTop(scrollTop);
+             window.history.pushState({}, document.title, "/" + "users");
+
+        }).fail(function(jqXHR, ajaxOptions, thrownError){
+
+              alert('Нет данных');
+
+        });
+           
+			 
+			 
+		})
+		
+		
+		
       /**
        * код при выборе региона + фильтр по region_id
        ***/
@@ -240,16 +290,26 @@
             });
             country_id=$('select[name=country]').val(); // для підсввітки вибраної
             region=$('select[name=region]').val();
-            sity=$('select[name=sity]').val();
+            city=$('select[name=city]').val();
              region_id=$('select[name=region]').val();
-
-
+              
+				  str=document.location.search;
+				  sh='';
+				 if( str.indexOf('need') !== -1)
+				 {
+					 sh='need';
+				 }
+				if( str.indexOf('want') !== -1)
+					 {
+						sh='want';
+					 }
+                 
 
     $.ajax(
 
         {
 
-            url:"/search/user?country_id="+country_id+"&region_id="+region,
+            url:"/search/user?country_id="+country_id+"&region_id="+region+"&sh="+sh,
 
             type: "get",
 
@@ -368,6 +428,14 @@
       })
   
   });
+  
+  
+  
+    $('.search-magnify').click(function (e) {
+            e.preventDefault();
+            window.location.href = "/search/user?serch_by_name=" + $('.ufilter').val();
+        });
+
             
 });
 </script>
@@ -377,6 +445,7 @@
             window.location.href = "/search/user?serch_by_name=" + $('.ufilter').val();
         });
 </script>
+
 <script>
      $("#online").click(function() {
             alert('j')
@@ -388,8 +457,8 @@
     }
 });
 </script>
-  <script type="text/javascript" src="{{asset('asset/front/js/jquery.fancybox.min.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{asset('asset/front/js/jquery.fancybox.css')}}" media="screen" />
+  <script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.min.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('asset/front/fancy_box/jquery.fancybox.css')}}" media="screen" />
 <section>
     <div class="advert">
         <div class="left">
@@ -532,6 +601,13 @@
                                 <option value="">Город</option>
                                                             </select>
                         </div>
+						<div>
+                            <select id="types" name="types" class="selectb form-control">
+                                <option value="">Положение на сайте</option>
+								 <option value="need">Мне нужна помощь</option>
+								  <option value="want">Хочу помощь</option>
+                                                            </select>
+                        </div>
                         </div>
                         <div class="close"></div>
                     </div>
@@ -540,8 +616,8 @@
                 <div class="people-frame">
                     <div id="datapost">
                     @foreach($users as $user)
-	                        <a href="/user/{{$user->id}}" class="person">
-                        <div class="person-photo" style="background-image: url(/storage/avatar/<? echo isset($user->person->id)? $user->person->avatar : 'default.png'?>)">
+	                        <a href="/user/{{$user->user_id}}" class="person">
+                        <div class="person-photo" style="background-image: url(/storage/avatar/{{$user->avatar}})">
                             @if(!$user->isOnline())
                             <span class="offline status" style="background-color: #ca3d3d;" title="Офлайн"></span>
                             @else

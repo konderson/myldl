@@ -8,7 +8,7 @@ use App\Interview;
 class InterviewController extends Controller
 {
     public function index(){
-    $ivs=Interview::all();
+    $ivs=Interview::orderBy('id', 'DESC')->get();
     return view ('interview.all',compact('ivs'));
 }
 

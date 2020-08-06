@@ -222,16 +222,31 @@
 
    <script>
    $( document ).ready(function() {
+	   
+	   var active_block='';
+	  
         $("#serv_info").hide();
         $("#help_info").hide();
         $("#anketa_info").hide();
+        $("#otziv_info").hide();
+		 $("#izbran_info").hide();
+		active_block='#my_delo';
+		
        
        $("#my_delo").click(function(){
            
            $("#name_info").text("Дела");
            $("#serv_info").hide();
            $("#help_info").hide();
+		    $("#otziv_info").hide();
            $("#delo_info").show();
+		   $("#anketa_info").hide();
+		    $("#izbran_info").hide();
+		  $(active_block).removeClass('selected-li'); 
+		   active_block='#my_delo';
+		   $(active_block).addClass('selected-li');
+		   var scrollTop = $('#lower-part').offset();
+         $(document).scrollTop(scrollTop);
            
        }) ; 
        
@@ -241,6 +256,14 @@
             $("#serv_info").show();
            $("#help_info").hide();
            $("#delo_info").hide();
+		   $("#anketa_info").hide();
+		    $("#otziv_info").hide();
+			 $("#izbran_info").hide();
+		   $(active_block).removeClass('selected-li'); 
+		   active_block='#my_serv';
+		   $(active_block).addClass('selected-li');
+		    var scrollTop = $('#lower-part').offset();
+         $(document).scrollTop(scrollTop);
        }) ; 
        
        $("#my_help").click(function(){
@@ -248,14 +271,66 @@
             $("#serv_info").hide();
            $("#help_info").show();
            $("#delo_info").hide();
+		   $("#anketa_info").hide();
+		    $("#otziv_info").hide();
+			 $("#izbran_info").hide();
+		   $(active_block).removeClass('selected-li'); 
+		   active_block='#my_help';
+		   $(active_block).addClass('selected-li');
+		   		    var scrollTop = $('#lower-part').offset();
+         $(document).scrollTop(scrollTop);
+		   
        }) ; 
         $("#my_anketa").click(function(){
             $("#name_info").text("Связи");
             $("#serv_info").hide();
             $("#help_info").hide();
             $("#delo_info").hide();
+			 $("#otziv_info").hide();
+			  $("#izbran_info").hide();
             $("#anketa_info").show();
+			$(active_block).removeClass('selected-li'); 
+		   active_block='#my_anketa';
+		   $(active_block).addClass('selected-li');
+		   var scrollTop = $('#lower-part').offset();
+         $(document).scrollTop(scrollTop);
+			
        }) ; 
+	   
+	   
+	   $("#my_otziv").click(function(){
+            $("#name_info").text("Отзывы");
+            $("#serv_info").hide();
+            $("#help_info").hide();
+            $("#delo_info").hide();
+			 $("#otziv_info").show();
+            $("#anketa_info").hide();
+			 $("#izbran_info").hide();
+			$(active_block).removeClass('selected-li'); 
+		   active_block='#my_otziv';
+		   $(active_block).addClass('selected-li');
+		   var scrollTop = $('#lower-part').offset();
+         $(document).scrollTop(scrollTop);
+			
+       }) ;
+	   
+	   
+	   
+	    $("#my_izbran").click(function(){
+            $("#name_info").text("Отзывы");
+            $("#serv_info").hide();
+            $("#help_info").hide();
+            $("#delo_info").hide();
+			 $("#otziv_info").hide();
+			 $("#izbran_info").show();
+            $("#anketa_info").hide();
+			$(active_block).removeClass('selected-li'); 
+		   active_block='#my_izbran';
+		   $(active_block).addClass('selected-li');
+		   var scrollTop = $('#lower-part').offset();
+         $(document).scrollTop(scrollTop);
+			
+       }) ;
        
    }); 
    </script>
@@ -284,9 +359,40 @@
 
 <div id="dialog4" title="Оставить отзыв" style="display: none">
     <div id="add-review" class="modalwin">
-        <h2 class="text-center">Оставьте <span>admin</span> отзыв</h2>
+        <h2 class="text-center">Оставьте <span></span> отзыв</h2>
 
-                    <h4>Чтобы оставить отзыв надо авторизоваться.</h4>
+                    <form action="/add_review" method="POST" id="form_add_otziv">
+                <input type="hidden" name="ci_csrf_token"
+                       value="">
+                <div class="revinfo">
+                    <div class="row-raform-group">
+                        <input class="radio" type="radio" id="choice-1" name="flag_otziv" value="1" checked="">
+                        <label for="choice-1">
+                            <span class="like">Положительный</span></label>
+                        <input class="radio" type="radio" id="choice-2" name="flag_otziv" value="0">
+                        <label for="choice-2">
+                            <span class="unlike">Отрицательный</span></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal_tema">Заговолок</label>
+                        <input class="form-control tfi" type="text" name="tema" id="modal_tema" maxlength="50" placeholder="Заговолок...">
+                    </div>
+                    <div class="form-group">
+                        <label for="modal_subyect">Пользователь*</label>
+                        <input class="form-control tfi" type="text" name="subyect" id="modal_subyect"
+                               value="{{$user->name}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal_otziv">Отзыв</label>
+                        <textarea class="form-control tfi" name="text_otziv" id="modal_otziv" placeholder="Отзыв..."></textarea>
+                        <input type="hidden" name="is_user" value="21889">
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn add btn-green">Добавить</button>
+                    <a class="a-btn" onclick="$.fancybox.close();">Отмена</a>
+                </div>
+            </form>
             </div>
 </div>
 
@@ -352,44 +458,6 @@
 </div>
 
 
-<div id="dialog4" title="Оставить отзыв" style="display: none">
-    <div id="add-review" class="modalwin">
-        <h2 class="text-center">Оставьте <span>Irina63rus</span> отзыв</h2>
-
-                    <form action="/add_review" method="POST" id="form_add_otziv">
-                <input type="hidden" name="ci_csrf_token"
-                       value="">
-                <div class="revinfo">
-                    <div class="row-raform-group">
-                        <input class="radio" type="radio" id="choice-1" name="flag_otziv" value="1" checked="">
-                        <label for="choice-1">
-                            <span class="like">Положительный</span></label>
-                        <input class="radio" type="radio" id="choice-2" name="flag_otziv" value="0">
-                        <label for="choice-2">
-                            <span class="unlike">Отрицательный</span></label>
-                    </div>
-                    <div class="form-group">
-                        <label for="modal_tema">Заговолок</label>
-                        <input class="form-control tfi" type="text" name="tema" id="modal_tema" maxlength="50" placeholder="Заговолок...">
-                    </div>
-                    <div class="form-group">
-                        <label for="modal_subyect">Пользователь*</label>
-                        <input class="form-control tfi" type="text" name="subyect" id="modal_subyect"
-                               value="Irina63rus" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="modal_otziv">Отзыв</label>
-                        <textarea class="form-control tfi" name="text_otziv" id="modal_otziv" placeholder="Отзыв..."></textarea>
-                        <input type="hidden" name="is_user" value="21889">
-                    </div>
-                </div>
-                <div class="btn-group">
-                    <button class="btn add btn-green">Добавить</button>
-                    <a class="a-btn" onclick="$.fancybox.close();">Отмена</a>
-                </div>
-            </form>
-            </div>
-</div>
             <!-- ui-dialog -->
 
 
@@ -423,11 +491,12 @@
 	            	                                <img src="{{asset('storage/avatar/'.$user->person->avatar)}}"/>
 	                        </div>
             <div class="upper-part-right show-xs">
-                                        <a  <?php if(Auth::check()){echo'href="#user_send_message"';}else{ echo'href="#showcontact"';}?> id="write_message" class="fancybox btn" data-width="386" data-height="430">Написать0 сообщение</a>
-                        <div class="a "><a <?php if(Auth::check()){echo'href="#dialog3"';}else{ echo'href="#showcontact"';}?>  class="fancybox" data-width="386" data-height="480">Добавить в связь</a></div>
-                        <div class="a "> <a <?php if(Auth::check()){echo'href="#dialog3"';}else{ echo'href="#showcontact"';}?> class="fancybox" data-width="386" data-height="430">Оставить отзыв</a></div>
-                        <div class="a "><a  <?php if(Auth::check()){echo'href="#dialog2"';}else{ echo'href="#showcontact"';}?> class="fancybox" data-width="386" data-height="430">Пожаловаться</a></div>
-                                                    </div>
+                                        <a <?php if(Auth::check()){echo'href="#user_send_message"';}else{ echo'href="#showcontact"';}?> id="write_message" class="fancybox btn hide-xs" data-width="386" data-height="430">Написать сообщение </a>
+	                      @if(Auth::check())<div class="a "><a  <?php if(Auth::check()){echo'href="#dialog3"';}else{ echo'href="#showcontact"';}?>  class="fancybox" data-width="386" data-height="480">Добавить в связи</a></div>  @endif            
+                        <div class="a"><a <?php if(Auth::check()){echo'href="#dialog4"';}else{ echo'href="#showcontact"';}?> class="fancybox" data-width="386" data-height="430">Оставить отзыв</a></div>
+                        <div class="a"><a <?php if(Auth::check()){echo'href="#dialog2"';}else{ echo'href="#showcontact"';}?> class="fancybox" data-width="386" data-height="430">Пожаловаться</a></div>
+                         @if(Auth::check())<div class="a "><a  <?php if(Auth::check()){echo'href="#dialog5"';}else{ echo'href="#showcontact"';}?>  class="fancybox" data-width="386" data-height="480">Добавить в дело</a></div>  @endif                                                    
+												   </div>
             <div class="mobile-profile-info show-xs">
                            <p><span>Возраст: {{$user::getAge($user->person->birthday)}}</span> </p>
                     <p><span>Город:{{$user->person->city}}</span> </p>
@@ -448,11 +517,12 @@
                 <li  id="my_serv" style="background-image: url(/static/images/my-adverts.png);">
                     <a href="#">Мои объявления (<span>{{count($services)}}</span>)</a>
                 </li>
-                <li  style="background-image: url(/static/images/my-reviews.png);">
-                    <a href="">Мои отзывы (<span>0</span>)</a>
+				
+                <li  id="my_otziv" style="background-image: url(/static/images/my-reviews.png);">
+                    <a href="#">Мои отзывы (<span>0</span>)</a>
                 </li>
-                <li  style="background-image: url(/static/images/fav-work.png);">
-                    <a href="">Избранные дела (<span>0</span>)</a>
+                <li id="my_izbran" style="background-image: url(/static/images/fav-work.png);">
+                    <a href="#">Избранные дела (<span>0</span>)</a>
                 </li>
                 <li  id="my_anketa" style="background-image: url(/static/images/pc7.png);">
                     <a href="#">Мои связи (<span>{{count($frends)}}</span>)</a>
@@ -479,10 +549,11 @@
 
                 <div class="upper-part-right hide-xs">
 	                                    <a <?php if(Auth::check()){echo'href="#user_send_message"';}else{ echo'href="#showcontact"';}?> id="write_message" class="fancybox btn hide-xs" data-width="386" data-height="430">Написать сообщение </a>
-	                      <div class="a "><a  <?php if(Auth::check()){echo'href="#dialog3"';}else{ echo'href="#showcontact"';}?>  class="fancybox" data-width="386" data-height="480">Добавить в связи</a></div>              
-                        <div class="a"><a <?php if(Auth::check()){echo'href="#dialog3"';}else{ echo'href="#showcontact"';}?> class="fancybox" data-width="386" data-height="430">Оставить отзыв</a></div>
+	                      @if(Auth::check())<div class="a "><a  <?php if(Auth::check()){echo'href="#dialog3"';}else{ echo'href="#showcontact"';}?>  class="fancybox" data-width="386" data-height="480">Добавить в связи</a></div>  @endif            
+                        <div class="a"><a <?php if(Auth::check()){echo'href="#dialog4"';}else{ echo'href="#showcontact"';}?> class="fancybox" data-width="386" data-height="430">Оставить отзыв</a></div>
                         <div class="a"><a <?php if(Auth::check()){echo'href="#dialog2"';}else{ echo'href="#showcontact"';}?> class="fancybox" data-width="386" data-height="430">Пожаловаться</a></div>
-	                	                                </div>
+	                	                                @if(Auth::check())<div class="a "><a  <?php if(Auth::check()){echo'href="#dialog5"';}else{ echo'href="#showcontact"';}?>  class="fancybox" data-width="386" data-height="480">Добавить в дело</a></div>  @endif 
+														</div>
                 <script>
                     $(document).ready(function () {
                         $('.fancybox').fancybox({
@@ -514,9 +585,9 @@
                    <div class="article-info">
         <div class="article-subtitle">
             <div class="date date-dela"><span>{{ Carbon\Carbon::parse($serv->created_at)->format('d.m') }}</span></div>
-            <a href="/delo/{{$delo->id}}">{{$serv->title}}</a>
+            <a href="/usluga/{{$serv->id}}">{{$serv->title}}</a>
         </div>
-        <p>{{ substr($serv->description, 0, 150)}}...</p>
+        <p>{{ substr($serv->description, 0, 250)}}...</p>
     </div>
         @endforeach     
         </div><!--//id="serv_info-->
@@ -527,7 +598,7 @@
             <div class="date date-dela"><span>{{ Carbon\Carbon::parse($help->created_at)->format('d.m') }}</span></div>
             <a href="/searche/{{$help->id}}">{{$help->title}}</a>
         </div>
-        <p>{{ substr($help->description, 0, 150)}}...</p>
+        <p>{{ substr($help->description, 0, 250)}}...</p>
     </div>
         @endforeach     
         </div><!--//id="help_info-->
@@ -547,15 +618,15 @@
 									
 													<div class="connect-info">
 														<div class="offline">
-															<p>{{$frend->user->name}}</p>
+															<p>{{$frend->userFrend->name}}</p>
 														</div>
 														<div class="ci-image">
 															<br>
-															<a href="/user/{{$frend->user->id}}" class="ci-imglink foreign-profile"><img src="{{asset('storage/avatar/'.$frend->user->person->avatar)}}" alt="" /></a>
+															<a href="/user/{{$frend->userFrend->id}}" class="ci-imglink foreign-profile"><img src="{{asset('storage/avatar/'.$frend->userFrend->person->avatar)}}" alt="" /></a>
 														</div>
 														<div class="ci-data mclearfix">
-															<p class="ci-age">{{$frend->user::getAge($frend->user->person->birthday)}}</p>
-															<p class="ci-town">{{$frend->user->person->city}}</p>
+															<p class="ci-age">{{$frend->user::getAge($frend->userFrend->person->birthday)}}</p>
+															<p class="ci-town">{{$frend->userFrend->person->city}}</p>
 														</div>
 													</div>
 													
@@ -581,7 +652,75 @@
 			</div>
 		</form>
              </div><!--//id="anketa_info-->
-                    </div>
+                     <div id="otziv_info">
+					 
+             <form action="#">
+			<div class="anketa">
+				<div class="exception">
+					<table class="connectiontbl no-head" id="example">
+						<tbody>
+
+						<tr>
+							<td>
+								<div class="connect-block mclearfix">
+
+                                    
+												
+								</div>
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="3" rowspan="1">
+								<!--Pagination
+                                <div class="pagination">
+                                    <a href="#" class="active">1</a>&nbsp;<a href="#">2</a>&nbsp;<a href="#">3</a>
+                                </div>
+                                end Pagination-->
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</form>
+             </div><!--//id="anketa_info-->
+				
+<div id="izbran_info">
+             <form action="#">
+			<div class="anketa">
+				<div class="exception">
+					<table class="connectiontbl no-head" id="example">
+						<tbody>
+
+						<tr>
+							<td>
+								<div class="connect-block mclearfix">
+
+                                    
+												
+								</div>
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="3" rowspan="1">
+								<!--Pagination
+                                <div class="pagination">
+                                    <a href="#" class="active">1</a>&nbsp;<a href="#">2</a>&nbsp;<a href="#">3</a>
+                                </div>
+                                end Pagination-->
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</form>
+             </div><!--//id="anketa_info-->				
+					</div>
 	                        </div>
         </div>
     </div>

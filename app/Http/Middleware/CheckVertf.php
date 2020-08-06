@@ -23,7 +23,7 @@ class CheckVertf
         {
             if(Route::getFacadeRoot()->current()->uri()!=='error/auth' ||Route::getFacadeRoot()->current()->uri()!=='logout' )
             {
-             return redirect('/error/auth');   
+             return redirect('succes/error/auth');   
             }
             
         }

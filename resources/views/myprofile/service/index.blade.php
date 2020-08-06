@@ -3,10 +3,17 @@
 <meta name="description" content="Тест">
         <meta name="keywords" content="">
 @push('css')
-
+<style>
+.profile-info-p{
+	font-size:16px;
+}
+</style>
 @endpush
+ 
 @section('content')
-          <main class="col-xs-12">
+<script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js?v=2.1.5')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('asset/front/fancy_box/jquery.fancybox.css?v=2.1.5')}}" media="screen" />
+ <main class="col-xs-12">
               
               
               
@@ -14,7 +21,7 @@
     <ol class="breadcrumb">
         <li><a href="/">Главная</a></li><li>
            
-            <a href="/uslugi">Объявления</a>
+            <a href="/services">Объявления</a>
          
             </li><li class="active">{{$serv->title}}</li>    </ol>
 </div>
@@ -38,7 +45,22 @@
     });
 </script>
 
-
+<div id="showcontact">
+        <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
+        <form action="{{route('login')}}" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
+		{{ csrf_field() }}
+            <input name="email" type="email" class="form-control email" id="exampleInputEmail2" placeholder="| Логин / E-mail" required>
+            <input name="passw" type="password" class="form-control password" id="exampleInputPassword2" placeholder="| Пароль" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> Запомнить меня
+                </label>
+            </div>
+            <input type="hidden" id="hashLoginID" name="ci_csrf_token" value="">
+            <button type="submit" class="btn btn-success btn-block">Войти</button>
+            <a class="text-center btn-reg a-btn" href="/register">Новый пользователь?</a>
+        </form>
+    </div>
 <section>
     <div class="advert advert-inner">
         <div class="left">
@@ -48,26 +70,38 @@
             <div class="adv-inner-body news-inner-body searches">
                                 <div class="adv-inner-right inner-100">
                     <div class="awa-226 " style="background-image: url(/storage/help/{{$serv->getPhoto($serv->images)}});"></div>
-                    <p class="profile-info-p" style="margin-bottom: 8px; margin-top: 0;"><span>Дата публикации:</span> {{ Carbon\Carbon::parse($serv->created_at)->format('d.m.Y') }}</p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> <span id="view_c">9</span></p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Автор:</span> <a href="/user/{{$serv->user->id}}">{{$serv->user->name}}</a></p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Город:</span> {{$serv->city}}</p>
+                    <p class="profile-info-p" style="margin-bottom: 8px; margin-top: 0;"><span>Дата публикации:</span><b> {{ Carbon\Carbon::parse($serv->created_at)->format('d.m.Y') }}</b></p>
+                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> <b><span id="view_c">0</span></b></p>
+                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Автор:</span> <a href="/user/{{$serv->user->id}}"><b>{{$serv->user->name}}</b></a></p>
+                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Город:</span> <b>{{$serv->city}}</b></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;">Раздел: 
-                                                   <?php if($serv->razdel_id==1) echo 'Транспорт' ?>      
-                                                     <?php if($serv->razdel_id==2) echo 'Недвижимость' ?>  
-													 <?php if($serv->razdel_id==3) echo 'Работа' ?>  
-													 <?php if($serv->razdel_id==4) echo 'Вещи' ?>  
-													 <?php if($serv->razdel_id==5) echo 'Для быта' ?>  
-                                                     <?php if($serv->razdel_id==6) echo 'Бытовая электроника' ?>  
-													 <?php if($serv->razdel_id==7) echo 'Хобби и отдых' ?>  
-													 <?php if($serv->razdel_id==8) echo 'Животные' ?> 
-                                                     <?php if($serv->razdel_id==8) echo 'Бизнес' ?>  													 
+                                                   <?php if($serv->razdel_id==1) echo '<b>Транспорт</b>' ?>      
+                                                     <?php if($serv->razdel_id==2) echo '<b>Недвижимость</b>' ?>  
+													 <?php if($serv->razdel_id==3) echo '<b>Работа</b>' ?>  
+													 <?php if($serv->razdel_id==4) echo '<b>Вещи</b>' ?>  
+													 <?php if($serv->razdel_id==5) echo '<b>Для быта</b>' ?>  
+                                                     <?php if($serv->razdel_id==6) echo '<b>Бытовая электроника</b>' ?>  
+													 <?php if($serv->razdel_id==7) echo '<b>Хобби и отдых</b>' ?>  
+													 <?php if($serv->razdel_id==8) echo '<b>Животные</b>' ?> 
+                                                     <?php if($serv->razdel_id==8) echo '<b>Бизнес</b>' ?>  													 
 
 
 												   </p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон: <?php  if($serv->phone==null) echo('не указан')?>
-                                                    {{$serv->phone}}                                           </p>
-                    <p class="profile-info-p">Цена: <?php if($serv->price==0) echo('Бесплатно')?> {{$serv->price}}
+					@if(Auth::check())
+                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон:{{$serv->phone }}  <?php  if($serv->phone==null) echo('<b>не указан</b>')?></p>
+				     @else
+                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон:
+				        @if($serv->phone==null)
+							<span><b>не указан</b></span>
+						@else
+						
+						<span>+8 .... </span><a href="#showcontact" id="write_message" class="fancybox mbtn"  ><strong>Показать</strong></a>
+						@endif
+						@endif
+                                                        
+                    <p class="profile-info-p">Цена: <?php if($serv->price==0) echo('<b>Бесплатно</b>')?> 
+					                                 <?php if($serv->price!=0) echo '<b>'.$serv->price.'</b>' ?> 
+					                            
                                                                                                 </p>
                                     </div>
                 <div class="adv-inner-desc">{{$serv->description}}</div>
@@ -121,6 +155,10 @@
    @if(Auth::check())
       <div class="photo">
             <div class="ava" style="background-image: url(/storage/avatar/{{Auth::user()->person->avatar}})"></div>       
+			</div>
+			@else
+				      <div class="photo">
+            <div class="ava" style="background-image: url(/storage/avatar/noimg.png)"></div>       
 			</div>
 			@endif
              <form  id="comment_form">
@@ -322,7 +360,16 @@
     });
 </script>
 
-
+ <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                'width':500,
+                'height': 400,
+                'autoDimensions': false,
+                'autoSize':false
+            });
+        });
+    </script>
 
 
 

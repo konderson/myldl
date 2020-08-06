@@ -87,10 +87,12 @@ class RegisterController extends Controller
         ]);
         
         $person=new Person();
-        $person->name=$data['username'];
+        $person->names=$data['username'];
         $person->user_id=$user->id;
+		$person->avatar='default.png';
         $person->save();
-        Mail::to($user->email)->send(new Vertify($user));
+		$pass=$data['password'];
+        Mail::to($user->email)->send(new Vertify($user,$pass));
        
         
   return $user;

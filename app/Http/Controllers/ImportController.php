@@ -28,6 +28,7 @@ use App\SeoText;
 use App\SQuestions;
 use App\Answer;
 use App\Tag;
+use App\Frend;
 
 
 class ImportController extends Controller
@@ -203,11 +204,16 @@ class ImportController extends Controller
 		foreach($likes as $lk)
 		{
 			$like=new Like();
-			$like->id=$lk->id;
 			$like->type_id=1;
 			$like->user_id=$lk->user_id;
 			$like->ip=$lk->user_ip;
-			$like->dis_like=$lk->likes;
+			if($lk->likes==1)
+			{
+				$like->dis_like=0;
+			}
+			else{
+				$like->dis_like=1;
+			}
 			$like->post_id=$lk->post_id;
 			$like->save();
 			
@@ -997,4 +1003,18 @@ public function comentImportNews()
     [ 'news_id' => $tag->post_id,'tag_id'=>$tag->tag_id,]]);
 	    }
 	 }
+	 
+	  public function importFrend()
+	{
+		$frends=DB::connection('mysql2')->select('select * from relation ');
+		
+		foreach($frends as $f)
+		{
+
+			$nf=new Frend();
+			$nf->user_id=$f->user_id;
+			$nf->frend_id=$f->rel_id;
+			$nf->save();
+		}
+	}
 }

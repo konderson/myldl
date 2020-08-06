@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     public static function getPhoto($data){
-     $img=explode(",", $data);
+		return $data;
+		if(stripos($data, ','))
+		{
+			  $img=explode(",", $data);
       return $img[0];
+		}
+		else{
+			return $data;
+		}
+   
     }
     
      public function country()

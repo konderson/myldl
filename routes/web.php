@@ -81,13 +81,13 @@ Route::get('/profile/vzaimopomoshi','HelpController@myhelp')->name('help.my')->m
 Route::put('/profile/update/{id}','HelpController@update')->name('profile.help.update')->middleware(['verified','auth']);;
 Route::get('/profile/edit/{id}','HelpController@edit')->name('profile.help.edit')->middleware(['verified','auth']);;
 Route::get('/searche/{id}','HelpController@getHelp')->name('profile.help.get')->middleware(['verified']);;
-Route::post('/help/coment','CommentHelpController@addcomment')->name('help.coment.store')->middleware(['verified','auth']);;
-Route::post('/help/coment/get','CommentHelpController@getComent')->name('help.coment.get')->middleware(['verified','auth']);;
-Route::post('/help/coment/getcount','CommentHelpController@getCount')->name('help.coment.getcount')->middleware(['verified','auth']);;
+Route::post('/help/coment','CommentHelpController@addcomment')->name('help.coment.store')->middleware(['verified']);
+Route::post('/help/coment/get','CommentHelpController@getComent')->name('help.coment.get')->middleware(['verified']);
+Route::post('/help/coment/getcount','CommentHelpController@getCount')->name('help.coment.getcount')->middleware(['verified']);;
 Route::get('/poiski','HelpController@getAllpoiski')->name('profile.help.poiski');
 Route::get('/search/poiski/','HelpController@filterPoiski')->name('profile.help.poiski.filter');
 Route::get('/hochu_pom','HelpController@getAllwont')->name('profile.help.hochu_pom');
-Route::get('/search/hochu_pom/','HelpController@filter')->name('profile.help.hochu_pom.filter')->middleware(['verified','auth']);;
+Route::get('/search/hochu_pom/','HelpController@filter')->name('profile.help.hochu_pom.filter');
 Route::get('/naxodki','HelpController@getAllNahodki')->name('profile.help.naxodki');
 Route::get('/search/naxodki/','HelpController@filterNahodki')->name('profile.help.nahodki.filter');
 
@@ -102,7 +102,7 @@ Route::get('/del_usluga/{id}','ServiceController@deleteServ')->name('service.del
 Route::put('/usluga/update/{id}','ServiceController@update')->name('profile.service.update')->middleware(['verified','auth']);;
 Route::get('/service/edit/{id}','ServiceController@edit')->name('profile.service.edit')->middleware(['verified','auth']);;
 Route::get('/usluga/{id}','ServiceController@getService')->name('profile.service.get')->middleware(['verified']);;
-Route::post('/service/coment','ComentServiceController@addcomment')->name('serv.coment.store')->middleware(['verified','auth']);;
+Route::post('/service/coment','ComentServiceController@addcomment')->name('serv.coment.store')->middleware(['verified']);
 Route::post('/service/coment/get','ComentServiceController@getComent')->name('serv.coment.get');
 Route::post('/service/coment/getcount','ComentServiceController@getCount')->name('hserv.coment.getcount');
 Route::get('/search/service/','ServiceController@filter')->name('profile.service.filter');
@@ -134,6 +134,8 @@ Route::post('/news/coment/getcount','CommentNewsController@getCount')->name('new
 
 Route::get('/diary','DiaryController@index')->name('diary');
 Route::get('/diary/item/{id}','DiaryController@item')->name('diary.item');
+Route::post('/diary/ajax_search_dnevnik','DiaryController@searchAjax')->name('diary.coment.store');
+Route::post('/diary/ajax_search_date_dnevnik','DiaryController@searchAjaxDate')->name('diary.coment.store');
 Route::post('/diary/coment','CommentDiaryController@addcomment')->name('diary.coment.store');
 Route::post('/diary/coment/get','CommentDiaryController@getComent')->name('diary.coment.get');
 Route::post('/diary/coment/getcount','CommentDiaryController@getCount')->name('diary.coment.getcount');
@@ -160,10 +162,12 @@ Route::get('/ajax_get_city/{id}','MainController@ajax_get_city')->name('ajax.get
 Route::get('/ajax_get_region/{id}','MainController@ajax_get_region')->name('ajax.get_region');
 Route::post('/parse/href','MainController@parseHref')->name('ajax.parse.href');
 Route::get('/error/auth','MainController@error')->name('error.auth');
+Route::get(' succes/error/auth','MainController@errorSucces')->name('error.succ.auth');
 Route::get('/error/block','MainController@errorBlock');
 Route::get('/error/ublock','MainController@errorUBlock');
 Route::get('/error/delete','MainController@errorDelete');
 Route::get('/notify/chenge_password','MainController@notifyChengePass');
+Route::get('/serv/chengephoto','MainController@chengeServPhoto');
 Route::get('/chenge_password/{id}/{token}', 'MainController@ChengePassForm')->name('chenge_password');
 Route::post('/set_password','MainController@newPassword')->name('new_password');
 
@@ -189,7 +193,7 @@ Route::get('/profile/relation/','FrendController@getFrend')->middleware(['verifi
 Route::get('/del/frend/{id}','FrendController@delete');
 Route::get('/frend/is_online','FrendController@isOnline');
 Route::get('/frend/all','FrendController@ajaxAllFrend');
-
+Route::get('/shares', 'MainController@shares');
 
 Route::post('/appeal/add','AppealController@store')->middleware(['verified','auth']);
 
@@ -220,6 +224,8 @@ Route::get('/hochu_pom/index', 'HelpController@HochyPomIndex')->name('adminpanel
 Route::put('/admin/upadete/hochu_pom/','HelpController@HochyPompUdate')->name('adminpanel.hochu_pom.update');
 Route::get('hochu_pom/edit/{id}', 'HelpController@HochyPomEdit')->name('adminpanel.hochu_pom.edit');
 Route::get('hochu_pom/delete/{id}', 'HelpController@HochyPomDelete')->name('adminpanel.hochu_pom.delete');
+
+
 
 
 
@@ -404,6 +410,7 @@ Route::get('/import/answer','ImportController@importAnswer');
 Route::get('/chenge/avatar/default','MainController@chengeAvatar');
 Route::get('/import/tag','ImportController@importTag');
 Route::get('/import/tag/news','ImportController@importTagNews');
+Route::get('/import/frend','ImportController@importFrend');
 
 
 

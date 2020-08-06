@@ -8,6 +8,7 @@ use App\Region;
 use App\Service;
 use App\Dela;
 use App\User;
+use Carbon\Carbon;
 use App\SeoText;
 use App\News;
 use App\City;
@@ -46,8 +47,8 @@ $users_wont=Person::where('help', 'want')->orderBy('id','desc')->limit(10)->get(
 
 
     
-    $help_need=Help::where('type',1)->where('status',1)->orderBy('created_at','desc')->limit(7)->get();
-    $help_wont=Help::where('type',2)->where('status',1)->orderBy('created_at','desc')->limit(6)->get();
+    $help_wont=Help::where('type',1)->where('status',1)->orderBy('created_at','desc')->limit(7)->get();
+   $help_need =Help::where('type',2)->where('status',1)->orderBy('created_at','desc')->limit(6)->get();
     $help_search=Help::where('type',3)->where('status',1)->orderBy('created_at','desc')->limit(7)->get();
     $delas=Dela::where('status',1)->orderBy('created_at','desc')->limit(7)->get();
     $news=News::orderBy('flag','desc')->orderBy('created_at','desc')->limit(6)->get();
@@ -62,15 +63,14 @@ $users_need=Person::where('help', 'need')->orderBy('id','desc')->limit(10)->get(
   /*$users= User::with('person')->whereHas('person', function ($query) {
    $query->orderBy('created_at','desc');
 })->limit(10)->get();*/
- $users=Person::orderBy('id','desc')->limit(10)->get();
-
+ $users_all=Person::orderBy('id','desc')->limit(10)->get();
     
     $st=SeoText::where('url','home')->first();
     
     
    $quest=$this->getQuest();
    
-    return view('welcome',compact('users_wont','users_need','users','help_need','help_wont','help_search','delas','services','news','st','quest'));
+    return view('welcome',compact('users_wont','users_need','users_all','help_need','help_wont','help_search','delas','services','news','st','quest'));
 }
 
 
@@ -87,6 +87,10 @@ public function ajax_get_country(){
 public function error(){
     
     return view ('error');
+}
+   public function errorSucces(){
+    
+    return view ('error_suc');
 }
    
    
@@ -165,14 +169,9 @@ echo  $result;
 						<input class="radio"  type="radio" name="q_answers[]" value="variant_'.$i.'" id="poll-1">
 						<label for="poll-1">'.$qusts[$index]->{'variaant'.$i}.'</label>
 					</p>';
-					   $output.='<button id="pollsbt" type="submit">Голосовать
-                    </button><br>
+					  
                 
-                <div class="poll-voted">
-                                    </div>
-
-                
-        </form>';
+               
                       }
                   }
                   
@@ -238,14 +237,75 @@ echo  $result;
         }
     }
     
-    public function getUser(){
+    public function getUser(Request $request){
+	  $this->req=$request;
+		 $query = User::query();
+                $query->join("people", function($join) {
+                        $join->on("users.id", "=", "people.user_id");
+						if($this->req->sh=='want')
+						{
+						$join->where('help','want');
+						}
+						if($this->req->sh=='need'){
+							
+						$join->where('help','need');
+						}
+                        });
+						
+						$users=$query->orderBy('user_id','desc')->paginate();
+						$count=$users->total();
+                
+				
+		
+		/*$query=User::where('id','>',0);
+		
+		
         $count=User::where('id','>',0)->count();
-        $users=User::orderBy('id','desc')->paginate(20);
+        $users=User::orderBy('id','desc')->paginate(20);*/
         return view('users.users',compact('users','count'));
     }
     public function filter(Request $request){
         
-         $this->req=$request;
+		 $this->req=$request;
+		 $query = User::query();
+		 
+                $query->join("people", function($join) {
+                        $join->on("users.id", "=", "people.user_id");
+						if($this->req->sh=='want')
+						{
+						$join->where('help','want');
+						}
+						if($this->req->sh=='need'){
+							
+						$join->where('help','need');
+						}
+						if($this->req->country_id!=null)
+						{
+					
+							$join->where('country',$this->req->country_id);
+						}
+						if($this->req->region_id!=null)
+						{
+							
+							$id=City::select('id')->where('region_id',$this->req->region_id)->get();
+            
+                            $join->whereIn('city_id',$id);
+							
+							
+						}
+						if($this->req->city_id!=null)
+						{
+							 $join->where('city_id',$this->req->city_id);
+						}
+                        });
+						
+						$users=$query->orderBy('user_id','desc')->get();
+					
+		
+		
+		
+		
+        /* $this->req=$request;
          if(!empty($request->serch_by_name)){
               $query=User::where('id','>',0);
              $query->where('name','like','%'.$request->serch_by_name.'%');
@@ -256,7 +316,7 @@ echo  $result;
              
              
          }
-        /* $users= User::with('pepole')->whereHas('pepole', function ($query) {
+         $users= User::with('pepole')->whereHas('pepole', function ($query) {
   
 
           if(!empty($request->country_id)){
@@ -271,7 +331,7 @@ echo  $result;
             
              $query->where('city_id',$request->city_id);
          }
-           })->get*/
+           })->get
           
            $users = User::with('person')->whereHas('person', function ($query) {
                 
@@ -289,28 +349,40 @@ echo  $result;
              $query->where('city_id',$this->req->city_id);
          }
          
-})->get();
+})->get();*/
 
           $count=count($users);
           return view('users.search_users',compact('users','count'));
        
      }
      public function getOnline(){
+		 $current = Carbon::now();
+		 $dif=$current->subMinutes(3);
+		 $users=User::where('updated_at','>',$dif)->get();
+		 $count=count($users);
+		 /*
+		 
          $users=User::where('id','>',0)->get();
          $count=0;
          foreach($users as $user){
              if($user->isOnline()){
                 $count++;  
              }
-             
-         }
+             */
+         
          
          return view('users.online',compact('users','count'));
      }
      
     public function getUserIndex($id)
     {
-        
+		if(Auth::check())
+		{
+        if(Auth::user()->id==$id)
+		{
+			return redirect()->route('profile.index');
+		}
+		}
      $user=User::findOrFail($id);
      $delas=Dela::where('user_id',$id)->get();
      $services=Service::where('user_id',$id)->get();
@@ -340,7 +412,7 @@ echo  $result;
                     
                     <p style='margin: 4px 0 4px 18px'>Раздел: Дела</p>
 
-                    <p style='margin: 4px 0 4px 18px;'>".substr($delo->opisanie, 0, 80)."...</p><br>";
+                    <p style='margin: 4px 0 4px 18px;'>".mb_substr($delo->opisanie, 0, 80)."...</p><br>";
                     $count++;
         }
         
@@ -360,7 +432,7 @@ echo  $result;
                     
                     <p style='margin: 4px 0 4px 18px'>Раздел: Взаимопомощь</p>
 
-                    <p style='margin: 4px 0 4px 18px;'>".substr($help->description, 0, 80)."...</p><br>";
+                    <p style='margin: 4px 0 4px 18px;'>".mb_substr($help->description, 0, 80)."...</p><br>";
                       $count++;
         }
         
@@ -375,7 +447,7 @@ echo  $result;
                     
                     <p style='margin: 4px 0 4px 18px'>Раздел: Обьявления</p>
 
-                    <p style='margin: 4px 0 4px 18px;'>".substr($serv->description, 0, 80)."...</p><br>";
+                    <p style='margin: 4px 0 4px 18px;'>".mb_substr($serv->description, 0, 80)."...</p><br>";
                     $count++;
         }
         $newses=News::where('title','like','%'.$request->s.'%')->orWhere('description','like','%'.$request->s.'%')->get();
@@ -389,7 +461,7 @@ echo  $result;
                     
                     <p style='margin: 4px 0 4px 18px'>Раздел: Новости</p>
 
-                    <p style='margin: 4px 0 4px 18px;'>".substr($news->description, 0, 80)."...</p><br>";
+                    <p style='margin: 4px 0 4px 18px;'>".mb_substr($news->description, 0, 80)."...</p><br>";
                     $count++;
         }
         
@@ -480,6 +552,26 @@ echo  $result;
 		}
 		
 	}
+	public function chengeServPhoto()
+	{
+		$ss=Service::all();
+		foreach($ss as $s)
+		{
+			
+			
+			if($s->images==null)
+			{
+				$s->images='noimg.png';
+				$s->save();
+			}	
+			
+			
+		}
+		
+	}
 	
-	
+	public function shares()
+	{
+		return view('shares.index');
+	}
 }

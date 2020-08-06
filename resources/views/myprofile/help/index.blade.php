@@ -43,7 +43,22 @@
         });
     });
 </script>
-
+<div id="showcontact">
+        <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
+        <form action="{{route('login')}}" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
+		{{ csrf_field() }}
+            <input name="email" type="email" class="form-control email" id="exampleInputEmail2" placeholder="| Логин / E-mail" required>
+            <input name="passw" type="password" class="form-control password" id="exampleInputPassword2" placeholder="| Пароль" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> Запомнить меня
+                </label>
+            </div>
+            <input type="hidden" id="hashLoginID" name="ci_csrf_token" value="">
+            <button type="submit" class="btn btn-success btn-block">Войти</button>
+            <a class="text-center btn-reg a-btn" href="/register">Новый пользователь?</a>
+        </form>
+    </div>
 
 <section>
     <div class="advert advert-inner">
@@ -58,12 +73,45 @@
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> <span id="view_c">9</span></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Автор:</span> <a href="/user/{{$help->user->id}}">{{$help->user->name}}</a></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Город:</span> {{$help->city}}</p>
+                    
+                    
+                     @if(Auth::check()) 
+                    <p class="profile-info-p" style="margin-bottom: 8px;">E-mail: ... {{$help->email }}  <?php  if($help->email==null) echo('<b>не указан</b>')?></p>
+				     @else
                     <p class="profile-info-p" style="margin-bottom: 8px;">E-mail: ...
-                                                    {{$help->email}}                     </p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон: ...
-                                                    {{$help->phone}}                                           </p>
-                    <p class="profile-info-p">Соц.сети: ... {{$help->cocial}}
-                                                                                                </p>
+				        @if($help->email==null)
+							<span><b>не указан</b></span>
+						@else
+						
+						<span> <?php echo substr($help->email, 0, 4)?> .... </span><a href="#showcontact" id="write_message" class="fancybox mbtn"  ><strong>Показать</strong></a>
+						@endif
+						</p>
+						@endif	
+                      @if(Auth::check()) 
+                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон:{{$help->phone }}  <?php  if($help->phone==null) echo('<b>не указан</b>')?></p>
+				     @else
+                    <p class="profile-info-p" style="margin-bottom: 8px;">Телефон:
+				        @if($help->phone==null)
+							<span><b>не указан</b></span>
+						@else
+						
+						<span>+8 .... </span><a href="#showcontact" id="write_message" class="fancybox mbtn"  ><strong>Показать</strong></a>
+						@endif
+						</p>
+						@endif													
+                    
+					@if(Auth::check()) 
+                    <p class="profile-info-p" style="margin-bottom: 8px;">Соц.сети: ... {{$help->cocial}} <?php  if($help->cocial==null) echo('<b>не указан</b>')?></p>
+				     @else
+                    <p class="profile-info-p" style="margin-bottom: 8px;">Соц.сети: ...
+				        @if($help->cocial==null)
+							<span><b>не указан</b></span>
+						@else
+						
+						<span>+8 .... </span><a href="#showcontact" id="write_message" class="fancybox mbtn"  ><strong>Показать</strong></a>
+						@endif
+						</p>
+						@endif															
                                     </div>
                 <div class="adv-inner-desc">{{$help->description}}</div>
                 <ul class="gallery">
@@ -109,7 +157,12 @@
         </div>
 
         <div class="right">
+		@if($help->type==1)
+            <span class="title">Хочу помочь</span>
+		@endif
+		@if($help->type==2)
             <span class="title">Нужна помощь</span>
+		@endif
             <div class="advert-body">
                 @foreach($helps as $lhelp)
 	                                <div class="article-info">

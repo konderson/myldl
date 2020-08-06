@@ -57,25 +57,30 @@
 </div><script type="text/javascript">
     $(document).ready(function() {
 
-        $("#search_word").on('submit', function(e){
-            e.preventDefault();
+        $(".search").on('submit', function(e){
+                e.preventDefault();
+                $(".advert-row.news-row, .advert-pages").remove();
+                $(".advert-search-row").after('<p class="advert-search-loader" style="text-align:center;">' +
+                    '<br><br>' +
+                    '<img  src="/asset/front/images/ajax-loader.gif" /></p>');
 
-            $(".advert-row").remove();
-            $(".advert-search-row").after('<p style="text-align:center;" class="advert-search-row-load"><br><br><img src="https://myldl.ru/application/views/front/images/ajax-loader.gif" /></p>');
-            $.ajax({
-                type: "POST",
-                url: "https://myldl.ru/main/ajax_search_interview",
-                data: {
-                    'search_word': $("#search_word input[type='text']").val(),
-                    'ci_csrf_token' : $.cookie('hash_cookie_id')
-                },
-                dataType: "html",
-                success: function(msg){
-                    $(".advert-row, .advert-search-row-load").remove();
-                    $(".advert-search-row").after(msg);
-                }
+                $.ajax({
+                    type: "POST",
+                    url: "/diary/ajax_search_dnevnik",
+					headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      },
+                    data: {
+                        'search_word' : $("#search_word").val(),
+                        
+                    },
+                    dataType: "html",
+                    success: function(msg){
+                        $(".advert-row.news-row, .advert-search-loader").remove();
+                        $(".advert-search-row").after(msg);
+                    }
+                });
             });
-        });
 
     });
 </script>
@@ -156,10 +161,13 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "https://myldl.ru/diary/ajax_search_date_dnevnik",
+                    url: "/diary/ajax_search_date_dnevnik",
+					headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      },
                     data: {
                         search_date : formatDateToString(date),
-                        'ci_csrf_token' : $.cookie('hash_cookie_id')
+                        
                     },
                     dataType: "html",
                     success: function(msg){

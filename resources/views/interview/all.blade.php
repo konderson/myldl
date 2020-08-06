@@ -60,7 +60,7 @@
 			<img src="{{asset('storage/help/'.$iv->image)}}"/>
 		</div>
 		<div class="advert-row-body">
-			<p class="adv-info" style="font-size: 14px;"><p>{!! substr($iv->tex, 0, 150)!!}....</p>
+			<p class="adv-info" style="font-size: 14px;"><p>{!! mb_substr($iv->tex, 0, 150)!!}....</p>
 		</div>
 
 		                  <div class="deal-views">

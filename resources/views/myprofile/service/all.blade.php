@@ -128,6 +128,8 @@
 </style>
 @endpush
 @section('content')
+ <script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js?v=2.1.5')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('asset/front/fancy_box/jquery.fancybox.css?v=2.1.5')}}" media="screen" />
           <main class="col-xs-12">
             <div class="sm-breadcrumb">
     <ol class="breadcrumb">
@@ -192,63 +194,7 @@ var param=params['serch_by_name'];
         })
         
         
-            
-        $('#write_message').click(function(evt){
-                var popID = $(this).attr('rel'); //получаем имя окна, важно не забывать при добавлении новых менять имя в атрибуте rel ссылки
-		var popURL = $(this).attr('href'); //получаем размер из href атрибута ссылки
-            
-            
-              $.ajax({
-                
-   url:"/ajax/check_auth",
-   method:"POST",
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-   success:function(msg)
-   {
-      
-  if(msg==1){ 
-          
-                 window.location.href = "/profile/add_usluga";evt.preventDefault();
-            }
-           else{
-               
-               
            
-				
-		//запрос и переменные из href url
-		var query= popURL.split('?');
-		var dim= query[1].split('&');
-		var popWidth = dim[0].split('=')[1]; //первое значение строки запроса
- 
-		//Добавляем к окну кнопку закрытия
-		$('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" title="Закрыть" class="close"></a>');
-		
-        //Определяем маржу(запас) для выравнивания по центру (по вертикали и горизонтали) - мы добавляем 80 к высоте / ширине с учетом отступов + ширина рамки определённые в css
-		var popMargTop = ($('#' + popID).height() + 80) / 2;
-		var popMargLeft = ($('#' + popID).width() + 80) / 2;
-		
-		//Устанавливаем величину отступа
-		$('#' + popID).css({ 
-			'margin-top' : -popMargTop,
-			'margin-left' : -popMargLeft
-		});
-		
-		//Добавляем полупрозрачный фон затемнения
-		$('body').append('<div id="fade"></div>'); //div контейнер будет прописан перед тегом </body>.
-		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //полупрозрачность слоя, фильтр для тупого IE
-		
-           }
-
-	
-       
-           }
-                
-      })
-  
-  });
-            
 });
 </script>
 <script>
@@ -401,12 +347,10 @@ var param=params['serch_by_name'];
     
 
     
-       <div id="popup_name" class="popup_block">
-     <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
-      
-      <center> <form action="{{route('login')}}" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
-           {{ csrf_field() }}
-           
+       <div id="showcontact">
+        <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
+        <form action="{{route('login')}}" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
+		{{ csrf_field() }}
             <input name="email" type="email" class="form-control email" id="exampleInputEmail2" placeholder="| Логин / E-mail" required>
             <input name="passw" type="password" class="form-control password" id="exampleInputPassword2" placeholder="| Пароль" required>
             <div class="checkbox">
@@ -415,11 +359,10 @@ var param=params['serch_by_name'];
                 </label>
             </div>
             <input type="hidden" id="hashLoginID" name="ci_csrf_token" value="">
-            <button type="submit"  style="background-color: #89bc28;pading:15px;padding: 5px;color: #fff;font-size: 15px;margin-top: 15px;"  class="btn btn-success btn-block">Войти</button>
-            <a class="text-center btn-reg a-btn" href="/auth/register">Новый пользователь?</a>
+            <button type="submit" class="btn btn-success btn-block">Войти</button>
+            <a class="text-center btn-reg a-btn" href="/register">Новый пользователь?</a>
         </form>
-        </center> 
-</div>
+    </div>
               
     
     
@@ -430,7 +373,7 @@ var param=params['serch_by_name'];
             <div class="title">
                 <h1 class="title">
 Объявления</h1>
-                                <a  href="#?w=500" rel="popup_name" class="poplight" id="write_message" class="fancybox mbtn" data-width="386" data-height="430">Довать объявление</a>
+                                <a href="#showcontact" id="write_message" class="fancybox mbtn" data-width="386" data-height="430">Добавить объявление</a>
 	                        </div>
             <div class="advert-body">
                 <div class="advert-search-row">
@@ -577,12 +520,13 @@ var param=params['serch_by_name'];
                     <div class="date"><span>{{ Carbon\Carbon::parse($serv->created_at)->format('d.m') }}</span></div>
                         <a class="advert-row-body-title" href="/usluga/{{$serv->id}}">{{$serv->title}}</a>
                     <div class="image">
-                        <img src="{{asset('storage/help/'.$serv->getPhoto($serv->images))}}"/>
+                        <img src="{{asset('storage/upload/uploads/'.$serv->getPhoto($serv->images))}}"/>
                     </div>
                     <div class="advert-row-body">
-                        <p class="adv-info">{{ substr($serv->description, 0, 150)}}...</p>
+                        <p class="adv-info">{{ substr($serv->description, 0, 500)}}...</p>
                         <div class="price-info">
                             <p>Город: <span>{{$serv->city}}</span></p>
+							<p>Цена: <span>{{$serv->price}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -610,25 +554,16 @@ var param=params['serch_by_name'];
 	            
                 
             </div>
-                <div id="yandex_rtb_R-A-285233-2"></div>
-                <script type="text/javascript">
-                    (function(w, d, n, s, t) {
-                        w[n] = w[n] || [];
-                        w[n].push(function() {
-                            Ya.Context.AdvManager.render({
-                                blockId: "R-A-285233-2",
-                                renderTo: "yandex_rtb_R-A-285233-2",
-                                async: true
-                            });
-                        });
-                        t = d.getElementsByTagName("script")[0];
-                        s = d.createElement("script");
-                        s.type = "text/javascript";
-                        s.src = "//an.yandex.ru/system/context.js";
-                        s.async = true;
-                        t.parentNode.insertBefore(s, t);
-                    })(this, this.document, "yandexContextAsyncCallbacks");
-                </script>
+                <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                'width':500,
+                'height': 400,
+                'autoDimensions': false,
+                'autoSize':false
+            });
+        });
+    </script>  
         </div>
     </div>
 </section>

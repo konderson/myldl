@@ -5,27 +5,21 @@
  </head>
 <body>
 
-<table class="wp-block-table action"><tbody><tr><td>
-<table border="0" width="100%" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-<td align="center">
-<table border="0" cellspacing="0" cellpadding="0">
-<tbody>
-    <tr>
-        <td>
-            <h1>Пожайлуста подтвердите свою почту передя по ссылки</h1>
-        </td>
-    </tr>
-<tr>
-<td><a  style="color:blue" href="{{ $link }}" target="_blank" rel="noopener">Подтвердить</a></a></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
+<div>
+<div><h2>Приветствуем, {{$name}}!</h2></div>
+<div>Добро пожаловать домой. Мы очень рады, что вы зарегистрировались на нашем сайте.
+Для окончания регистрации перейдите по ссылке: </div></br>
+  <p>{{ $link }}</p>
+ <div> Ваша регистрационная информация:</div>
+<div>Имя: {{$name}}</div>
+<div>Пароль: {{$pass}}</div>
+<div>Email : {{$email}}</div>
+
+<div>Мы будем рады ответить на Ваши вопросы, выслушать пожелания и предложения по работе сайта info@myldl.ru</div>
+
+<div>С наилучшими пожеланиями, Команда Люди для людей</div>
+</div>
+
 
 </body>
 </html>

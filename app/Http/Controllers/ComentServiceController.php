@@ -10,7 +10,7 @@ class ComentServiceController extends Controller
     
      
     public function addcomment(Request $request){
-        
+       
        $coment=new ComentService();
        if(!empty($request->comment_name)){
           $coment->name_author=$request->comment_name;
@@ -45,29 +45,45 @@ class ComentServiceController extends Controller
         $output = '';
         foreach($coments as $comment){
            $img='';
-           if($comment->user_id!=null){
+           if($comment->user_id!=null && $comment->user!=null){
               $img=$comment->user->person->avatar;  
            }
            else{
                $img='default.png';
            }
-            $output .= '
-            <div class="odd-comment">
+           $output .= '
+            <div class="odd-comment">';
+			if($comment->user_id==null || $comment->user==null)
+			{
+				$output .= '
+			
+                    <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/noimg.png )"></div></div>
+                    <div class="adv-comment">
+					<div class="profile-name">
+                            <span class="guestCommenter">'.$comment->name_author.'</span>&nbsp;<sup style="color: #888;">гость</sup>&nbsp;                            
+                            <span>'.$this->showDate($comment->created_at->timestamp).'</span>
+                            
+                        </div>';
+			}
+			else{
+				$output .= '
+			       
                     <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/'.$img.' )"></div></div>
                     <div class="adv-comment">
               <div class="profile-name">
-                            <a target="_blank" href="https://myldl.ru/user/20266">'.$comment->name_author.'</a>                            
+                            <a target="_blank" href="/user/'.$comment->user_id.'">'.$comment->user->name.'</a>                            
                             <span>'.$this->showDate($comment->created_at->timestamp).'</span>
-                              </div>
+                              </div>';
+				
+			}
+			$output .= '
                                 <p>'.$comment->text.'</p>
                         <div class="callback clAnswer">
                             <button type="button" class="btn btn-default reply" id="'.$comment->id.'">Ответить</button>
                             <!-- <span>3 минуты  назад</span> -->
                         </div>
                     </div>
-                </div>
-            
- ';
+                </div>';
  $output .= $this->get_reply_comment( $comment->id);
         }
         
@@ -100,15 +116,33 @@ class ComentServiceController extends Controller
                     else{
                         $img="default.png";
                     }
-                     $output .= '
+                    if($rp_com->user_id==null)
+					{
+						 $output .= '
+                     <div class="even-comment">
+                     <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/noimg.png)"></div></div>
+                    <div class="adv-comment">
+                        <div class="profile-name">
+                            <span class="guestCommenter">'.$rp_com->name_author.'</span>&nbsp;<sup style="color: #888;">гость</sup>&nbsp;                           
+                            <span>'.$this->showDate($rp_com->created_at->timestamp).'</span>
+                            
+                        </div>';
+					}
+					else{
+						$img=$rp_com->user->person->avatar;
+						 $output .= '
+						 
                      <div class="even-comment">
                      <div class="photo"><div class="ava" style="background-image: url(/storage/avatar/'.$img.')"></div></div>
                     <div class="adv-comment">
                         <div class="profile-name">
-                            <a target="_blank" href="https://myldl.ru/user/20266">'.$rp_com->name_author.'</a>                            
+                            <a target="_blank" href="/user/'.$rp_com->user_id.'">'.$rp_com->name_author.'</a>                            
                             <span>'.$this->showDate($rp_com->created_at->timestamp).'</span>
                             
-                        </div>
+                        </div>';
+					}
+					
+                    $output .= '
                         <p>'.$rp_com->text.'</p>
                         <div class="callback clAnswer">
                             <button class="btn_rep reply"   type="button"  id="'.$rp_com->id.'">Ответить</button>

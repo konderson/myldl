@@ -16,7 +16,7 @@
     <div class="advert advert-inner">
         <div class="left">
             <div class="date"><span>{{ Carbon\Carbon::parse($iv->created_at)->format('d.m.Y') }}</span></div>
-            <h1 class="title"></h1>
+            <h1 class="title">{{$iv->name}} </h1>
 
             <div class="adv-inner-body news-inner-body">
                 <div class="interview-info">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="text">
-
+				{!! $iv->tex !!}
                 </div>
 
                 <div class="news-views">

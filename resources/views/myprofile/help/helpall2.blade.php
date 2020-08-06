@@ -8,90 +8,6 @@
 <style>
 
 
-#fade { 
-    display: none;/*--по умолчанию скрыто--*/ 
-    background: rgba(7, 87, 207, 0.8);
-    position: fixed; left: 0; top: 0;
-    width: 100%; height: 100%;
-    opacity: .80; 
-    z-index: 9999;
-}
-.popup_block {
-    display: none; /*--по умолчанию скрыто--*/
-    background: #fff;
-    padding: 20px;
-    border: 8px solid rgb(134, 134, 134);
-    float: left;
-    font-size: 85%;
-    position: fixed;
-    top: 50%; left: 50%;color: #000;
-    max-width: 750px;
-    min-width: 320px;
-    height: auto;
-    z-index: 99999;
-    /*--CSS3 тень блока--*/
-    -webkit-box-shadow: 0px 0px 20px #000;
-    -moz-box-shadow: 0px 0px 20px #000;
-    box-shadow: 0px 0px 20px #000;
-    /*--CSS3 скругление углов--*/
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-}
-.popup_block p {	
-    font-weight: 400;
-    padding: 0;
-    margin: 0;
-    color: #000;
-    line-height: 1.6;}
-.popup_block h2 {
-    margin: 0px 0 10px;
-    color: rgb(43, 43, 43);
-    font-weight: 400;
-    text-align: center;
-    
-}	
-/* формируем кнопку закрытия */
-.close {
-    background-color: rgba(61, 61, 61, 0.8);
-    border: 2px solid #ccc;
-    height: 25px;
-    line-height: 20px;
-    position: absolute;
-    right: -17px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;padding: 0;
-    top: -17px;
-    width: 25px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    border-radius: 50%;
-    -moz-box-shadow: 1px 1px 3px #000;
-    -webkit-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
-}
-.close:before {
-    color: rgba(255, 255, 255, 0.9);
-    content: "X";
-    font-size: 12px;
-    text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
-}
-.close:hover {
-    background-color: rgba(252, 20, 0, 0.8);
-}
-.shadow {
-    box-shadow:4px 4px 10px #857373;
-   -webkit-box-shadow:4px 4px 10px #857373;
-   -moz-box-shadow:4px 4px 10px #857373;
-    padding:0;
-}
-/*--фиксированное позиционирование для IE6--*/
-*html #fade {
-    position: absolute;
-}
 *html .popup_block {
     position: absolute;
 }
@@ -172,61 +88,7 @@
            
         })
         
-        $('#write_message').click(function(evt){
-                var popID = $(this).attr('rel'); //получаем имя окна, важно не забывать при добавлении новых менять имя в атрибуте rel ссылки
-		var popURL = $(this).attr('href'); //получаем размер из href атрибута ссылки
-            
-            
-              $.ajax({
-                
-   url:"/ajax/check_auth",
-   method:"POST",
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-   success:function(msg)
-   {
-      
-  if(msg==1){ 
-          
-                 window.location.href = "/profile/vzaimopomoshi";evt.preventDefault();
-            }
-           else{
-               
-               
-           
-				
-		//запрос и переменные из href url
-		var query= popURL.split('?');
-		var dim= query[1].split('&');
-		var popWidth = dim[0].split('=')[1]; //первое значение строки запроса
- 
-		//Добавляем к окну кнопку закрытия
-		$('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" title="Закрыть" class="close"></a>');
-		
-        //Определяем маржу(запас) для выравнивания по центру (по вертикали и горизонтали) - мы добавляем 80 к высоте / ширине с учетом отступов + ширина рамки определённые в css
-		var popMargTop = ($('#' + popID).height() + 80) / 2;
-		var popMargLeft = ($('#' + popID).width() + 80) / 2;
-		
-		//Устанавливаем величину отступа
-		$('#' + popID).css({ 
-			'margin-top' : -popMargTop,
-			'margin-left' : -popMargLeft
-		});
-		
-		//Добавляем полупрозрачный фон затемнения
-		$('body').append('<div id="fade"></div>'); //div контейнер будет прописан перед тегом </body>.
-		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //полупрозрачность слоя, фильтр для тупого IE
-		
-           }
-
-	
-       
-           }
-                
-      })
-  
-  });
+        
 });
 </script>
 <script>
@@ -376,36 +238,18 @@
 <script>
    
 </script>
-     <script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{asset('asset/front/fancy_box/jquery.fancybox.css')}}" media="screen" />
+     <script type="text/javascript" src="{{asset('asset/front/fancy_box/jquery.fancybox.js?v=2.1.5')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('asset/front/fancy_box/jquery.fancybox.css?v=2.1.5')}}" media="screen" />
 
 
        
-           <div id="popup_name" class="popup_block">
-     <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
-      
-      <center> <form action="{{route('login')}}" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
-           {{ csrf_field() }}
            
-            <input name="email" type="email" class="form-control email" id="exampleInputEmail2" placeholder="| Логин / E-mail" required>
-            <input name="passw" type="password" class="form-control password" id="exampleInputPassword2" placeholder="| Пароль" required>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Запомнить меня
-                </label>
-            </div>
-            <input type="hidden" id="hashLoginID" name="ci_csrf_token" value="">
-            <button type="submit"  style="background-color: #89bc28;pading:15px;padding: 5px;color: #fff;font-size: 15px;margin-top: 15px;"  class="btn btn-success btn-block">Войти</button>
-            <a class="text-center btn-reg a-btn" href="/auth/register">Новый пользователь?</a>
-        </form>
-        </center> 
-</div>
 <section>
     <div class="advert">
         <div class="left">
             <div class="title">
-                <h1 class="title">Хочу помочь</h1>
-                                <a  href="#?w=500" rel="popup_name" class="poplight" id="write_message" class="fancybox mbtn" data-width="386" data-height="430">Оказать помощь</a>
+                <h1 class="title">Нужна помощь</h1>
+                                <a href="#showcontact" id="write_message" class="fancybox mbtn" data-width="386" data-height="430">Попросить помощь</a>
 	                        </div>
             <div class="advert-body">
                 <div class="advert-search-row">
@@ -552,7 +396,7 @@
                     <div class="date"><span>{{ Carbon\Carbon::parse($help->created_at)->format('d.m') }}</span></div>
                         <a class="advert-row-body-title" href="/searche/{{$help->id}}">{{$help->title}}</a>
                     <div class="image">
-                        <img src="{{asset('storage/help/'.$help->images)}}"/>
+                        <img src="{{asset('storage/upload/uploads/noimg.png')}}"/>
                     </div>
                     <div class="advert-row-body">
                         <p class="adv-info">{{ substr($help->description, 0, 150)}}...</p>
@@ -588,27 +432,27 @@
                 </div>
             </div>
                 <div id="yandex_rtb_R-A-285233-2"></div>
-                <script type="text/javascript">
-                    (function(w, d, n, s, t) {
-                        w[n] = w[n] || [];
-                        w[n].push(function() {
-                            Ya.Context.AdvManager.render({
-                                blockId: "R-A-285233-2",
-                                renderTo: "yandex_rtb_R-A-285233-2",
-                                async: true
-                            });
-                        });
-                        t = d.getElementsByTagName("script")[0];
-                        s = d.createElement("script");
-                        s.type = "text/javascript";
-                        s.src = "//an.yandex.ru/system/context.js";
-                        s.async = true;
-                        t.parentNode.insertBefore(s, t);
-                    })(this, this.document, "yandexContextAsyncCallbacks");
-                </script>
+              
         </div>
     </div>
 </section>
+
+<div id="showcontact">
+        <h2 class="text-center">Авторизируйтесь для<br>просмотра данных</h2>
+        <form action="{{route('login')}}" class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav LoginForm">
+		{{ csrf_field() }}
+            <input name="email" type="email" class="form-control email" id="exampleInputEmail2" placeholder="| Логин / E-mail" required>
+            <input name="passw" type="password" class="form-control password" id="exampleInputPassword2" placeholder="| Пароль" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> Запомнить меня
+                </label>
+            </div>
+            <input type="hidden" id="hashLoginID" name="ci_csrf_token" value="">
+            <button type="submit" class="btn btn-success btn-block">Войти</button>
+            <a class="text-center btn-reg a-btn" href="/register">Новый пользователь?</a>
+        </form>
+    </div>
     <script>
         $(document).ready(function () {
             $('.fancybox').fancybox({
