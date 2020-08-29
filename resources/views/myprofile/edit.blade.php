@@ -49,7 +49,7 @@ optionsText += ' <option value=" <?php if(isset($user->person->City->Region->id)
                 //$("#country").append('<option value="">Страна</option>'+msg).data("selectBox-selectBoxIt").refresh();
                 var optionsText = '';
                 optionsText += '<option value="">Страна</option>';
-                optionsText += '<option value=" <?php if($user->person->Country->id) echo $user->person->Country->id ?>" SELECTED><?php if(isset($user->person->Country->name)) echo $user->person->Country->name ?></option>';
+                optionsText += '<option value=" <?php if(isset($user->person->Country->id)) echo $user->person->Country->id ?>" SELECTED><?php if(isset($user->person->Country->name)) echo $user->person->Country->name ?></option>';
                 
                 $("#country")
                     .append(optionsText + msg)
@@ -302,7 +302,7 @@ optionsText += ' <option value=" <?php if(isset($user->person->City->Region->id)
 
             <div class="field-for-edit">
                 <label for="pOrgName" class="edit-label">Имя / Название организации</label>
-                <input type="text" id="pOrgName" name="name" placeholder="Имя / Название организации..." value="{{isset(Auth::user()->person->name) ? Auth::user()->person->name : '' }}" />
+                <input type="text" id="pOrgName" name="name" placeholder="Имя / Название организации..." value="{{isset(Auth::user()->person->names)&&Auth::user()->person->names!=null ? Auth::user()->person->names : Auth::user()->name }}" />
 	                        </div>
 
             <div class='field-for-edit'>

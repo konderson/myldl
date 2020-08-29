@@ -57,13 +57,16 @@ class ProfileController extends Controller
 				$user->need()->attach($key);
 			 }
 			 }
-             $person->name=$request->name;
+             $person->names=$request->name;
              $person->birthday=$request->birthday;
              $person->country=$request->country;
 			 $person->avatar=$request->name_photo;
 			 $person->city_id=$request->city;
+		 if(isset($request->city)){
 			 $city=City::findOrFail($request->city);
 			 $person->city=$city->name;
+		 }
+			 
              $person->about=$request->about;
              $person->pol=$request->pol;
              $person->status_str=$request->status_str ;

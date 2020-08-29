@@ -173,7 +173,7 @@
                                         } else {
                                             // response - назва зменшеного файлу
                                             orig_name = response.replace("_thumb", "");
-                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/delo')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="{{asset('asset/front/images/close.png')}}" alt="" /></a></li>');
+                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/upload/uploads/')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="{{asset('asset/front/images/close.png')}}" alt="" /></a></li>');
                                             my_mas1.push(orig_name);
                                             document.getElementById('str_images').value = my_mas1;
                                             img++;
@@ -181,6 +181,134 @@
                                     }
                                 });
 
+								var error_aName=1;//title fild
+								var error_aDesc=1;//description
+								var error_aStat=1;//curent status
+								var error_country=1;
+								var error_region=1;
+								var error_aBudjet=1;
+								var error_aTime=1;
+								var error_aEffect=1;
+								var error_aEffect=1;
+								var error_aThank=1;
+								
+								$("#aName").blur(function(){
+								length_input= $("#aName").val().length
+								if(length_input<6)
+								{
+									$('#err_aName').html('<span style="color:red">Заголовок должен содержать более 6 символов</span>');
+									error_aName=1
+								}
+								if(length_input>80)
+								{
+									$('#err_aName').html('<span style="color:red">Заголовок должен содержать менее 80 символов</span>');
+									error_aName=1
+								}
+								if(length_input>6 && length_input<80)
+								{
+									error_aName=0;
+									$('#err_aName').html('<span style="color:green">OK</span>');
+								}
+								
+								});
+								
+								
+								$('#aDesc').blur(function(){
+									length_input= $("#aDesc").val().length
+									if(length_input<20)
+									{
+								$('#err_aDesc').html('<span style="color:red"> Описание должено содержать более 20 символов</span>');
+								error_aDesc=1;
+									}
+									if(length_input>5000)
+									{
+								$('#err_aDesc').html('<span style="color:red"> Описание должено содержать менее 5000 символов</span>');
+								error_aDesc=1;
+									}
+									
+									if(length_input>20 && length_input<5000)
+								{
+								error_aDesc=0;
+									$('#err_aDesc').html('<span style="color:green">OK</span>');
+								}
+									
+									
+								})//Описание END
+								
+								$('#aStat').blur(function(){
+									
+									length_input= $("#aStat").val().length
+									if(length_input<6)
+									{
+										$('#err_aStat').html('<span style="color:red"> Текущий статус должен содержать более 6 символов</span>');
+										error_aStat=1
+									}
+									if(length_input>4000)
+									{
+										$('#err_aStat').html('<span style="color:red"> Текущий статус должен содержать менее 40000 символов</span>');
+										error_aStat=1
+									}
+									if(length_input>6 && length_input<4000)
+								   {
+									error_aStat=0
+									$('#err_aStat').html('<span style="color:green">OK</span>');
+								   }
+								})
+								
+								
+								$('#add_delo_true').submit(function(){
+									
+									
+									
+									if(error_aName===1){
+									event.preventDefault();	
+									}
+									if(error_aDesc===1){
+									event.preventDefault();	
+									}
+									if(error_aStat===1){
+									event.preventDefault();
+									}
+									if($("#country").val()===null || $("#country").val().length==0 ){
+									
+									$('#err_Locat').html('<span style="color:red">Не выбрана страна</span>');
+										event.preventDefault();
+									}
+									
+									if($("#region").val()==null || $("#region").val().length==0){
+									
+									$('#err_Locat').html('<span style="color:red">Не выбран регион</span>');
+										event.preventDefault();
+									}
+									
+									if($("#city").val()==null||$("#city").val().length==0 ){
+									
+									$('#err_Locat').html('<span style="color:red">Не выбран город</span>');
+										event.preventDefault();
+									}
+									
+									if($("#aBudjet").val().length>128 ){
+									
+									$('#err_aBudjet').html('<span style="color:red">Число символов не должно привышать 128 символов</span>');
+										event.preventDefault();
+									}
+									
+									
+									if($("#aTime").val().length>128){
+									
+									$('#err_aTime').html('<span style="color:red">Число символов не должно привышать 128 символов</span>');
+										event.preventDefault();
+									}
+								if($("#aEffect").val().length>256 ){
+									
+									$('#err_aEffect').html('<span style="color:red">Число символов не должно привышать 256 символов</span>');
+										event.preventDefault();
+									}
+								 
+								 
+								});
+								
+								
                             });
 
 </script>
@@ -232,22 +360,22 @@
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Заголовок</span>
+                <span class="edit-label" >Заголовок   <span id="err_aName"></span></span> 
                 <input type="text" class="tfi" id="aName" name="nazva" value="" placeholder="Заголовок..." />
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Описание</span>
+                <span class="edit-label">Описание  <span id="err_aDesc"></span> </span>
                 <textarea placeholder="Описание..." rows="3" id="aDesc" name="opisanie"></textarea>
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Текущий статус</span>
+                <span class="edit-label">Текущий статус <span id="err_aStat"></span></span>
                 <textarea placeholder="Текущий статус..." rows="3" id="aStat" name="tekuschiy_status"></textarea>
             </div>
 
             <div class='field-for-edit'>
-                <span class="edit-label">Местоположение</span>
+                <span class="edit-label">Местоположение     <span id="err_Locat"></span></span>
                 <div class="custom-select">
                     <select id="country" name="country" class="selectb">
                         <option value="">Страна</option>
@@ -268,17 +396,17 @@
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Бюджет</span>
+                <span class="edit-label">Бюджет <span id="err_aBudjet"></span></span>
                 <input type="text" placeholder="Бюджет..." id="aBudjet" name="bydzet" value="" />
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Затраченное время</span>
+                <span class="edit-label">Затраченное время <span id="err_aTime"></span></span>
                 <input type="text" placeholder="Затраченное время..." id="aTime" name="vremya" value="" />
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Эффект</span>
+                <span class="edit-label">Эффект<span id="err_aEffect"></span></span>
                 <textarea placeholder="Эффект..." id="aEffect" name="effekt"></textarea>
             </div>
 
@@ -315,7 +443,7 @@
 
             <div class="field-for-edit" style="margin-top: 25px;">
                 <input value="Сохранить" class="save" type="submit"/>
-                <a href="https://myldl.ru/profile/dela" class="cancel">Отмена</a>
+                <a href="/profile/dela" class="cancel">Отмена</a>
             </div>
         </form>
     </div>

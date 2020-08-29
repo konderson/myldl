@@ -52,7 +52,7 @@ class DelaController extends Controller
 
             $img->stream(); // <-- Key point
 
-            Storage::disk('public')->put('delo/' . $imagename, $img);
+            Storage::disk('public')->put('upload/uploads/' . $imagename, $img);
             //Storage::disk('local')->put('images/1/smalls'.'/'.$fileName, $img, 'public');
         
             
@@ -145,7 +145,7 @@ if (isset($request->choice_5)) {
      $dela->status=$request->status;
      $dela->opisanie=$request->opisanie;
      $dela->country_id=$request->country;
-     $city=City::findOrFail($request->city);
+	 $city=City::findOrFail($request->city);
      $dela->tekuschiy_status=$request->tekuschiy_status;
      $dela->city_id =$request->city;
      $dela->city=$city->name;

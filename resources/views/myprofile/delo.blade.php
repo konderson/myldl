@@ -577,7 +577,7 @@ transition: .3s;
 					@endif
                 </div>
 
-                <div class="adv-inner-desc">
+                <div class="adv-inner-desc" style="overflow: hidden;">
                     <div class="profile-info2" style="margin-top: 0">
                         <p><b>Город</b>: <span>{{$delo->city}}</span></p>
                         <p><b>Бюджет</b>:{{$delo->bydzet}} <span></span></p>
@@ -643,7 +643,7 @@ transition: .3s;
 
         <div class="right">
             <span class="title">Последние дела</span>
-            <div class="advert-body">
+            <div class="advert-body" style="overflow: hidden;">
                 
                 @foreach($delas as $delolast)
                 

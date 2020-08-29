@@ -449,11 +449,12 @@
                         </div>
                     </div>
                 </div>-->
+				
                   @foreach($delas as $delo)
 	         
                 <div class="advert-row">
                     <div class="date"><span>{{ Carbon\Carbon::parse($delo->created_at)->format('d.m') }}</span></div>
-                        <a class="advert-row-body-title show-xs" href="https://myldl.ru/delo/104">{{$delo->nazva}}</a>
+                        <a class="advert-row-body-title show-xs" href="/delo/{{$delo->id}}">mb_substr($delo->nazva, 0,20)...</a>
 
                     <div class="advert-row-body deal-row-body show-xs">
                     </div>
@@ -474,9 +475,9 @@
 					   @endif
                                             </div>
 
-                    <div class="advert-row-body deal-row-body">
-                        <a class="advert-row-body-title hide-xs" href={{'/delo/'.$delo->id}}>{{$delo->nazva}}</a>
-                        <p class="adv-info hide-xs">{!!mb_substr($delo->opisanie, 0, 150)!!}</p>
+                    <div class="advert-row-body deal-row-body" style="overflow:hidden">
+                        <a class="advert-row-body-title hide-xs" href={{'/delo/'.$delo->id}}>{{mb_substr($delo->nazva, 0,20)}}</a>
+                        <p class="adv-info hide-xs" >{!!mb_substr($delo->opisanie, 0, 150)!!}</p>
                     </div>
                     
                     <div class="deal-row-body2">
@@ -518,7 +519,7 @@
                 </div>
 	                            <!-- _____________________________________________________________________________________________ -->
                 @endforeach
-<div class="advert-pages">	            
+<div class="advert-pages" >	            
 	            
 {{ $delas->links('paginate') }}
 
@@ -529,7 +530,7 @@
 
          <div class="right">
             <span class="title">Последние дела</span>
-            <div class="advert-body">
+            <div class="advert-body " style="overflow:hidden">
                 
                 @foreach($delas as $delo)
                 
