@@ -21,17 +21,73 @@
 	
   @include('myprofile.left')
     <div class="right">
-        <p class="title">
+	    <p class="title">
 		<span>{{Auth::user()->name}}</span>
 		<span><span title='Рейтинг'  >0</span>
 				<a href="{{route('profile.edit')}}"  class="hide-xs">Редактировать</a>
 		</p>
 		<a href="{{route('profile.edit')}}"  class="show-xs"style="font-weight: 400;margin-top: 6px; float: left; color: grey; font-size: 14px; text-decoration: none;">Редактировать</a>
         <div class="upper-anketa">
-            
+            <span style="color: darkred; font-weight: 700; display: block;" class="user-status">{{ Auth::user()->person->help==='want' ? 'Хочу помогать': 'Мне нужна помощь' }}  </span>
+			<div style="width:230px;padding-bottom:15px;">
+			<img src="{{asset('storage/avatar/'.Auth::user()->person->avatar)}}">
+			</div>
             <div class="anketa-right">
-                <p>О себе: <span>{{isset(Auth::user()->person->about) ? Auth::user()->person->about : ''}}</span></p>
-				<p>Мне нужна помощь:<span> 	{{Auth::user()->person->help!=='nedd' ? 'Да' : 'Нет'}}			</span></p>
+			<p>О себе: <span>{{isset(Auth::user()->person->about) ? mb_substr(Auth::user()->person->about, 0, 50): ''}}</span></p>
+                 @if(Auth::user()->person->help==='need')
+					<p>Мне нужна помощь:<span>Да</span></p> 
+				 @else
+					 <p>Хочу помогать:
+				 <span> <ul style="
+                                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                grid-gap: 0.5rem;
+                                list-style-type: none;
+                                float: left;
+                                width: 100%;
+                                margin: 0px;
+                                font-weight: normal;
+                                letter-spacing: 0.1px;
+                                margin-bottom: 20px;
+                                word-break: break-all;">
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',1)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> принимать участие в поисках пропавшего</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',2)->count()>0)	
+								<li>
+								<label class="radio-label"><input type="checkbox" checked disabled/> есть автомобиль</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',3)->count()>0)	
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> об звон больниц</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',4)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> есть Квадроцикл / Cнегоход</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',5)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> печать ориентировок</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',6)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> мелкий ремонт</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',7)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> можно переночевать на 1 ночь</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',8)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> есть работа, не требующая специальной квалификации</label></li>
+							    @endif
+								@if($userNeed->where('user_id',Auth::user()->id)->where('need_id',9)->count()>0)
+									<?php $text=$userNeed->where('user_id',Auth::user()->id)->where('need_id',9)->first() ?>
+								<li><label class="radio-label"><input type="checkbox" checked disabled/><?php  echo $text->text; ?></label></li></ul></span></p>
+							     @endif
+				 @endif
+				
             </div>
         </div>
 
@@ -44,15 +100,15 @@
                 {{'Женский'}}
                @endif
                 
-                @endif
+              @endif
             </span></p>
-            <p>Статус: <span>{{isset(Auth::user()->person->status_str) ? Auth::user()->person->status_str : '---'}}</span></p>
-            <p>E-mail: {{Auth::user()->email}}</p>
-            <p>Skype/ICQ: <span>{{isset(Auth::user()->person->skype) ? Auth::user()->person->skype : ''}}</span></p>
-            <p>Сайт: <span>{{isset(Auth::user()->person->site) ? Auth::user()->person->site : ''}}</span></p>
-            <p>Должность: <span>{{isset(Auth::user()->person->dolznost) ? Auth::user()->person->dolznost : ''}}</span></p>
-            <p>Доход в месяц: <span>{{isset(Auth::user()->person->dohod) ? Auth::user()->person->dohod : ''}}</span></p>
-            <p>Увлечения: <span>{{isset(Auth::user()->person->hobbi) ? Auth::user()->person->hobbi : ''}}</span></p>
+            <p>Статус: <span>{{isset(Auth::user()->person->status_str) ? mb_substr(Auth::user()->person->status_str,0,50) : '---'}}</span></p>
+			<p>E-mail: {{Auth::user()->email}}</p>
+            <p>Skype/ICQ: <span>{{isset(Auth::user()->person->skype) ? mb_substr(Auth::user()->person->skype,0,50) : ''}}</span></p>
+            <p>Сайт: <span>{{isset(Auth::user()->person->site) ? mb_substr(Auth::user()->person->site,0,50) : ''}}</span></p>
+            <p>Должность: <span>{{isset(Auth::user()->person->dolznost) ? mb_substr(Auth::user()->person->dolznost,0,50) : ''}}</span></p>
+            <p>Доход в месяц: <span>{{isset(Auth::user()->person->dohod) ? mb_substr(Auth::user()->person->dohod,0,50) : ''}}</span></p>
+            <p>Увлечения: <span>{{isset(Auth::user()->person->hobbi) ? mb_substr(Auth::user()->person->hobbi,0,50) : ''}}</span></p>
         </div>
 
     </div>

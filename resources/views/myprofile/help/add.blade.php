@@ -35,7 +35,7 @@
         <div class="people-outside lenta-sobitii moya-anketa">
 	    
          @include('myprofile.left')
-        <form class="right" action="/help/save" method="POST">
+        <form class="right" action="/help/save" method="POST" id="helpForm">
              
             {{ csrf_field() }}
                 <input type="hidden" id="hashAddUslugaID" name="ci_csrf_token" value="">
@@ -45,7 +45,7 @@
                    id="str_images"/>
 
             <div class='field-for-edit'>
-                <span class="edit-label">Раздел</span>
+                <span class="edit-label">Раздел<span id="err_type"></span></span>
                 <div class="custom-select">
                     <select name="type" id="department" class="selectb">
                         <option selected value="0">Раздел</option>
@@ -63,13 +63,13 @@
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Заголовок</span>
-                <input type="text" placeholder="Заголовок..." name="title" id="hTheme" value=""/>
+                <span class="edit-label">Заголовок <span id="err_title"></span></span>
+                <input type="text" placeholder="Заголовок..." name="title" id="title" value=""/>
                 <span class="error"></span>
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Описание</span>
+                <span class="edit-label">Описание<span id="err_description"></span></span>
                 <textarea placeholder="Описание..." id="description" name="description"></textarea>
                 <span class="error"></span>
             </div>
@@ -82,20 +82,20 @@
                 </div>
 
                 <div class="custom-select">
-                    <span class="edit-label">Телефон</span>
-                    <input type="text" placeholder="Телефон..." name="phone" value=""/>
+                    <span class="edit-label">Телефон <span id="err_phone"></span></span>
+                    <input type="text" placeholder="Телефон..." id="tel" name="phone" value=""/>
                     <span class="error"></span>
                 </div>
 
                 <div class="custom-select">
-                    <span class="edit-label">Соц. сети</span>
-                    <input type="text" placeholder="Соц. сети..." name="social" value=""/>
+                    <span class="edit-label">Соц. сети <span id="err_cociality"></span> </span>
+                    <input type="text" placeholder="Соц. сети..." name="social" id="social" value=""/>
                     <span class="error"></span>
                 </div>
             </div>
 
             <div class='field-for-edit'>
-                <span class="edit-label">Местоположение</span>
+                <span class="edit-label">Местоположение <span id="err_Locat"></span></span>
                 <div class="custom-select">
                     <select name="country" id="country" class="selectb">
                         <option value="0">Страна</option>
@@ -104,7 +104,7 @@
 
                 <div class="custom-select">
                     <select id="region" name="region" class="selectb">
-                        <option value="0">Регион</option>
+                        <option value="">Регион</option>
                                             </select>
                 </div>
 
@@ -175,6 +175,89 @@
          <script type="text/javascript">
     $(document).ready(function(){
 
+	$("#helpForm").submit(function(){
+			 error_locate='';
+			 $('#err_Locat').empty();;
+			 $('#err_title').empty();;
+			 $('#err_description').empty();;
+			 $('#err_cociality').empty();
+			 $('#err_cenarub').empty();
+			 $('#err_type').empty();
+			
+			 
+
+		
+		if($("#title").val().length==0)
+			{
+			$('#err_title').html('<span style="color:red">Поле не может быть пустым !</span>');
+	          event.preventDefault() 
+			} else if($("#tema").val().length>80)
+			{
+				$('#err_title').html('<span style="color:red">Поле не может привышать длину 80 символов !</span>');
+			}
+		
+		   if($("#description").val().length==0)
+			{
+			$('#err_description').html('<span style="color:red">Поле не может быть пустым !</span>');
+	          event.preventDefault() 
+			} else if($("#opisanie").val().length>1000)
+			{
+				$('#err_description').html('<span style="color:red">Поле не может привышать длину 1000 символов !</span>');
+			}
+	
+			var regexp = /^\d+$/;
+			
+			if( !regexp.test($("#cenarub").val()) && $("#cena").val()==1 )
+			{
+				$('#err_cenarub').html('<span style="color:red">Поле цена дожно содержать только цифры !</span>');
+				event.preventDefault() 
+			}
+			
+		if($("#department").val().length==0  || $("#department").val().length==null || $("#department").val()==0)
+			{
+			$('#err_type').html('<span style="color:red"> Выберите раздел объявление !</span>');
+				event.preventDefault() 
+			}
+			
+			if($("#tel").val().length==0)
+			{
+			$('#err_phone').html('<span style="color:red">Поле не может быть пустым  !</span>');
+				event.preventDefault() 
+			}
+			if($("#tel").val().length>40)
+			{
+			$('#err_phone').html('<span style="color:red">Привышенно количество символов  !</span>');
+				event.preventDefault() 
+			}
+			if($("#social").val().length>100)
+			{
+			$('#err_cociality').html('<span style="color:red">Привышенно количество символов  !</span>');
+				event.preventDefault() 
+			}
+			if($("#country").val().length==0)
+			{
+				error_locate=error_locate+"Не выбрана страна , ";
+			$('#err_Locat').html('<span style="color:red">'+error_locate+'</span>');
+	          event.preventDefault() 
+			}
+			alert($("#city").val().length)
+			if($("#region").val().length==0)
+			{alert('dd');
+				error_locate=error_locate+"Не выбран регион , ";
+			 $('#err_Locat').html('<span style="color:red">'+error_locate+'</span>');
+	          event.preventDefault() ;
+			}
+			
+			if($("#city").val().length==0)
+			{
+				error_locate=error_locate+"Не выбран город  ";
+			 $('#err_Locat').html('<span style="color:red">'+error_locate+'</span>');
+	          event.preventDefault() ;
+			}
+			
+			
+		});
+		
         var user_country = 0;
         var user_region = 0;
         var user_city = 0;
@@ -313,7 +396,7 @@
                                         } else {
                                             // response - назва зменшеного файлу
                                             orig_name = response.replace("_thumb", "");
-                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/help')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="/application/views/front/images/close-2.png" alt="" /></a></li>');
+                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/upload/uploads')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="/application/views/front/images/close-2.png" alt="" /></a></li>');
                                             my_mas1.push(orig_name);
                                             document.getElementById('str_images').value = my_mas1;
                                             img++;

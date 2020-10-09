@@ -14,10 +14,7 @@
 <script type="text/javascript">
    $(document).ready(function() {
 	   
-	   function myFunction(id) {
-  alert(id);
-}
-   $('#search').keyup(function(){
+ $('#search').keyup(function(){
     var str=$('#search').val();
 	$.ajax({
 			type: "POST",
@@ -108,7 +105,7 @@
                             @else
                             <span class="status" title="Онлайн"></span>
                             @endif
-                        <a href="/del/frend/{{$frend->userFrend->id}}" class="close mem-close del-relation""></a>
+                        <a  onclick="myFunction('{{$frend->userFrend->name}}',{{$frend->userFrend->id}})" href="#" class="close mem-close del-relation""></a>
                            </div>
                         <div>
                         <a href="/user/{{$frend->userFrend->id}}">{{$frend->userFrend->name}}</a>
@@ -120,6 +117,23 @@
        
   
 </section>
+<script type="text/javascript">
+  function myFunction(name,id)
+{
+ 
+if (confirm("Удалить этого пользователя "+name+"?"))
+  {
+  location.href = '/del/frend/'+id;
+
+  }
+else
+  {
+    return false;
+  }
+ 
+}
+
+</script>
  @push('js')
         
          @endpush

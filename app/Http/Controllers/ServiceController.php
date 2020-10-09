@@ -84,7 +84,7 @@ class ServiceController extends Controller
                  $serv->title=$request->tema;
         $serv->razdel_id=$request->razdel_id;
         $serv->user_id=Auth::user()->id;
-        $serv->description=$request->description;
+        $serv->description=$request->opisanie;
         $cena=0;
         if(!empty($request->cenarub)){
             $cena=$request->cenarub;
@@ -92,7 +92,6 @@ class ServiceController extends Controller
         $serv->price=$cena;
         $serv->srok=$request->srok;
         $serv->phone=$request->phone;
-        $serv->status=$request->status;
         $serv->status=$request->status;
         $serv->country_id=$request->country;
         $city=City::where('id',$request->city)->first();

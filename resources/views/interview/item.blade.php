@@ -20,7 +20,7 @@
 
             <div class="adv-inner-body news-inner-body">
                 <div class="interview-info">
-                    <div class="panel-image" style="background-image: url(/storage/help/{{$iv->image}})"></div>
+                    <div class="panel-image" style="background-image: url('{{asset('storage/help/'.$iv->image)}}')"></div>
                     <div class="info">
                         <p><span>Имя: </span>{{$iv->name_i}}</p>
                         <p><span>Возраст: </span>{{$iv->age}}</p>

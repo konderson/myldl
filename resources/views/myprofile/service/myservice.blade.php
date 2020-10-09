@@ -117,7 +117,7 @@ $(document).ready(function() {
                     
                     <tr>
                         
-                          <td><span><img src="{{asset('storage/help/'.App\Service::getPhoto($serv->images))}}"/></span></td>
+                          <td><span><img src="{{asset('storage/upload/uploads/'.App\Service::getPhoto($serv->images))}}"/></span></td>
                             <td>{{$serv->title}}</td>
                             <td>{{$serv->srok}}</td>
                             <td><a href="/close_usluga/{{$serv->id}}">Закрыть</a></td>

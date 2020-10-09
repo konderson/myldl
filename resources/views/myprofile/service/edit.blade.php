@@ -36,6 +36,83 @@
 <script type="text/javascript">
     $(document).ready(function () {
         
+			$("#editForm").submit(function(){
+			 error_locate='';
+			 $('#err_Locat').empty();;
+			 $('#err_tema').empty();;
+			 $('#err_description').empty();;
+			 $('#err_cenarub').empty();
+			 $('#err_cenarub').empty();
+			 $('#err_type').empty();
+			
+			 
+
+		
+		if($("#tema").val().length==0)
+			{
+			$('#err_tema').html('<span style="color:red">Поле не может быть пустым !</span>');
+	          event.preventDefault() 
+			} else if($("#tema").val().length>80)
+			{
+				$('#err_tema').html('<span style="color:red">Поле не может привышать длину 80 символов !</span>');
+			}
+		
+		   if($("#opisanie").val().length==0)
+			{
+			$('#err_description').html('<span style="color:red">Поле не может быть пустым !</span>');
+	          event.preventDefault() 
+			} else if($("#opisanie").val().length>3000)
+			{
+				$('#err_description').html('<span style="color:red">Поле не может привышать длину 3000 символов !</span>');
+			}
+	
+			var regexp = /^\d+$/;
+			
+			if( !regexp.test($("#cenarub").val()) && $("#cena").val()==1 )
+			{
+				$('#err_cenarub').html('<span style="color:red">Поле цена дожно содержать только цифры !</span>');
+				event.preventDefault() 
+			}
+			
+			if($("#razdel_id").val().length==0  || $("#razdel_id").val().length==null || $("#razdel_id").val()==0 )
+			{
+			$('#err_type').html('<span style="color:red">Выберите раздел объявление !</span>');
+				event.preventDefault() 
+			}
+			
+			if($("#tel").val().length==0)
+			{
+			$('#err_phone').html('<span style="color:red">Поле не может быть пустым  !</span>');
+				event.preventDefault() 
+			}
+			if($("#tel").val().length>120)
+			{
+			$('#err_phone').html('<span style="color:red">Привышенно количество символов  !</span>');
+				event.preventDefault() 
+			}
+			if($("#country").val().length==0)
+			{
+				error_locate=error_locate+"Не выбрана страна , ";
+			$('#err_Locat').html('<span style="color:red">'+error_locate+'</span>');
+	          event.preventDefault() 
+			}
+			if($("#region").val().length==0)
+			{
+				error_locate=error_locate+"Не выбран регион , ";
+			 $('#err_Locat').html('<span style="color:red">'+error_locate+'</span>');
+	          event.preventDefault() ;
+			}
+			
+			if($("#city").val().length==0)
+			{
+				error_locate=error_locate+"Не выбран город  ";
+			 $('#err_Locat').html('<span style="color:red">'+error_locate+'</span>');
+	          event.preventDefault() ;
+			}
+			
+			
+		});
+		
         if(<?php echo $serv->price?>>0){
             $("#cenarub").show();
         }
@@ -83,7 +160,7 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
                 //$("#country").append('<option value="">Страна</option>'+msg).data("selectBox-selectBoxIt").refresh();
                 var optionsText = '';
                 optionsText += '<option value="">Страна</option>';
-                optionsText += '<option value="425" SELECTED>{{($serv->country->name)}}</option>';
+                optionsText += '<option value="425" SELECTED><?php if(isset($serv->country->name)) echo $serv->country->name ?></option>';
                 
                 $("#country")
                     .append(optionsText + msg)
@@ -288,7 +365,7 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
                                         } else {
                                             // response - назва зменшеного файлу
                                             orig_name = response.replace("_thumb", "");
-                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/help')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="https://myldl.ru/application/views/front/images/close-2.png" alt="" /></a></li>');
+                                            $("#files").append('<li id="img_' + img + '"><figure><img class="thumb" src="{{asset('storage/upload/uploads')}}/' + response + '" alt="' + file + '" title="' + file + '" /><figcaption>' + (file.length > 10 ? file.substr(0, 8) + '..' : file) + '</figcaption></figure><a class="close" onclick="remove_img(' + img + ', \'' + orig_name + '\')"><img src="https://myldl.ru/application/views/front/images/close-2.png" alt="" /></a></li>');
                                             my_mas1.push(orig_name);
                                             document.getElementById('str_images').value = my_mas1;
                                             img++;
@@ -305,19 +382,19 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
     <div class="people-outside lenta-sobitii moya-anketa">
 		
 @include('myprofile.left')
-       <form class="right" action="/usluga/update/{{$serv->id}}" method="POST">
+       <form class="right" action="/usluga/update/{{$serv->id}}" method="POST" id="editForm">
            {{ csrf_field() }}
              @method('PUT')
             <p class="title">Редактировать объявление</p>
             <input type="hidden" name="id"  value="{{$serv->id}}">
 
             <div class="field-for-edit">
-                <span class="edit-label">Заголовок</span>
+                <span class="edit-label">Заголовок <span id="err_tema"></span></span>
                 <input type="text" placeholder="Заголовок..." id="tema" name="tema" value="{{$serv->title}}"/>
             </div>
 
             <div class='field-for-edit'>
-                <span class="edit-label">Раздел</span>
+                <span class="edit-label">Раздел <span id="err_type"></span></span>
                 <div class="custom-select" style="width: 100%; margin: 0;">
                     <select class="selectb" id="razdel_id" name="razdel_id">
                         <option value="0" >Раздел</option>
@@ -335,13 +412,13 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
             </div>
 
             <div class="field-for-edit">
-                <span class="edit-label">Описание</span>
-                <textarea placeholder="Описание..." id="opisanie" name="opisanie">{{$serv->description}}</textarea>
+                <span class="edit-label">Описание <span id="err_description"></span>
+                <textarea placeholder="Описание..." id="opisanie" name="opisanie"><?php print_r($serv->description); ?></textarea>
                 <span class="error"></span>
             </div>
 
             <div class="field-for-edit" style="width: 47.5%; margin-right: 5%;">
-                <span class="edit-label">Цена</span>
+                <span class="edit-label">Цена <span id="err_cenarub"></span></span>
                 <select class="selectb" id="cena" name="cena">
                     <option value="0" <?php if($serv->price<0)echo('selected="selected"')?>>Бесплатно</option>
                     <option value="1" <?php if($serv->price>0)echo('selected="selected"')?>>Своя цена</option>
@@ -349,9 +426,9 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
                 <input type="text"    placeholder="Цена..." id="cenarub" name="cenarub" <?php if($serv->price>0)echo('style="display:block"')?> value="{{$serv->price}}"/>
             </div>
 
-            <div class="field-for-edit" style="width: 47.5%;">
-                <span class="edit-label">Телефон</span>
-                <input type="text" placeholder="Телефон..." name="tel" id="tel" value=""/>
+              <div class="field-for-edit" style="width: 47.5%;">
+                <span class="edit-label">Телефон  <span id="err_phone"></span></span>
+                <input type="text" placeholder="Телефон..." value="{{$serv->phone}}" name="phone" id="tel" />
             </div>
 
             <div class='field-for-edit' style="width: 47.5%; margin-right: 5%;">
@@ -387,7 +464,7 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
             </div>
 
             <div class='field-for-edit'>
-                <span class="edit-label">Местоположение</span>
+                <span class="edit-label">Местоположение <span id="err_Locat"></span></span>
                 <div class="custom-select">
                     <select id="country" name="country" class="selectb">
                         <option value="">Страна</option>
@@ -416,7 +493,7 @@ optionsText += '<option value="{{($serv->City->Region->id)}}" SELECTED>{{($serv-
                     <ul class="thumb-photos mclearfix" id="files">
 	                                        </ul>
 	                                         <ul class="thumb-photos mclearfix remdiv" id="myDiv">
-                    <li    style="list-style: none;"id="img_1"><figure><img class="thumb" src="{{asset('storage/help/'.$serv->getPhoto($serv->images))}}" alt="{{$serv->title}}" title="{{$serv->title}}" /></figure><a class="close" ><img src="{{asset('asset/front/images/close.png')}}" alt=""></a></li>                </ul>
+                    <li    style="list-style: none;"id="img_1"><figure><img class="thumb" src="{{asset('storage/upload/uploads/'.$serv->getPhoto($serv->images))}}" alt="{{$serv->title}}" title="{{$serv->title}}" /></figure><a class="close" ><img src="{{asset('asset/front/images/close.png')}}" alt=""></a></li>                </ul>
                 </div>
             </div>
 

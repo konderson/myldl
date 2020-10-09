@@ -3,7 +3,6 @@
 <meta name="description" content="{{$st->description}}">
         <meta name="keywords" content="{{$st->keyw}}">
 @push('css')
-
 @endpush
 @section('content')
 

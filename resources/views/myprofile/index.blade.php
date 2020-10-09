@@ -11,7 +11,64 @@
 
     <script>
     $( document ).ready(function() {
-        var count=$('#counter').text();
+	var type='';
+	var count=1;
+		$('#frendLenta').click(function(){
+		getLentaFilter('frendLenta');
+		});
+		
+		$('#alldLenta').click(function(){
+		type='alldLenta';
+		getLentaFilter(type);
+		});
+		
+		$('#myDeladLenta').click(function(){
+			type='myDeladLenta'
+		   getLentaFilter(type);
+		    count=1;
+		});
+		
+		$('#izbDelodLenta').click(function(){
+			type='izbDelodLenta';
+		getLentaFilter(type);
+            count=1;
+		});
+		
+		function getLentaFilter(type)
+		{
+		 $.ajax(
+
+        {
+            url: '/profile/getLenta?type=' +type ,
+
+            type: "get",
+
+            datatype: "html"
+
+        }).done(function(data){
+            $('.table tbody').empty();
+			$('.table tbody').append(data);
+
+            location.hash = count;
+            
+        
+
+        }).fail(function(jqXHR, ajaxOptions, thrownError){
+
+              alert('No response from server');
+
+        });
+		}
+		
+		
+    
+		
+		
+		
+		
+		
+       
+		
     $('#more_all').click(function(){
         count++;
         $('#counter').empty();
@@ -19,7 +76,7 @@
 
         {
 
-            url: '/profile/ajax_lenta?page=' +count ,
+            url:'/profile/getLenta?type='+type+'&page='+count+'&more=1',
 
             type: "get",
 
@@ -28,9 +85,10 @@
         }).done(function(data){
 
             //$("#datapost").html(data);
-             $('.table tbody').append(data);
-
-            location.hash = count;
+			
+             //$('.table tbody').append(data);
+             $('#myTableId').after(data);
+            //location.hash = count;
             
         
 
@@ -44,27 +102,10 @@
    });
    </script>
 
-  <script>
-    $(document).on('click', '.filter-list span', function(e){
-          e.preventDefault();
-          filter = $(this).parent().attr('data-filter');
-          var url='';
-          $('.layer').html("");
-          if(filter==='all'){
-              url='/profile/ajax_lenta';
-          }
-          
-          
-    });
-    </script>
-
-
-       
-        
 <div class="sm-breadcrumb">
     <ol class="breadcrumb">
         <li><a href="/">Главная</a></li><li class="active">Профиль</li>    </ol>
-</div><script src="{{asset('asset/front/js/profile/index.js')}}"></script>
+
 <style>
     .selected{
         font-weight:600;
@@ -78,15 +119,15 @@
        <div class="right">
             <h1 class="title">Лента событий</h1>
             <div class="lenta-options subtab-menu filter-list">
-                <label data-filter="all" class="checked"><span>Все</span></label>
-                <label data-filter="lync"><span>Мои связи</span></label>
-                <label data-filter="business"><span>Мои дела</span></label>
-                <label data-filter="faworites"><span>Избранные дела</span></label>
+                <label data-filter="all" class="checked"><span id="alldLenta">Все</span></label>
+                <label data-filter="lync"><span id="frendLenta">Мои связи</span></label>
+                <label data-filter="business"><span id="myDeladLenta">Мои дела</span></label>
+                <label data-filter="faworites"><span id='izbDelodLenta'>Избранные дела</span></label>
                 <label data-filter="notshow"><span>Непрочитанные </span></label>
             </div>
             <div class="layer">                <div class="lenta-table">
                     <table class="table">
-                        <tbody><tr>
+                        <tbody id="myTableId"><tr>
                             <th>Фото:</th>
                             <th>Название события:</th>
                             <th>Раздел:</th>

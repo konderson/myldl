@@ -454,7 +454,7 @@
 	         
                 <div class="advert-row">
                     <div class="date"><span>{{ Carbon\Carbon::parse($delo->created_at)->format('d.m') }}</span></div>
-                        <a class="advert-row-body-title show-xs" href="/delo/{{$delo->id}}">mb_substr($delo->nazva, 0,20)...</a>
+                        <a class="advert-row-body-title show-xs" href="/delo/{{$delo->id}}">{{mb_substr($delo->nazva, 0,20)}}</a>
 
                     <div class="advert-row-body deal-row-body show-xs">
                     </div>

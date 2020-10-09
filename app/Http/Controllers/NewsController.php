@@ -20,7 +20,7 @@ class NewsController extends Controller
         
         $news=News::findOrFail($id);
          $nv=News::orderBy('view','desc')->orderBy('updated_at','desc')->limit(5)->get();
-         $tags=$news->tags()->get();
+         $tags=$news->tags()->distinct()->get();
          $liketag=array();
          foreach($tags as $tag){
              $pnews=$tag->news()->where('news_id','!=',$news->id)->get();

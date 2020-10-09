@@ -77,7 +77,7 @@ class AnswerController extends Controller
     $output="";
     $quest=SQuestions::findOrFail($q_i);
    $output.='<div class="left">
-                <h1>Опрос : "jjjbjbjbj"</h1>
+                <h1>Опрос : "'.$quest->text.'"</h1>
                 <div class="psli-list">
                     <ul>
                         <li><span>Всего проголосовало: </span>'.$count.'</li>
@@ -130,7 +130,7 @@ class AnswerController extends Controller
                     $output.='<div class="progress">
                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:'.$percent.'%">
                                 </div>
-                                <span>'.$percent.'  </br> '.$quest->{"variaant$j"}.'%</span>
+                                <span>'.round($percent,1).'% </br> '.$quest->{"variaant$j"}.'</span>
                             </div>';
                     }//end else if c0unt!null
                     

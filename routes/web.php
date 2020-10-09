@@ -26,9 +26,10 @@ Route::get('/search','MainController@search')->name('search');
 Route::get('/site_rules','MainController@site_rules');
 
 Route::get('/profile/index','ProfileController@index')->name('profile.index')->middleware(['verified','auth']);
-Route::get('/profile/profile_view','ProfileController@profileView')->name('profile.view')->middleware(['verified','auth']);;
-Route::get('/profile/edit','ProfileController@profileEdit')->name('profile.edit')->middleware(['verified','auth']);;
-Route::put('/profile/edit/{id}','ProfileController@profileUpdate')->name('profile.update')->middleware(['verified','auth']);;
+Route::get('/profile/profile_view','ProfileController@profileView')->name('profile.view')->middleware(['verified','auth']);
+Route::get('/profile/edit','ProfileController@profileEdit')->name('profile.edit')->middleware(['verified','auth']);
+Route::post('/profile/delete/photo','ProfileController@deleteAvatar')->name('profile.delete.photo')->middleware(['verified','auth']);
+Route::put('/profile/edit/{id}','ProfileController@profileUpdate')->name('profile.update')->middleware(['verified','auth']);
 Route::post('/profile/avatar/ajax_upload','ProfileController@ajax_upload_avatar')->middleware(['verified','auth']);
 
 Route::get('/profile/settings','ProfileController@settings')->middleware(['verified','auth']);;
@@ -50,6 +51,7 @@ Route::post('/profile/ajax_dela','DelaController@ajaxDela')->name('profile.delo.
 Route::post('/profile/ajax_upload','DelaController@ajax_upload_avatar')->name('profile.ajax_upload_avatar')->middleware(['verified','auth']);;
 Route::get('/profile/ajax_lenta','ProfileController@ajaxFilter')->middleware(['verified','auth']);;
 Route::get('/profile/ajax_lenta_all','ProfileController@ajaxFilterAll')->middleware(['verified','auth']);;
+Route::get('/profile/getLenta','ProfileController@ajaxFilterLenta')->middleware(['verified','auth']);
 
 
 

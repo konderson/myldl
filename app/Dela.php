@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 class Dela extends Model
 {
      protected $table = 'dela';
@@ -51,6 +51,9 @@ class Dela extends Model
             $count=Like::where('post_id',$id)->where('type_id',1)->where('dis_like',1)->count();
            return $count;
            }
- 
- 
-}
+  public function getCountUser($delo_id)
+  {
+    return DB::table('user_dela')->where('delo_id',$delo_id)->count();
+  }     
+       }
+

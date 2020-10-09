@@ -1,4 +1,5 @@
-                   @foreach($events as $event)
+             @foreach($events as $event)
+
                             <tr>
                             <td><img src="{{asset('storage/avatar/'.$event->user->person->avatar)}}" style="max-width: 100px;"></td>
                             <td>{!!$event->title!!}</td>

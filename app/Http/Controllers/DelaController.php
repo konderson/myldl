@@ -7,6 +7,7 @@ use App\City;
 use Auth;
 use App\User;
 use App\Event;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use App\DeloFeatured;
@@ -74,44 +75,20 @@ class DelaController extends Controller
         public function ajaxDela(Request $request) {
         // 404-errors
       
-$results = DeloFeatured::with('delo')->whereHas('delo', function ($query) use ($request)  {
+
    
-
-
- 
-if (isset($request->choice_2)) {
-	
-    $query->where('status','=' ,1);
-    
-}
-if (isset($request->choice_3)) {
-	
-  $query->where('status','=',0);
-    
-}
-if (isset($request->choice_4)) {
-   $query->where('tip','=',2);
-    
-}
-if (isset($request->choice_5)) {
-    $query->where('tip','=',1);
-   
-}
-
-})->get();
-
+$results=$this->ajaxFilter($request);
 
 
 
        foreach ($results as $row) {
-
             echo '
 		<tr>
-			<td>' . date('d.m.Y', strtotime($row->delo->dates)) . '</td>
-			<td><a href="/delo/'.$row->delo->id.'"  " title="' . ($row->delo->status == 1 ? 'Открыто' : 'Закрыто') . '" >' . ((mb_strlen($row->delo->nazva) > 20) ? mb_substr($row->delo->nazva, 0, 20) : $row->delo->nazva) . '</a></td>
-			<td>' . $row->delo->city . '</td>
-			<td>' . 1 . '</td>';
-            if ($row->delo->status == 0) {
+			<td>' . date('d.m.Y', strtotime($row->dates)) . '</td>
+			<td><a href="/delo/'.$row->id.'"  " title="' . ($row->status == 1 ? 'Открыто' : 'Закрыто') . '" >' . ((mb_strlen($row->nazva) > 20) ? mb_substr($row-nazva, 0, 20) : $row->nazva) . '</a></td>
+			<td>' . $row->city . '</td>
+			<td>' . $row->getCountUser($row->id) . '</td>';
+            if ($row->status == 0) {
                 echo '
 			<td>
 			   Закрыт
@@ -122,16 +99,45 @@ if (isset($request->choice_5)) {
 			    Открыт
 			</td>';
             }
+			echo '<td> 
+            <a href="edit/delo/'.$row->id.'" ><img src="'.asset('asset/front/images/edit.png').'"><a></td>
+             <td> <a class="del del_delo" href="/delo/'.$row->id.'" onclick="return confirm(\'Удалить дело «'. $row->nazva. '»?\')" title="Удалить"><img src="'.asset('asset/front/images/close.png').'"></i></a>';
             echo '
             <td>
-            <a class="del del_delo" href="' ."/delo/" . $row->delo->id. '" onclick="return confirm(\'Удалить дело «'. $row->delo->nazva. '»?\')" title="Удалить"> <i class="remove"></i></a>
+            <a class="del del_delo" href="' ."/delo/" . $row->id. '" onclick="return confirm(\'Удалить дело «'. $row->nazva. '»?\')" title="Удалить"> <i class="remove"></i></a>
             </td>
 		</tr>';
         }
     }
 
     
-    
+    public function ajaxFilter($request)
+    {
+	 //$results = DB::select("select * from dela where id =".Auth::user()->id."");
+	
+		
+        $results=Dela::where('user_id',Auth::user()->id);
+        
+        if( $request->has( 'choice_2' ) && !$request->has('choice_3')){
+            $results->where( 'status' ,'=', 1);
+            //array_push($array,['status','=',1]);
+        }
+        if( $request->has( 'choice_3' ) && !$request->has('choice_2')){
+            $results->where('status' ,'=', 0);
+            //array_push($array,['status','=',0]);
+        }
+        if( $request->has( 'choice_4' ) && !$request->has('choice_5')){
+            $results->where( 'tip' ,'=', 1);
+            //array_push($array,['status','=',1]);
+        }
+        if( $request->has( 'choice_5' ) && !$request->has('choice_4')){
+            $results->where('tip' ,'=', 2);
+            //array_push($array,['status','=',0]);
+        }
+         // $array[]=[$array];
+        return $results->get();
+		//return $results;
+    }
     
     public function addStore(Request $request)
     {
@@ -234,6 +240,12 @@ if (isset($request->choice_5)) {
         $featureds->user_id=Auth::user()->id;
          $featureds->delo_id=$request->delo_id;
          $featureds->save();
+            $event=new Event();//add event data
+            $event->type_id=7;//id delo_type
+            $event->title=Auth::user()->name.' добавил в избаное дело - <a href="/delo/'
+                .$request->delo_id.'">'.$featureds->delo->nazva.'</a>';
+            $event->user_id=Auth::user()->id;
+            $event->save();
           echo 'ok';
         }
         }

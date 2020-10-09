@@ -20,7 +20,7 @@ class LikeController extends Controller
            }
         
            if($like>0){
-                return response()->json(array('error' =>'Вы уже считаете классной даную публикацию'));
+                return response()->json(array('error' =>'Вы уже проголосовали ранее'));
                 
            }
            else{
@@ -53,7 +53,7 @@ class LikeController extends Controller
            }
         
            if($like>0){
-                return response()->json(array('error' =>'Вы уже считаете классной даную публикацию'));
+                return response()->json(array('error' =>'Вы уже проголосовали ранее'));
                 
            }
            else{

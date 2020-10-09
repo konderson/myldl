@@ -7,6 +7,7 @@ use App\Help;
 use App\Region;
 use App\Service;
 use App\Dela;
+use App\UserHeplpsMake as UserHelpsMake;
 use App\User;
 use Carbon\Carbon;
 use App\SeoText;
@@ -251,7 +252,6 @@ echo  $result;
 						$join->where('help','need');
 						}
                         });
-						
 						$users=$query->orderBy('user_id','desc')->paginate();
 						$count=$users->total();
                 
@@ -268,15 +268,17 @@ echo  $result;
         
 		 $this->req=$request;
 		 $query = User::query();
-		 
+		  if(!empty($request->serch_by_name)){
+                    $query->where('name','like','%'.$request->serch_by_name.'%');
+                }
                 $query->join("people", function($join) {
+
                         $join->on("users.id", "=", "people.user_id");
 						if($this->req->sh=='want')
 						{
 						$join->where('help','want');
 						}
 						if($this->req->sh=='need'){
-							
 						$join->where('help','need');
 						}
 						if($this->req->country_id!=null)
@@ -384,12 +386,13 @@ echo  $result;
 		}
 		}
      $user=User::findOrFail($id);
+	 $userNeed=new UserHelpsMake();
      $delas=Dela::where('user_id',$id)->get();
      $services=Service::where('user_id',$id)->get();
      $helps=Help::where('user_id',$id)->get();
      $frends=Frend::where('user_id',$id)->get();
     
-      return view('users.index',compact('helps','user','services','delas','frends'));   
+      return view('users.index',compact('helps','user','services','delas','frends','userNeed'));   
     }
     
     /*

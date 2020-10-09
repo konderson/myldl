@@ -189,6 +189,7 @@
             country_id=$('select[name=country]').val(); // для підсввітки вибраної
             region=$('select[name=region]').val();
             sity=$('select[name=sity]').val();
+            name=$('.ufilter').val();
                   
 				  
 				  str=document.location.search;
@@ -207,7 +208,7 @@
 
         {
 
-            url:"/search/user?country_id="+country_id+"&sh="+sh,
+            url:"/search/user?country_id="+country_id+"&sh="+sh+'&serch_by_name='+name,
 
             type: "get",
 
@@ -242,10 +243,11 @@
             city=$('select[name=city]').val();
              region_id=$('select[name=region]').val();
 			 types=$('select[name=types').val();
+             name=$('.ufilter').val();
 			 //window.location.search="?sh="+types;
 			  $.ajax({
 
-            url:"/search/user?country_id="+country_id+"&region_id="+region+"&city_id="+city+"&sh="+types,
+            url:"/search/user?country_id="+country_id+"&region_id="+region+"&city_id="+city+"&sh="+types+'&serch_by_name='+name,
 
             type: "get",
 
@@ -292,6 +294,8 @@
             region=$('select[name=region]').val();
             city=$('select[name=city]').val();
              region_id=$('select[name=region]').val();
+             name=$('.ufilter').val();
+
               
 				  str=document.location.search;
 				  sh='';
@@ -309,7 +313,7 @@
 
         {
 
-            url:"/search/user?country_id="+country_id+"&region_id="+region+"&sh="+sh,
+            url:"/search/user?country_id="+country_id+"&region_id="+region+"&sh="+sh+'&serch_by_name='+name,
 
             type: "get",
 
@@ -343,13 +347,14 @@
             country_id=$('select[name=country]').val(); // для підсввітки вибраної
             region=$('select[name=region]').val();
             sity=$('select[name=city]').val();
+            name=$('.ufilter').val();
             
             
     $.ajax(
 
         {
 
-            url:"/search/user?country_id="+country_id+"&region_id="+region+"&city_id="+sity,
+            url:"/search/user?country_id="+country_id+"&region_id="+region+"&city_id="+sity+'&serch_by_name='+name,
 
             type: "get",
 
@@ -433,16 +438,104 @@
   
     $('.search-magnify').click(function (e) {
             e.preventDefault();
-            window.location.href = "/search/user?serch_by_name=" + $('.ufilter').val();
-        });
+			 e.preventDefault();
+            country_id=$('select[name=country]').val(); // для підсввітки вибраної
+            region=$('select[name=region]').val();
+            city=$('select[name=city]').val();
+             region_id=$('select[name=region]').val();
+             str=document.location.search;
+             name=$('.ufilter').val();
+             sh='';
+                 if( str.indexOf('need') !== -1)
+                 {
+                     sh='need';
+                 }
+                if( str.indexOf('want') !== -1)
+                     {
+                        sh='want';
+                     }
+                    $.ajax(
 
+        {
+
+            url:"/search/user?country_id="+country_id+"&region_id="+region+"&sh="+sh+'&serch_by_name='+name+"&city_id="+city,
+
+            type: "get",
+
+            datatype: "html"
+
+        }).done(function(data){
+
+            $("#datapost").empty().html(data);
+            val=$("#cf").text();
+            
+             $(".status").text(val);
+           
+            var scrollTop = $('#datapost').offset();
+            $(document).scrollTop(scrollTop);
+            window.history.pushState({}, document.title, "/" + "users");
+
+        }).fail(function(jqXHR, ajaxOptions, thrownError){
+
+              alert('Нет данных');
+        });
+         
+        });
+     $('.close_btn_filter').click(function(){
+		 $('.filterss').css('display','none');
+		 $('.close_btn_filter').css('display','none');
+	 });
+	 $('.filter').click(function(){
+		 $('.filterss').css('display','flex');
+		 $('.close_btn_filter').css('display','block');
+	 });
             
 });
 </script>
 <script>
     $(document).on('submit', '.search', function (e) {
-            e.preventDefault();
-            window.location.href = "/search/user?serch_by_name=" + $('.ufilter').val();
+           e.preventDefault();
+            country_id=$('select[name=country]').val(); // для підсввітки вибраної
+            region=$('select[name=region]').val();
+            city=$('select[name=city]').val();
+             region_id=$('select[name=region]').val();
+             str=document.location.search;
+             name=$('.ufilter').val();
+             sh='';
+                 if( str.indexOf('need') !== -1)
+                 {
+                     sh='need';
+                 }
+                if( str.indexOf('want') !== -1)
+                     {
+                        sh='want';
+                     }
+                    $.ajax(
+
+        {
+
+            url:"/search/user?country_id="+country_id+"&region_id="+region+"&sh="+sh+'&serch_by_name='+name+"&city_id="+city,
+
+            type: "get",
+
+            datatype: "html"
+
+        }).done(function(data){
+
+            $("#datapost").empty().html(data);
+            val=$("#cf").text();
+            
+             $(".status").text(val);
+           
+            var scrollTop = $('#datapost').offset();
+            $(document).scrollTop(scrollTop);
+            window.history.pushState({}, document.title, "/" + "users");
+
+        }).fail(function(jqXHR, ajaxOptions, thrownError){
+
+              alert('Нет данных');
+        });
+         
         });
 </script>
 
@@ -609,7 +702,7 @@
                                                             </select>
                         </div>
                         </div>
-                        <div class="close"></div>
+                        <div class="close_btn_filter"></div>
                     </div>
                 </div>
                

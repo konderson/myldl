@@ -69,10 +69,10 @@
 
             <div class="adv-inner-body news-inner-body searches">
                                 <div class="adv-inner-right inner-100">
-                    <div class="awa-226 " style="background-image: url(/storage/help/{{$serv->getPhoto($serv->images)}});"></div>
+                    <div class="awa-226 " style="background-image: url(/storage/upload/uploads/{{$serv->getPhoto($serv->images)}});"></div>
+                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Автор:</span> <a href="/user/{{$serv->user->id}}"><b>{{$serv->user->name}}</b></a></p>
                     <p class="profile-info-p" style="margin-bottom: 8px; margin-top: 0;"><span>Дата публикации:</span><b> {{ Carbon\Carbon::parse($serv->created_at)->format('d.m.Y') }}</b></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Количество просмотров:</span> <b><span id="view_c">0</span></b></p>
-                    <p class="profile-info-p" style="margin-bottom: 8px;"><span>Автор:</span> <a href="/user/{{$serv->user->id}}"><b>{{$serv->user->name}}</b></a></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;"><span>Город:</span> <b>{{$serv->city}}</b></p>
                     <p class="profile-info-p" style="margin-bottom: 8px;">Раздел: 
                                                    <?php if($serv->razdel_id==1) echo '<b>Транспорт</b>' ?>      
@@ -105,17 +105,7 @@
                                                                                                 </p>
                                     </div>
                 <div class="adv-inner-desc">{{$serv->description}}</div>
-                <ul class="gallery">
-                                            <li>
-                            <a
-                                class="fancybox2 awa awa-201 awa-full"
-                                href="{{asset('storage/help/'.$serv->getPhoto($serv->images))}}"
-                                rel="gallery1"
-                                data-fancybox-group="gallery"
-                                data-fancybox="gallery"
-                                style="background-image: url(/storage/help/{{$serv->getPhoto($serv->images)}});"></a>
-                        </li>
-                                    </ul>
+                
 
                
             </div>
@@ -128,7 +118,7 @@
 	                                <div class="article-info">
                         <div class="article-subtitle">
                             <div class="date"><span>{{ Carbon\Carbon::parse($lserv->created_at)->format('d.m.Y') }}</span></div>
-                            <a href="/usluga/{{$lserv->id}}">{{$lserv->title}}</a>
+                            <a href="/usluga/{{$lserv->id}}">{{mb_substr($lserv->title,0,15)}}</a>
                         </div>
                     </div>
                   @endforeach

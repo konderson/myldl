@@ -156,9 +156,11 @@ optionsText += ' <option value=" <?php if(isset($user->person->City->Region->id)
 
                 $.ajax({
                     type: 'post',
-                    url: 'https://myldl.ru/profile/del_avatar',
-                    data: {avatar: avatar},
-                    success: function(){
+                    url: '/profile/delete/photo',
+                    data: {avatar: avatar,
+					_token: $('meta[name="csrf-token"]').attr('content')},
+                    success: function(data){
+						if(data==='ok')
                         location.reload(0);
                     }
                 })
@@ -287,7 +289,13 @@ optionsText += ' <option value=" <?php if(isset($user->person->City->Region->id)
                 <label class="radio-label">
                     <input type="radio" id="h_need" name="help" value="need" checked/> Мне нужна помощь</label>
                 <label class="radio-label">
-                    <input type="radio" id="h_want" name="help" value="want" /> Я хочу помогать</label>
+                   @if(Auth::user()->person->help==='want') <input type="radio" id="h_want" name="help" value="want" checked /> Я хочу помогать</label>
+				   <script>
+				   $('#help_list').show();
+				   </script>
+				   @else
+					 <input type="radio" id="h_want" name="help" value="want" /> Я хочу помогать</label> 
+				   @endif
                 <div class="help_list" id="help_list">
                     <label>Дополнительно:</label>
                                         <ul style="
@@ -296,7 +304,41 @@ optionsText += ' <option value=" <?php if(isset($user->person->City->Region->id)
                     grid-gap: 1rem;
                     list-style-type: none;">
 
-                        <li><label class="radio-label"><input type="checkbox" name="help_additional[1]" /> принимать участие в поисках пропавшего</label></li><li><label class="radio-label"><input type="checkbox" name="help_additional[2]" /> есть автомобиль</label></li><li><label class="radio-label"><input type="checkbox" name="help_additional[3]" /> об звон больниц</label></li><li><label class="radio-label"><input type="checkbox" name="help_additional[4]" /> есть Квадроцикл / Cнегоход</label></li><li><label class="radio-label"><input type="checkbox" name="help_additional[5]" /> печать ориентировок</label></li><li><label class="radio-label"><input type="checkbox" name="help_additional[6]" /> мелкий ремонт</label></li><li><label class="radio-label"><input type="checkbox" name="help_additional[7]" /> можно переночевать на 1 ночь</label></li><li><label class="radio-label"><input type="checkbox" name="help_additional[8]" /> есть работа, не требующая специальной квалификации</label></li><li><label class="radio-label"><input type="checkbox" id="more" name="help_additional[9]" value="more" /> другое (указать)</label><input type="text" id="more_text" name="more_text" placeholder="другое (указать)" maxlength="200" value="" /></li></li>						</ul>
+        <li>
+            <label class="radio-label">
+            <input type="checkbox" name="help_additional[1]" <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',1)->count()>0) echo 'checked' ?>/> принимать участие в поисках пропавшего</label>
+        </li><li><label class="radio-label"><input type="checkbox" name="help_additional[2]" <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',2)->count()>0) echo 'checked' ?>/> есть автомобиль</label>
+            </li>
+            <li>
+                <label class="radio-label">
+                    <input type="checkbox" name="help_additional[3]"  <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',3)->count()>0) echo 'checked' ?> />об звон больниц</label>
+                </li>
+                <li>
+                    <label class="radio-label">
+                        <input type="checkbox" name="help_additional[4]" <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',4)->count()>0) echo 'checked' ?> /> есть Квадроцикл / Cнегоход</label>
+                    </li>
+                    <li>
+                        <label class="radio-label">
+                            <input type="checkbox" name="help_additional[5]" <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',5)->count()>0) echo 'checked' ?> /> печать ориентировок</label>
+                        </li>
+                        <li>
+                            <label class="radio-label">
+                                <input type="checkbox" name="help_additional[6]" <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',6)->count()>0) echo 'checked' ?> /> мелкий ремонт</label>
+                            </li>
+                            <li>
+                                <label class="radio-label">
+                                <input type="checkbox" name="help_additional[7]"  <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',7)->count()>0) echo 'checked' ?>/> можно переночевать на 1 ночь</label>
+                            </li>
+                            <li>
+                                <label class="radio-label"><input type="checkbox" name="help_additional[8]" <?php if($userNeed->where('user_id',Auth::user()->id)->where('need_id',8)->count()>0) echo 'checked' ?> /> есть работа, не требующая специальной квалификации</label>
+                            </li>
+                            <li>
+                                <label class="radio-label">
+                                    <input type="checkbox" id="more" name="help_additional[9]" value="more" <?php if($checked=$userNeed->where('user_id',Auth::user()->id)->where('need_id',9)->count()>0) echo 'checked' ?> /> другое (указать)</label>
+                                    <?php $text=$userNeed->where('user_id',Auth::user()->id)->where('need_id',9)->first() ?>
+                                    <input type="text" id="more_text" name="more_text" <?php if($checked>0) echo "value='$text->text'"; ?> placeholder="другое (указать)" maxlength="200" value="" /></li>
+                                </li>
+                            </ul>
                 </div>
             </div>
 
@@ -398,7 +440,7 @@ optionsText += ' <option value=" <?php if(isset($user->person->City->Region->id)
                 <label for="pUvlecheniya" class="edit-label">Увлечения</label>
                 <textarea placeholder="Увлечения..." id="pUvlecheniya" name="hobbi">{{Auth::user()->person->hobbi}}</textarea>
             </div>
-
+              @if(auth::user()->person->avatar==null || auth::user()->person->avatar==='default.png')
             <div class="field-for-edit">
                 <div class="mediaform" style="overflow: hidden;margin-bottom: 10px;clear: left;">
                     <button class="upload-photo" id="upload" style="width: auto; padding-left: 40px;"><img src="{{asset('asset/front/images/photo-camera.png')}}"/>Добавить фото</button>
@@ -409,6 +451,23 @@ optionsText += ' <option value=" <?php if(isset($user->person->City->Region->id)
                     <ul class="thumb-photos mclearfix" id="files">
                     </ul>
 		                    </div>
+							@else
+							<div class="field-for-edit">
+                <div class="mediaform" style="overflow: hidden;margin-bottom: 10px;clear: left;">
+                    <button class="upload-photo" id="upload" style="width: auto; padding-left: 40px;"><img src="{{asset('asset/front/images/photo-camera.png')}}"/>Изменить фото</button>
+                                        <a class="btn btn-default tab-btn close" href="#" style="margin-left: 20px; width: auto;">Удалить</a>
+                                        <span id="status"></span>
+                    <input type="file" name="userfile" style="display: none;">
+                </div>
+		                            <ul class="thumb-photos mclearfix" id="files">
+                        <li>
+                            <figure>
+                                <img class="thumb" id="kartinka" nazva="{{auth::user()->person->avatar}}"  src="{{asset('storage/avatar/'.auth::user()->person->avatar)}}" alt="" />
+                            </figure>
+                        </li>
+                    </ul>
+		                    </div>
+						@endif
                <input type="hidden" id="name_photo" name="name_photo" />
             <div class="field-for-edit" style="margin-top: 25px;">
                 <input value="Сохранить изменения" class="save" type="submit"/>

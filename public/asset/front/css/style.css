@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900");
-
+body{
+background:red;
+}
 section .lenta-sobitii .right .people-frame {
   float: left;
   width: 100%;
@@ -2864,6 +2866,7 @@ section .advert .right .datepicker-days tbody td {
   font-family: "Roboto", sans-serif;
   font-display: swap;
   font-size: 14px;
+  margin: -12px;
 
 }
 section .advert .right .datepicker-days tbody .active {
@@ -2881,6 +2884,7 @@ section .advert .right .datepicker-days tbody .active::after {
   width: 24px;
   border: 0;
   display: inline-block;
+  margin-top: 7px;
 }
 section .advert .right #datetimepicker12 ul {
   list-style: none;
@@ -5407,4 +5411,17 @@ section .advert-inner .left .news-inner-body .deal-become-member .green {
 section .advert-inner .left .news-inner-body .deal-become-member input[type=submit]:active, 
 section .advert-inner .left .news-inner-body .deal-become-member .green:active {
   background-color: #89bc28;
+}
+
+.close_btn_filter {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    margin-top: 13px;
+    margin-left: 14px;
+    float: left;
+    background: url(/asset/front/images/cancel.svg) center center no-repeat;
+        background-size: auto;
+    background-size: cover;
+    cursor: pointer;
 }

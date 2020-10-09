@@ -182,7 +182,7 @@ public function edit ($id){
 
             $img->stream(); // <-- Key point
 
-            Storage::disk('public')->put('help/' . $imagename, $img);
+            Storage::disk('public')->put('upload/uploads/' . $imagename, $img);
             //Storage::disk('local')->put('images/1/smalls'.'/'.$fileName, $img, 'public');
         
             

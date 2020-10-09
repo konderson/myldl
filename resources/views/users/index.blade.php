@@ -485,8 +485,8 @@
 				@if($user->person->help==='need')
 					Мне нужна помощь
 				@else
-				    Хочу помогать
-				    @endif
+				    Хочу помогать :
+				@endif
 			 </span>
 	            	                                <img src="{{asset('storage/avatar/'.$user->person->avatar)}}"/>
 	                        </div>
@@ -541,8 +541,60 @@
 					<p><span>
 					    @if($user->person->help==='need')
 					Мне нужна помощь
-				@else
+				@endif
+				@if($user->person->help==='want')
 				    Хочу помогать
+				
+				<span> <ul style="
+				                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                grid-gap: 0.5rem;
+                                list-style-type: none;
+                                float: left;
+                                width: 100%;
+                                margin: 0px;
+                                font-weight: normal;
+                                letter-spacing: 0.1px;
+                                margin-bottom: 20px;
+                                word-break: break-all;
+                                ">
+								@if($userNeed->where('user_id',$user->id)->where('need_id',1)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> принимать участие в поисках пропавшего</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',$user->id)->where('need_id',2)->count()>0)	
+								<li>
+								<label class="radio-label"><input type="checkbox" checked disabled/> есть автомобиль</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',$user->id)->where('need_id',3)->count()>0)	
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> об звон больниц</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',$user->id)->where('need_id',4)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> есть Квадроцикл / Cнегоход</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',$user->id)->where('need_id',5)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> печать ориентировок</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id', $user->id)->where('need_id',6)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> мелкий ремонт</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id', $user->id)->where('need_id',7)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> можно переночевать на 1 ночь</label>
+								</li>
+								@endif
+								@if($userNeed->where('user_id',$user->id)->where('need_id',8)->count()>0)
+								<li><label class="radio-label"><input type="checkbox" checked disabled/> есть работа, не требующая специальной квалификации</label></li>
+							    @endif
+								@if($userNeed->where('user_id', $user->id)->where('need_id',9)->count()>0)
+									<?php $text=$userNeed->where('user_id',$user->id)->where('need_id',9)->first() ?>
+								<li><label class="radio-label"><input type="checkbox" checked disabled/><?php  echo $text->text; ?></label></li></ul></span></p>
+							     @endif
+				
 				    @endif
 					 </span>  </p>
                 </div>
